@@ -1,0 +1,127 @@
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\alumnoFI\Desktop\1-ConexionBasica\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\codigo-clase-8-9 pos\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Common.dll
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Common.pdb
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+F:\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.exe
+F:\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+F:\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+F:\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+F:\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.dll
+F:\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Server.pdb
+F:\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Common.dll
+F:\codigo-para-clase-13-9\Server\bin\Debug\netcoreapp3.1\Common.pdb
+F:\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+F:\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+F:\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+F:\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+F:\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+F:\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+F:\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.dll
+F:\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.pdb
+F:\codigo-para-clase-13-9\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Common.dll
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Common.pdb
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.exe
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.dll
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.pdb
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Common.dll
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Common.pdb
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.dll
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.pdb
+G:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.exe
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.dll
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Server.pdb
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Common.dll
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\bin\Debug\netcoreapp3.1\Common.pdb
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.dll
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.pdb
+F:\Clase 16-9\Codigo Protocolo avanzado\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache

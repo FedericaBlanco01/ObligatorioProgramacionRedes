@@ -1,0 +1,49 @@
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Common\bin\Debug\netcoreapp3.1\Common.deps.json
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Common\bin\Debug\netcoreapp3.1\Common.dll
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Common\bin\Debug\netcoreapp3.1\Common.pdb
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfoInputs.cache
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfo.cs
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.csproj.CoreCompileInputs.cache
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.dll
+C:\Users\alumnoFI\Desktop\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.pdb
+F:\codigo-para-clase-13-9\Common\bin\Debug\netcoreapp3.1\Common.deps.json
+F:\codigo-para-clase-13-9\Common\bin\Debug\netcoreapp3.1\Common.dll
+F:\codigo-para-clase-13-9\Common\bin\Debug\netcoreapp3.1\Common.pdb
+F:\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.csproj.AssemblyReference.cache
+F:\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.GeneratedMSBuildEditorConfig.editorconfig
+F:\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfoInputs.cache
+F:\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfo.cs
+F:\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.csproj.CoreCompileInputs.cache
+F:\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.dll
+F:\codigo-para-clase-13-9\Common\obj\Debug\netcoreapp3.1\Common.pdb
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Common\bin\Debug\netcoreapp3.1\Common.deps.json
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Common\bin\Debug\netcoreapp3.1\Common.dll
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Common\bin\Debug\netcoreapp3.1\Common.pdb
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.csproj.AssemblyReference.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfoInputs.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfo.cs
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.csproj.CoreCompileInputs.cache
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.dll
+C:\Users\ivanm\OneDrive - Facultad de Ingenieria - Universidad ORT Uruguay\_Programacion de redes\Clases 2\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.pdb
+G:\Clase 16-9\Codigo Protocolo avanzado\Common\bin\Debug\netcoreapp3.1\Common.deps.json
+G:\Clase 16-9\Codigo Protocolo avanzado\Common\bin\Debug\netcoreapp3.1\Common.dll
+G:\Clase 16-9\Codigo Protocolo avanzado\Common\bin\Debug\netcoreapp3.1\Common.pdb
+G:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.csproj.AssemblyReference.cache
+G:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.GeneratedMSBuildEditorConfig.editorconfig
+G:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfoInputs.cache
+G:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfo.cs
+G:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.csproj.CoreCompileInputs.cache
+G:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.dll
+G:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.pdb
+F:\Clase 16-9\Codigo Protocolo avanzado\Common\bin\Debug\netcoreapp3.1\Common.deps.json
+F:\Clase 16-9\Codigo Protocolo avanzado\Common\bin\Debug\netcoreapp3.1\Common.dll
+F:\Clase 16-9\Codigo Protocolo avanzado\Common\bin\Debug\netcoreapp3.1\Common.pdb
+F:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.csproj.AssemblyReference.cache
+F:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.GeneratedMSBuildEditorConfig.editorconfig
+F:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfoInputs.cache
+F:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfo.cs
+F:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.csproj.CoreCompileInputs.cache
+F:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.dll
+F:\Clase 16-9\Codigo Protocolo avanzado\Common\obj\Debug\netcoreapp3.1\Common.pdb

@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "A3zoEnABADd6dC4QC6h7XH8HXHAoUSRQU4pjcbAKiiWXs1k5qTQFi/aTgLdlzGEVeD9MkbWnIVAySS4It5qVMA==",
+  "success": true,
+  "projectFilePath": "/Users/federicablanco/Desktop/obligatorio_redes/Proyecto_2022/Client/Client.csproj",
+  "expectedPackageFiles": [
+    "/Users/federicablanco/.nuget/packages/microsoft.aspnetcore.app.ref/3.1.10/microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "/Users/federicablanco/.nuget/packages/microsoft.netcore.app.host.osx-x64/3.1.24/microsoft.netcore.app.host.osx-x64.3.1.24.nupkg.sha512",
+    "/Users/federicablanco/.nuget/packages/microsoft.netcore.app.ref/3.1.0/microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}
