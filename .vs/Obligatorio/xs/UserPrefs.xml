@@ -2,11 +2,22 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.Client PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Client/Client.cs">
+    <Files>
+      <File FileName="Client/Client.cs" Line="29" Column="10" />
+      <File FileName="Common/Commands.cs" Line="14" Column="1" />
+      <File FileName="Server/Server.cs" Line="8" Column="14" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Obligatorio" expanded="True" selected="True" />
+          <Node name="Obligatorio" expanded="True">
+            <Node name="Client" expanded="True">
+              <Node name="Client.cs" selected="True" />
+            </Node>
+            <Node name="Common" expanded="True" />
+            <Node name="Server" expanded="True" />
+          </Node>
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
