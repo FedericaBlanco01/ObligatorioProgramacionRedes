@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{99750C08-6A6A-4D9C-87A8-A29C3BE31540}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication", "Communication\Communication.csproj", "{F58B4B73-A6D8-4E5D-9DB8-8E9EE1191E4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{99750C08-6A6A-4D9C-87A8-A29C3BE31540}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99750C08-6A6A-4D9C-87A8-A29C3BE31540}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99750C08-6A6A-4D9C-87A8-A29C3BE31540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F58B4B73-A6D8-4E5D-9DB8-8E9EE1191E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F58B4B73-A6D8-4E5D-9DB8-8E9EE1191E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F58B4B73-A6D8-4E5D-9DB8-8E9EE1191E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F58B4B73-A6D8-4E5D-9DB8-8E9EE1191E4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

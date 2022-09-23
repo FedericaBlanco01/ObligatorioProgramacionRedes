@@ -13,6 +13,8 @@ namespace Server.Clases
 
 		private readonly object LockUsers = new object();
 
+		private readonly object LockUsersDetails = new object();
+
 		public Singleton()
 		{
 			this.Users = new List<User>();
@@ -41,6 +43,17 @@ namespace Server.Clases
 			lock (LockUsers)
 			{
 				Users.Add(user);
+			}
+		}
+
+		public void AddDetail(UserDetail detail)
+		{
+			lock (LockUsers)
+			{
+				lock (LockUsersDetails)
+				{
+					UserDetails.Add(detail);
+				}
 			}
 		}
 
