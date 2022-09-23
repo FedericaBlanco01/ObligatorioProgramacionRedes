@@ -1,21 +1,25 @@
 ﻿<Properties StartupConfiguration="{C2961B2F-5AF2-4B57-900D-4425BCCFD465}|Default">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.Client PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Client/Client.cs">
     <Files>
-      <File FileName="Client/Client.cs" Line="29" Column="10" />
-      <File FileName="Common/Commands.cs" Line="14" Column="1" />
-      <File FileName="Server/Server.cs" Line="8" Column="14" />
+      <File FileName="Common/Communication/SocketHelper.cs" Line="1" Column="1" />
+      <File FileName="Common/Communication/SettingsManager.cs" Line="1" Column="1" />
+      <File FileName="Common/Communication/Protocol.cs" Line="1" Column="1" />
+      <File FileName="Common/Communication/FileStreamHandler.cs" Line="1" Column="1" />
+      <File FileName="Common/Communication/FileHandler.cs" Line="1" Column="1" />
+      <File FileName="Common/Communication/FileCommsHandler.cs" Line="109" Column="38" />
+      <File FileName="Common/Communication/ConversionHandler.cs" Line="1" Column="1" />
+      <File FileName="Common/Communication/Communication.csproj" Line="1" Column="1" />
+      <File FileName="Common/Commands.cs" Line="15" Column="36" />
+      <File FileName="Server/Server.cs" Line="169" Column="53" />
+      <File FileName="Server/Clases/UserDetail.cs" Line="21" Column="1" />
+      <File FileName="Client/Client.cs" Line="18" Column="14" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Obligatorio" expanded="True">
-            <Node name="Client" expanded="True">
-              <Node name="Client.cs" selected="True" />
-            </Node>
-            <Node name="Common" expanded="True" />
+            <Node name="Client" selected="True" />
             <Node name="Server" expanded="True" />
           </Node>
         </State>
@@ -26,7 +30,9 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

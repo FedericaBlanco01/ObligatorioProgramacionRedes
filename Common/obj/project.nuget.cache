@@ -1,9 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "41WgVBV+N9P1oOqvC3NvDmxeEcYTtKhVS0F3PWS8oAxhg6lnlofDg+QINsGAKdX546NCqtp8EhrG6afjxYC50g==",
+  "dgSpecHash": "iUnQ7VmkAh9DT7hGN45maK9ca6Uo5FQiFxkQidiKCGRXcWPTSYuVmHxRQDEuxYp8A6aJ+Rt59HIpe16ASEyC8g==",
   "success": true,
   "projectFilePath": "/Users/federicablanco/Desktop/obligatorio_redes/Proyecto_2022/Common/Common.csproj",
   "expectedPackageFiles": [
+    "/Users/federicablanco/.nuget/packages/microsoft.win32.systemevents/6.0.0/microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "/Users/federicablanco/.nuget/packages/system.configuration.configurationmanager/6.0.1/system.configuration.configurationmanager.6.0.1.nupkg.sha512",
+    "/Users/federicablanco/.nuget/packages/system.drawing.common/6.0.0/system.drawing.common.6.0.0.nupkg.sha512",
+    "/Users/federicablanco/.nuget/packages/system.memory/4.5.4/system.memory.4.5.4.nupkg.sha512",
+    "/Users/federicablanco/.nuget/packages/system.security.accesscontrol/6.0.0/system.security.accesscontrol.6.0.0.nupkg.sha512",
+    "/Users/federicablanco/.nuget/packages/system.security.cryptography.protecteddata/6.0.0/system.security.cryptography.protecteddata.6.0.0.nupkg.sha512",
+    "/Users/federicablanco/.nuget/packages/system.security.permissions/6.0.0/system.security.permissions.6.0.0.nupkg.sha512",
+    "/Users/federicablanco/.nuget/packages/system.security.principal.windows/5.0.0/system.security.principal.windows.5.0.0.nupkg.sha512",
+    "/Users/federicablanco/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512",
     "/Users/federicablanco/.nuget/packages/microsoft.aspnetcore.app.ref/3.1.10/microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
     "/Users/federicablanco/.nuget/packages/microsoft.netcore.app.ref/3.1.0/microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
   ],

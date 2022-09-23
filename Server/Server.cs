@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using Server.Clases;
+using Communication;
 using System.Collections.Generic;
 
 class Program
@@ -48,19 +49,19 @@ class Program
 
         if (loggedUser != null)
         {
-            loggedMessage = "logged in successfully";
+            loggedMessage = "Se inició sesion correctamente";
             Console.WriteLine($"User email: {loginData[0]}");
             Console.WriteLine($"User password: {loginData[1]}");
         }
         else
         {
-            loggedMessage = "your email or password are incorrect";
+            loggedMessage = "tu email o contraseña son incorrectas";
         }
 
         //envio
         byte[] mensajeLogInEnByte = Encoding.UTF8.GetBytes(loggedMessage);
 
-        Header encabezadoLogInEnvio = new Header(Protocol.Request,
+        Header encabezadoLogInEnvio = new Header(Common.Protocol.Request,
             Commands.Register,
             mensajeLogInEnByte.Length);
 
@@ -91,21 +92,21 @@ class Program
             newUser = new User(registerData[0], registerData[1], registerData[2]);
             system.AddUser(newUser);
 
-            Console.WriteLine($"User created");
-            Console.WriteLine($"User name: {registerData[0]}");
-            Console.WriteLine($"User email: {registerData[1]}");
-            Console.WriteLine($"User password: {registerData[2]}");
+            Console.WriteLine($"Usuario creado");
+            Console.WriteLine($"nombre: {registerData[0]}");
+            Console.WriteLine($"email: {registerData[1]}");
+            Console.WriteLine($"contraseña: {registerData[2]}");
             mensaje = "Usuario registrado exitosamente";
         }
         else
         {
-            mensaje = "Email ya en uso";
+            mensaje = "Email ya registrado";
         }
 
         byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensaje);
 
         // enviar el header
-        Header encabezadoEnvio = new Header(Protocol.Request,
+        Header encabezadoEnvio = new Header(Common.Protocol.Request,
             Commands.Register,
             mensajeEnByte.Length);
 
@@ -116,6 +117,67 @@ class Program
         networkHelper.Send(mensajeEnByte);
 
         return newUser;
+    }
+
+    static void CrearPerfilLaboral(NetworkHelper networkHelper, Header encabezado, Singleton system, User user)
+    {
+        if(user == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        // recibe un mensaje
+        byte[] mensajeEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        string mensajeCodificado = Encoding.UTF8.GetString(mensajeEnBytes);
+        string[] data = mensajeCodificado.Split("/");
+
+        //logica
+        UserDetail newDetails = new UserDetail(user.Email, data[1], data[0]);
+        system.AddDetail(newDetails);
+
+        Console.WriteLine($"Perfil creado");
+        Console.WriteLine($"habilidades: {data[0]}");
+        Console.WriteLine($"descripcion: {data[1]}");
+        string mensaje = "Detalles ingresados exitosamente";
+
+        // enviar el header
+        byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensaje);
+        Header encabezadoEnvio = new Header(Common.Protocol.Request,
+            Commands.JobProfile,
+            mensajeEnByte.Length);
+
+        byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
+        networkHelper.Send(encabezadoEnvioEnBytes);
+
+        networkHelper.Send(mensajeEnByte);
+    }
+
+    static void SubirFoto(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, Socket cliente)
+    {
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        // recibe un mensaje
+        var fileCommonHandler = new FileCommsHandler(cliente);
+        fileCommonHandler.ReceiveFile();
+
+        //logica
+        Console.WriteLine($"Foto subida");
+
+        string mensaje = "Foto subida exitosamente";
+
+        //// enviar el header
+        byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensaje);
+        Header encabezadoEnvio = new Header(Common.Protocol.Request,
+            Commands.JobProfile,
+            mensajeEnByte.Length);
+
+        byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
+        networkHelper.Send(encabezadoEnvioEnBytes);
+
+        networkHelper.Send(mensajeEnByte);
     }
 
     static void HandleClient(Socket cliente, Singleton system, NetworkHelper networkHelper)
@@ -131,7 +193,7 @@ class Program
                 Header encabezado = new Header();
 
                 byte[] encabezadoEnBytes =
-                    networkHelper.Receive(Protocol.Request.Length + Protocol.CommandLength + Protocol.DataLengthLength);
+                    networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
                 encabezado.DecodeHeader(encabezadoEnBytes);
 
                 switch (encabezado.comando)
@@ -144,6 +206,12 @@ class Program
                         user = Login(networkHelper, encabezado, system);
                         break;
 
+                    case Commands.JobProfile:
+                        CrearPerfilLaboral(networkHelper, encabezado, system, user);
+                        break;
+                    case Commands.ProfilePic:
+                        SubirFoto(networkHelper, encabezado, system, user, cliente);
+                        break;
                 }
             }
             catch (SocketException)
