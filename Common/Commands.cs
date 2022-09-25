@@ -16,8 +16,12 @@ namespace Common
 
         public const int ListUsers = 5;
 
-        public const int Chat = 6;
+        public const int ReadChat = 6;
 
-        public const int Exit = 7;
+        public const int ListSpecificUser = 7;
+
+        public const int SendChat = 8;
+
+        public const int Exit = 9;
     }
 }

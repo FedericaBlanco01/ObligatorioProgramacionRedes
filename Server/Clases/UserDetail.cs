@@ -8,6 +8,7 @@ namespace Server.Clases
 		public string Skills { get; set; }
 
 		public string Description { get; set; }
+		public string PhotoPath { get; set; }
 
 		public UserDetail(string UserEmail, string Description, string Skills)
 		{

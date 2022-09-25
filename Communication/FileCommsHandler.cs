@@ -65,7 +65,7 @@ namespace Communication
             long fileParts = Protocol.CalculateFileParts(fileSize);
             long offset = 0;
             long currentPart = 1;
-
+            
             while (fileSize > offset)
             {
                 byte[] data;

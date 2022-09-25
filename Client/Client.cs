@@ -4,10 +4,11 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using Communication;
+using System.Configuration;
 
 class Program
 {
-
+    static string LoggedInUser { get; set; }
     static void Main(string[] args)
     {
         Console.WriteLine("Arrancando cliente...");
@@ -22,11 +23,13 @@ class Program
                             SocketType.Stream,
                             ProtocolType.Tcp);
 
-                var localEndpoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 0);
+                Common.SettingsManager.SetupConfiguration(ConfigurationManager.AppSettings);
 
-                socketCliente.Bind(localEndpoint); 
+                var localEndpoint = new IPEndPoint(IPAddress.Parse(Common.SettingsManager.IpClient), Int32.Parse(Common.SettingsManager.PortClient));
 
-                var remoteEndpoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 7000);
+                socketCliente.Bind(localEndpoint);
+
+                var remoteEndpoint = new IPEndPoint(IPAddress.Parse(Common.SettingsManager.IpServer), Int32.Parse(Common.SettingsManager.PortServer));
                 NetworkHelper networkHelper = new NetworkHelper(socketCliente);
 
                 Console.WriteLine("Bienvenido al sistema");
@@ -51,21 +54,21 @@ class Program
                         break;
                 }
             }
-         }
-         catch (SocketException e)
+        }
+        catch (SocketException e)
         {
             Console.WriteLine($"Excepcion: {e.Message}, Codigo: {e.ErrorCode}");
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Console.WriteLine($"Excepcion: {e.Message}");
         }
 
-         Console.WriteLine("Cerrando cliente...");
-         Console.ReadLine();
+        Console.WriteLine("Cerrando cliente...");
+        Console.ReadLine();
     }
 
-    public static void Register( NetworkHelper networkHelper, Socket socketCliente)
+    public static void Register(NetworkHelper networkHelper, Socket socketCliente)
     {
         Console.WriteLine("Ingrese su nombre: ");
         string newName = Console.ReadLine();
@@ -102,21 +105,24 @@ class Program
             byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
-            if(responseCodificado.Equals("Usuario registrado exitosamente"))
+            if (responseCodificado.Equals("Usuario registrado exitosamente"))
             {
+                LoggedInUser = newEmail;
                 HandleLoggedMenu(networkHelper, socketCliente);
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             throw (e);
-        } 
+        }
     }
 
     public static void Login(NetworkHelper networkHelper, Socket socketCliente)
     {
+        
         Console.WriteLine("Ingrese su mail: ");
         string email = Console.ReadLine();
+
 
         Console.WriteLine("Ingrese su constraseña: ");
         string password = Console.ReadLine();
@@ -148,12 +154,13 @@ class Program
             byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
-            if (responseCodificado.Equals("logged in successfully"))
-            {
+            if (responseCodificado.Equals("Se inició sesion correctamente"))
+            {       
+                LoggedInUser = email;
                 HandleLoggedMenu(networkHelper, socketCliente);
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             throw (e);
         }
@@ -187,6 +194,7 @@ class Program
                     case "EXIT":
                         conectado = false;
                         break;
+
                     default:
                         Console.WriteLine("Comando inexistente");
                         break;
@@ -265,6 +273,176 @@ class Program
         fileCommonHandler.SendFile(abspath);
     }
 
+    public static void BuscadorDeUsuarios(NetworkHelper networkHelper) {
+
+        Console.WriteLine("Ingrese las habilidades o palabras a buscar: ");
+        string data = Console.ReadLine();
+
+        byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
+
+        // enviar 
+        Header header = new Header(Common.Protocol.Request,
+            Commands.ListUsers,
+            dataEnBytes.Length);
+
+        byte[] headerEnBytes = header.GetBytesFromHeader();
+        networkHelper.Send(headerEnBytes);
+
+        networkHelper.Send(dataEnBytes);
+
+        //recibo
+        try
+        {
+            Header encabezadoRecibo = new Header();
+
+            byte[] encabezadoRecibidoEnBytes =
+                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+            encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
+
+            byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
+            string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
+            Console.WriteLine(responseCodificado);
+        }
+        catch (Exception e)
+        {
+            throw (e);
+        }
+
+    }
+
+    public static void BuscadorUsuarioEspecífico(NetworkHelper networkHelper)
+    {
+
+        Console.WriteLine("Ingrese el nombre del usuario a buscar: ");
+        string data = Console.ReadLine();
+
+        byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
+
+        // enviar 
+        Header header = new Header(Common.Protocol.Request,
+            Commands.ListSpecificUser,
+            dataEnBytes.Length);
+
+        byte[] headerEnBytes = header.GetBytesFromHeader();
+        networkHelper.Send(headerEnBytes);
+
+        networkHelper.Send(dataEnBytes);
+
+        //recibo
+        try
+        {
+            Header encabezadoRecibo = new Header();
+
+            byte[] encabezadoRecibidoEnBytes =
+                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+            encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
+
+            byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
+            string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
+            Console.WriteLine(responseCodificado);
+        }
+        catch (Exception e)
+        {
+            throw (e);
+        }
+
+    }
+
+    public static void LeerMensajesChat(NetworkHelper networkHelper) {
+
+        Console.WriteLine("Ingrese el mail del usuario con el que quiere leer chat");
+        string otroUsuario = Console.ReadLine();
+        string data = LoggedInUser + "/" + otroUsuario;
+
+        byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
+
+        // enviar 
+        Header header = new Header(Common.Protocol.Request,
+            Commands.ReadChat,
+            dataEnBytes.Length);
+
+        byte[] headerEnBytes = header.GetBytesFromHeader();
+        networkHelper.Send(headerEnBytes);
+
+        networkHelper.Send(dataEnBytes);
+
+        //recibo
+        try
+        {
+            Header encabezadoRecibo = new Header();
+
+            byte[] encabezadoRecibidoEnBytes =
+                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+            encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
+
+            byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
+            string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
+            Console.WriteLine(responseCodificado);
+
+        }
+        catch (Exception e)
+        {
+            throw (e);
+        }
+
+    }
+
+    public static void EnviarMensajeChat(NetworkHelper networkHelper) {
+
+        Console.WriteLine("Ingrese el mail del usuario al que le quiere enviar un mensaje");
+        string otroUsuario = Console.ReadLine();
+        Console.WriteLine("Ingrese el  mensaje");
+        string mensaje = Console.ReadLine();
+        string data = LoggedInUser + "/" + otroUsuario + "/" + mensaje;
+
+        byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
+
+        // enviar 
+        Header header = new Header(Common.Protocol.Request,
+            Commands.SendChat,
+            dataEnBytes.Length);
+
+        byte[] headerEnBytes = header.GetBytesFromHeader();
+        networkHelper.Send(headerEnBytes);
+
+        networkHelper.Send(dataEnBytes);
+
+        Console.WriteLine("mensaje enviado correctamente");
+
+    }
+
+    public static void ChatMenu(NetworkHelper networkHelper) {
+
+        bool conectado = true;
+
+        while (conectado)
+        {
+            Console.WriteLine("1- Leer mensajes recibidos");
+            Console.WriteLine("2- Enviar mensaje");
+            Console.WriteLine("3- Salir");
+            string opcion = Console.ReadLine();
+
+            switch (opcion)
+            {
+                case "1":
+                    LeerMensajesChat(networkHelper);
+                    break;
+
+                case "2":
+                    EnviarMensajeChat(networkHelper);
+                    break;
+
+                case "3":
+                    conectado = false;
+                    break;
+
+                default:
+                    Console.WriteLine("Comando inexistente");
+                    break;
+            }
+        }
+    }
+
     public static void HandleLoggedMenu(NetworkHelper networkHelper, Socket socketCliente)
     {
         bool conectado = true;
@@ -273,9 +451,10 @@ class Program
             Console.WriteLine("Bienvenido linkedin");
             Console.WriteLine("1- cree su perfil laboral");
             Console.WriteLine("2- suba su foto de perfil");
-            Console.WriteLine("3- buscador de usuarios");
+            Console.WriteLine("3- consultar  perfiles existentes");
             Console.WriteLine("4- chat");
-            Console.WriteLine("5- exit");
+            Console.WriteLine("5- Consultar un perfil específico");
+            Console.WriteLine("6- exit");
 
             string opcion = Console.ReadLine();
 
@@ -292,14 +471,18 @@ class Program
                         break;
 
                     case "3":
-                        Console.WriteLine("not implemented yet");
+                        BuscadorDeUsuarios(networkHelper);
                         break;
 
                     case "4":
-                        Console.WriteLine("not implemented yet");
+                        ChatMenu(networkHelper);
                         break;
 
                     case "5":
+                        BuscadorUsuarioEspecífico(networkHelper);
+                        break;
+                        
+                    case "6":
                         conectado = false; //poder desconectar al cliente del servidor
                         break;
 
