@@ -8,7 +8,6 @@ using System.Configuration;
 
 class Program
 {
-    static string LoggedInUser { get; set; }
     static void Main(string[] args)
     {
         Console.WriteLine("Arrancando cliente...");
@@ -107,7 +106,6 @@ class Program
             Console.WriteLine(responseCodificado);
             if (responseCodificado.Equals("Usuario registrado exitosamente"))
             {
-                LoggedInUser = newEmail;
                 HandleLoggedMenu(networkHelper, socketCliente);
             }
         }
@@ -156,7 +154,6 @@ class Program
             Console.WriteLine(responseCodificado);
             if (responseCodificado.Equals("Se inició sesion correctamente"))
             {       
-                LoggedInUser = email;
                 HandleLoggedMenu(networkHelper, socketCliente);
             }
         }
@@ -173,7 +170,7 @@ class Program
         while (conectado)
         {
             Console.WriteLine("Inicio");
-            Console.WriteLine("1- registresé");
+            Console.WriteLine("1- regístrese");
             Console.WriteLine("2- iniciar sesión");
             Console.WriteLine("EXIT - cerrar programa");
 
@@ -271,6 +268,24 @@ class Program
         //envio file a server
         var fileCommonHandler = new FileCommsHandler(socketCliente);
         fileCommonHandler.SendFile(abspath);
+
+        //recibo
+        try
+        {
+            Header encabezadoRecibo = new Header();
+
+            byte[] encabezadoRecibidoEnBytes =
+                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+            encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
+
+            byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
+            string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
+            Console.WriteLine(responseCodificado);
+        }
+        catch (Exception e)
+        {
+            throw (e);
+        }
     }
 
     public static void BuscadorDeUsuarios(NetworkHelper networkHelper) {
@@ -310,7 +325,7 @@ class Program
 
     }
 
-    public static void BuscadorUsuarioEspecífico(NetworkHelper networkHelper)
+    public static void BuscadorUsuarioEspecífico(NetworkHelper networkHelper, Socket cliente)
     {
 
         Console.WriteLine("Ingrese el nombre del usuario a buscar: ");
@@ -327,6 +342,10 @@ class Program
         networkHelper.Send(headerEnBytes);
 
         networkHelper.Send(dataEnBytes);
+
+        //recibo de img
+        var fileCommonHandler = new FileCommsHandler(cliente);
+        var fileName = fileCommonHandler.ReceiveFile();
 
         //recibo
         try
@@ -352,7 +371,7 @@ class Program
 
         Console.WriteLine("Ingrese el mail del usuario con el que quiere leer chat");
         string otroUsuario = Console.ReadLine();
-        string data = LoggedInUser + "/" + otroUsuario;
+        string data = otroUsuario;
 
         byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
 
@@ -393,7 +412,7 @@ class Program
         string otroUsuario = Console.ReadLine();
         Console.WriteLine("Ingrese el  mensaje");
         string mensaje = Console.ReadLine();
-        string data = LoggedInUser + "/" + otroUsuario + "/" + mensaje;
+        string data = otroUsuario + "/" + mensaje;
 
         byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
 
@@ -451,9 +470,9 @@ class Program
             Console.WriteLine("Bienvenido linkedin");
             Console.WriteLine("1- cree su perfil laboral");
             Console.WriteLine("2- suba su foto de perfil");
-            Console.WriteLine("3- consultar  perfiles existentes");
+            Console.WriteLine("3- consultar perfiles existentes");
             Console.WriteLine("4- chat");
-            Console.WriteLine("5- Consultar un perfil específico");
+            Console.WriteLine("5- consultar un perfil específico y descargar su foto de perfil");
             Console.WriteLine("6- exit");
 
             string opcion = Console.ReadLine();
@@ -479,7 +498,7 @@ class Program
                         break;
 
                     case "5":
-                        BuscadorUsuarioEspecífico(networkHelper);
+                        BuscadorUsuarioEspecífico(networkHelper, socketCliente);
                         break;
                         
                     case "6":

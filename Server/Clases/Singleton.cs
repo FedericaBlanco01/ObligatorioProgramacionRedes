@@ -5,7 +5,6 @@ namespace Server.Clases
 {
 	public class Singleton
 	{
-		public User LoggedInUser { get; set; }
 		public List<User> Users { get; set; }
 
 		public List<UserDetail> UserDetails { get; set; }
@@ -23,6 +22,20 @@ namespace Server.Clases
 			this.Users = new List<User>();
 			this.UserDetails = new List<UserDetail>();
 			this.Chats = new List<Log>();
+		}
+
+		public bool CheckForUserDetail(string UserEmail){
+			lock (LockUsersDetails)
+			{
+				foreach (UserDetail userDetail in UserDetails)
+				{
+					if (userDetail.UserEmail.Equals(UserEmail))
+					{
+						return true;
+					}
+				}
+				return false;
+			}
 		}
 
         public string LeerChat(string user1, string user2)
@@ -67,6 +80,20 @@ namespace Server.Clases
             }	
         }
 
+		public void SetUserFotoName(User user, string fotoName)
+		{
+			lock (LockUsersDetails)
+			{
+				foreach (UserDetail userDetail in UserDetails)
+				{
+					if (userDetail.UserEmail.Equals(user.Email))
+					{
+						userDetail.PhotoName = fotoName;
+						return;
+					}
+				}
+			}
+		}
 
         public bool ValidateData(string email)
 		{
@@ -110,7 +137,6 @@ namespace Server.Clases
 				{
 					if (user.Email.Equals(email) && user.Password.Equals(password))
 					{
-						LoggedInUser = user;
 						return user;
 					}
 				}

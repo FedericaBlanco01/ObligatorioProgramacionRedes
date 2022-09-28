@@ -8,6 +8,7 @@ using Server.Clases;
 using Communication;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 
 class Program
 {
@@ -159,7 +160,7 @@ class Program
         
     }
 
-    static void ListarUsuarioEspecifico(NetworkHelper networkHelper, Header encabezado, Singleton system)
+    static void ListarUsuarioEspecifico(NetworkHelper networkHelper, Header encabezado, Singleton system, Socket cliente)
     {
 
         // recibe un mensaje
@@ -168,6 +169,7 @@ class Program
         string mensajeCodificado = Encoding.UTF8.GetString(mensajeBytes);
         UserDetail userD = system.SpecificUserProfile(mensajeCodificado);
         string mensajeRetorno = "";
+        string fileName = "";
         if (userD == null)
         {
             mensajeRetorno = "No hay usuarios con ese nombre";
@@ -175,7 +177,7 @@ class Program
         }
         else
         {
-                       
+            fileName = userD.PhotoName;
             mensajeRetorno = userD.UserEmail + "\n" + userD.Description + "\n" + userD.Skills + "\n";
 
             
@@ -187,6 +189,13 @@ class Program
             mensajeEnByte.Length);
 
         byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
+        //envio file a server
+        if(fileName != "")
+        {
+            var fileCommonHandler = new FileCommsHandler(cliente);
+            fileCommonHandler.SendFile(Path.GetFullPath(fileName));
+        }
+
         networkHelper.Send(encabezadoEnvioEnBytes);
 
         // enviar lista de usuarios
@@ -237,17 +246,18 @@ class Program
         
         // recibe un mensaje
         var fileCommonHandler = new FileCommsHandler(cliente);
-        fileCommonHandler.ReceiveFile();
+        var fileName = fileCommonHandler.ReceiveFile();
+        system.SetUserFotoName(user, fileName);
 
         //logica
         Console.WriteLine($"Foto subida");
 
         string mensaje = "Foto subida exitosamente";
 
-        //// enviar el header
+        // enviar el header
         byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensaje);
         Header encabezadoEnvio = new Header(Common.Protocol.Request,
-            Commands.JobProfile,
+            Commands.ProfilePic,
             mensajeEnByte.Length);
 
         byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
@@ -256,12 +266,11 @@ class Program
         networkHelper.Send(mensajeEnByte);
     }
 
-    static void LeerChat(NetworkHelper networkHelper, Header encabezado, Singleton system) {
+    static void LeerChat(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser) {
 
         byte[] chatEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
         string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
-        string[] chatData = chatCodificado.Split("/");
-        string mensaje = system.LeerChat(chatData[0], chatData[1]);
+        string mensaje = system.LeerChat(loggedUser.Email,chatCodificado);
         
         if (mensaje.Equals(""))
         {
@@ -282,13 +291,13 @@ class Program
         networkHelper.Send(mensajeLogInEnByte);
 
     }
-    static void EnviarChat(NetworkHelper networkHelper, Header encabezado, Singleton system)
+    static void EnviarChat(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser)
     {
 
         byte[] chatEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
         string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
         string[] chatData = chatCodificado.Split("/");
-        system.EnviarChat(chatData[0], chatData[1], chatData[2]);
+        system.EnviarChat(loggedUser.Email, chatData[0], chatData[1]);
 
     }
 
@@ -331,15 +340,15 @@ class Program
                         break;
 
                     case Commands.ReadChat:
-                        LeerChat(networkHelper, encabezado, system);
+                        LeerChat(networkHelper, encabezado, system, user);
                         break;
 
                     case Commands.SendChat:
-                        EnviarChat(networkHelper, encabezado, system);
+                        EnviarChat(networkHelper, encabezado, system, user);
                         break;
 
                     case Commands.ListSpecificUser:
-                        ListarUsuarioEspecifico(networkHelper, encabezado, system);
+                        ListarUsuarioEspecifico(networkHelper, encabezado, system, cliente);
                         break;
                 }
             }

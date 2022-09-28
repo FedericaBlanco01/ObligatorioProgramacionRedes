@@ -46,7 +46,7 @@ namespace Communication
             }
         }
 
-        public void ReceiveFile()
+        public string ReceiveFile()
         {
             // ---> Recibir el largo del nombre del archivo
             int fileNameSize = _conversionHandler.ConvertBytesToInt(
@@ -58,6 +58,8 @@ namespace Communication
                 _socketHelper.Receive(Protocol.FixedFileSize));
             // ---> Recibir el archivo
             ReceiveFileWithStreams(fileSize, fileName);
+            
+            return fileName;
         }
 
         private void SendFileWithStream(long fileSize, string path)
