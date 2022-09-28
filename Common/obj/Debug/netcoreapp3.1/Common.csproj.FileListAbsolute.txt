@@ -57,3 +57,13 @@ F:/Clase 16-9/Codigo Protocolo avanzado/Common/obj/Debug/netcoreapp3.1/Common.pd
 /Users/federicablanco/Desktop/obligatorio_redes/Proyecto_2022/Common/obj/Debug/netcoreapp3.1/Common.csproj.CoreCompileInputs.cache
 /Users/federicablanco/Desktop/obligatorio_redes/Proyecto_2022/Common/obj/Debug/netcoreapp3.1/Common.dll
 /Users/federicablanco/Desktop/obligatorio_redes/Proyecto_2022/Common/obj/Debug/netcoreapp3.1/Common.pdb
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Common\bin\Debug\netcoreapp3.1\Common.deps.json
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Common\bin\Debug\netcoreapp3.1\Common.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Common\bin\Debug\netcoreapp3.1\Common.pdb
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Common\obj\Debug\netcoreapp3.1\Common.csproj.AssemblyReference.cache
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Common\obj\Debug\netcoreapp3.1\Common.GeneratedMSBuildEditorConfig.editorconfig
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfoInputs.cache
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfo.cs
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Common\obj\Debug\netcoreapp3.1\Common.csproj.CoreCompileInputs.cache
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Common\obj\Debug\netcoreapp3.1\Common.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Common\obj\Debug\netcoreapp3.1\Common.pdb

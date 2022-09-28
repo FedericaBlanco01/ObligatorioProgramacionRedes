@@ -7,6 +7,7 @@ using System.Threading;
 using Server.Clases;
 using Communication;
 using System.Collections.Generic;
+using System.Configuration;
 
 class Program
 {
@@ -22,7 +23,9 @@ class Program
                             SocketType.Stream,
                             ProtocolType.Tcp);
 
-        var localEndpoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 7000);
+        Common.SettingsManager.SetupConfiguration(ConfigurationManager.AppSettings);
+
+        var localEndpoint = new IPEndPoint(IPAddress.Parse(Common.SettingsManager.IpServer),Int32.Parse(Common.SettingsManager.PortServer));
 
         server.Bind(localEndpoint);
         int backlog = 3;
@@ -119,6 +122,79 @@ class Program
         return newUser;
     }
 
+    static void ListarUsuariosConBusqueda(NetworkHelper networkHelper, Header encabezado, Singleton system) {
+
+        // recibe un mensaje
+
+        byte[] mensajeBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        string mensajeCodificado = Encoding.UTF8.GetString(mensajeBytes);
+        List<UserDetail> users = system.UsersWithCoincidences(mensajeCodificado);
+        string mensajeRetorno;
+        if (users.Count == 0)
+        {
+            mensajeRetorno = "No hay usuarios que tengan coincidencias con esa palabra";
+
+        }
+        else
+        {
+            mensajeRetorno = "Los perfiles que tienen coincidencias con la búsqueda son :" + "\n";
+
+            foreach (UserDetail userD in users)
+            {
+                mensajeRetorno += userD.UserEmail + "\n" + userD.Description + "\n" + userD.Skills + "\n" + "\n";
+
+            }
+        }
+            byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensajeRetorno);
+
+            Header encabezadoEnvio = new Header(Common.Protocol.Request,
+                Commands.ListUsers,
+                mensajeEnByte.Length);
+
+            byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
+            networkHelper.Send(encabezadoEnvioEnBytes);
+
+            // enviar lista de usuarios
+            networkHelper.Send(mensajeEnByte);
+        
+    }
+
+    static void ListarUsuarioEspecifico(NetworkHelper networkHelper, Header encabezado, Singleton system)
+    {
+
+        // recibe un mensaje
+
+        byte[] mensajeBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        string mensajeCodificado = Encoding.UTF8.GetString(mensajeBytes);
+        UserDetail userD = system.SpecificUserProfile(mensajeCodificado);
+        string mensajeRetorno = "";
+        if (userD == null)
+        {
+            mensajeRetorno = "No hay usuarios con ese nombre";
+
+        }
+        else
+        {
+                       
+            mensajeRetorno = userD.UserEmail + "\n" + userD.Description + "\n" + userD.Skills + "\n";
+
+            
+        }
+        byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensajeRetorno);
+
+        Header encabezadoEnvio = new Header(Common.Protocol.Request,
+            Commands.ListUsers,
+            mensajeEnByte.Length);
+
+        byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
+        networkHelper.Send(encabezadoEnvioEnBytes);
+
+        // enviar lista de usuarios
+        networkHelper.Send(mensajeEnByte);
+
+    }
+
+
     static void CrearPerfilLaboral(NetworkHelper networkHelper, Header encabezado, Singleton system, User user)
     {
         if(user == null)
@@ -158,7 +234,7 @@ class Program
         {
             throw new Exception("User not found");
         }
-
+        
         // recibe un mensaje
         var fileCommonHandler = new FileCommsHandler(cliente);
         fileCommonHandler.ReceiveFile();
@@ -179,6 +255,43 @@ class Program
 
         networkHelper.Send(mensajeEnByte);
     }
+
+    static void LeerChat(NetworkHelper networkHelper, Header encabezado, Singleton system) {
+
+        byte[] chatEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
+        string[] chatData = chatCodificado.Split("/");
+        string mensaje = system.LeerChat(chatData[0], chatData[1]);
+        
+        if (mensaje.Equals(""))
+        {
+            mensaje = "No se han recibido mensajes de este usuario";
+        }
+
+        //envio
+        byte[] mensajeLogInEnByte = Encoding.UTF8.GetBytes(mensaje);
+
+        Header encabezadoLogInEnvio = new Header(Common.Protocol.Request,
+            Commands.ReadChat,
+            mensajeLogInEnByte.Length);
+
+
+        byte[] encabezadoLogInEnvioEnBytes = encabezadoLogInEnvio.GetBytesFromHeader();
+        networkHelper.Send(encabezadoLogInEnvioEnBytes);
+
+        networkHelper.Send(mensajeLogInEnByte);
+
+    }
+    static void EnviarChat(NetworkHelper networkHelper, Header encabezado, Singleton system)
+    {
+
+        byte[] chatEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
+        string[] chatData = chatCodificado.Split("/");
+        system.EnviarChat(chatData[0], chatData[1], chatData[2]);
+
+    }
+
 
     static void HandleClient(Socket cliente, Singleton system, NetworkHelper networkHelper)
     {
@@ -211,6 +324,22 @@ class Program
                         break;
                     case Commands.ProfilePic:
                         SubirFoto(networkHelper, encabezado, system, user, cliente);
+                        break;
+
+                    case Commands.ListUsers:
+                        ListarUsuariosConBusqueda(networkHelper, encabezado, system);
+                        break;
+
+                    case Commands.ReadChat:
+                        LeerChat(networkHelper, encabezado, system);
+                        break;
+
+                    case Commands.SendChat:
+                        EnviarChat(networkHelper, encabezado, system);
+                        break;
+
+                    case Commands.ListSpecificUser:
+                        ListarUsuarioEspecifico(networkHelper, encabezado, system);
                         break;
                 }
             }

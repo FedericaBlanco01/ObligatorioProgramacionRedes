@@ -5,11 +5,14 @@ namespace Server.Clases
 {
 	public class Singleton
 	{
+		public User LoggedInUser { get; set; }
 		public List<User> Users { get; set; }
 
 		public List<UserDetail> UserDetails { get; set; }
 
 		public List<Log> Chats { get; set; }
+
+		private readonly object LockChats = new object();
 
 		private readonly object LockUsers = new object();
 
@@ -22,8 +25,50 @@ namespace Server.Clases
 			this.Chats = new List<Log>();
 		}
 
+        public string LeerChat(string user1, string user2)
+        {
+            string ret = "";
+            lock (LockChats)
+            {
+                foreach (Log log in Chats)
+                {
+                    if ((user1.Equals(log.User1) && user2.Equals(log.User2)) || (user2.Equals(log.User1) && user1.Equals(log.User2))) 
+                    {
+                        foreach (Message message in log.Message)
+                        {
 
-		public bool ValidateData(string email)
+                            ret += message.FromUser + " : " + message.Line + "\n";
+
+                        }
+                    }
+                }
+                return ret;
+            }
+        }
+
+        public void EnviarChat(string userFrom, string userTo, string chatLine)
+        {
+			
+            lock (LockChats)
+            {
+                foreach (Log log in Chats)
+                {
+					if ((userFrom.Equals(log.User1) && userTo.Equals(log.User2)) || (userTo.Equals(log.User1) && userFrom.Equals(log.User2)))
+					{
+						log.Message.Add(new Message(userFrom,userTo,chatLine));
+                        return;
+                    }
+					
+                }
+
+				Log newLog = new Log(userFrom, userTo);
+				newLog.Message.Add(new Message(userFrom, userTo, chatLine));
+				Chats.Add(newLog);
+            }	
+        }
+
+
+        public bool ValidateData(string email)
 		{
 			lock (LockUsers)
 			{
@@ -65,12 +110,61 @@ namespace Server.Clases
 				{
 					if (user.Email.Equals(email) && user.Password.Equals(password))
 					{
+						LoggedInUser = user;
 						return user;
 					}
 				}
 				return null;
 			}
 		}
+
+		public UserDetail SpecificUserProfile(string usuarioABuscar)
+        {
+
+			UserDetail ret = null;
+
+			lock (LockUsers)
+			{
+				foreach (User user in Users)
+				{
+					if (user.Name.Equals(usuarioABuscar))
+					{
+						lock (LockUsersDetails)
+						{
+							foreach (UserDetail userD in UserDetails)
+							{
+								if (user.Email.Equals(userD.UserEmail))
+								{
+									ret = userD;
+								}
+							}
+						}
+					}
+				}
+                return ret;
+            }
+            
+        }
+
+        public List<UserDetail> UsersWithCoincidences(string palabraABuscar) {
+
+			List<UserDetail> ret = new List<UserDetail>();
+
+			lock (LockUsersDetails)
+			{
+				foreach (UserDetail userD in UserDetails)
+				{
+					if (userD.Skills.Contains(palabraABuscar) || userD.Description.Contains(palabraABuscar))
+					{
+						ret.Add(userD);
+
+					}		
+				}
+                return ret;
+            }
+			
+		}
+
 	}
 }
 
