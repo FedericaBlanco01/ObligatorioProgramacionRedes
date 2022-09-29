@@ -258,16 +258,43 @@ class Program
         byte[] dataEnBytes = Encoding.UTF8.GetBytes("Envio de foto");
 
         // envio header and length
-        Header header = new Header(Common.Protocol.Request,
+
+        
+        //envio file a server
+        var fileCommonHandler = new FileCommsHandler(socketCliente);
+        bool fileExists = fileCommonHandler.ValidatePath(abspath);
+
+        ////
+
+        string mensajeFile = "No";
+
+        if (fileExists)
+        {
+            mensajeFile = "Si";
+        }
+            byte[] mensajeFileEnByte = Encoding.UTF8.GetBytes(mensajeFile);
+
+        // enviar el header
+        Header encabezado = new Header(Common.Protocol.Request,
+            Commands.ProfilePic,
+            mensajeFileEnByte.Length);
+
+        byte[] encabezadoEnBytes = encabezado.GetBytesFromHeader();
+        networkHelper.Send(encabezadoEnBytes);
+
+        networkHelper.Send(mensajeFileEnByte);
+
+        //
+        if (fileExists)
+        {
+           Header header = new Header(Common.Protocol.Request,
             Commands.ProfilePic,
             dataEnBytes.Length);
 
         byte[] headerEnBytes = header.GetBytesFromHeader();
         networkHelper.Send(headerEnBytes);
-
-        //envio file a server
-        var fileCommonHandler = new FileCommsHandler(socketCliente);
-        fileCommonHandler.SendFile(abspath);
+            fileCommonHandler.SendFile(abspath);
+        }
 
         //recibo
         try
@@ -328,7 +355,7 @@ class Program
     public static void BuscadorUsuarioEspecífico(NetworkHelper networkHelper, Socket cliente)
     {
 
-        Console.WriteLine("Ingrese el nombre del usuario a buscar: ");
+        Console.WriteLine("Ingrese el Email del usuario a buscar: ");
         string data = Console.ReadLine();
 
         byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);

@@ -26,7 +26,7 @@ class Program
 
         Common.SettingsManager.SetupConfiguration(ConfigurationManager.AppSettings);
 
-        var localEndpoint = new IPEndPoint(IPAddress.Parse(Common.SettingsManager.IpServer),Int32.Parse(Common.SettingsManager.PortServer));
+        var localEndpoint = new IPEndPoint(IPAddress.Parse(Common.SettingsManager.IpServer), Int32.Parse(Common.SettingsManager.PortServer));
 
         server.Bind(localEndpoint);
         int backlog = 3;
@@ -42,7 +42,7 @@ class Program
 
     }
 
-    static User Login( NetworkHelper networkHelper, Header encabezado, Singleton system)
+    static User Login(NetworkHelper networkHelper, Header encabezado, Singleton system)
     {
         byte[] loginEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
         string loginCodificado = Encoding.UTF8.GetString(loginEnBytes);
@@ -82,11 +82,11 @@ class Program
     static User Register(NetworkHelper networkHelper, Header encabezado, Singleton system)
     {
         // recibe un mensaje
-    
+
         byte[] registerEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
         string registerCodificado = Encoding.UTF8.GetString(registerEnBytes);
         string[] registerData = registerCodificado.Split("/");
-        
+
         string mensaje = "";
 
         User newUser = null;
@@ -146,18 +146,18 @@ class Program
 
             }
         }
-            byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensajeRetorno);
+        byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensajeRetorno);
 
-            Header encabezadoEnvio = new Header(Common.Protocol.Request,
-                Commands.ListUsers,
-                mensajeEnByte.Length);
+        Header encabezadoEnvio = new Header(Common.Protocol.Request,
+            Commands.ListUsers,
+            mensajeEnByte.Length);
 
-            byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
-            networkHelper.Send(encabezadoEnvioEnBytes);
+        byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
+        networkHelper.Send(encabezadoEnvioEnBytes);
 
-            // enviar lista de usuarios
-            networkHelper.Send(mensajeEnByte);
-        
+        // enviar lista de usuarios
+        networkHelper.Send(mensajeEnByte);
+
     }
 
     static void ListarUsuarioEspecifico(NetworkHelper networkHelper, Header encabezado, Singleton system, Socket cliente)
@@ -172,13 +172,13 @@ class Program
         string fileName = "";
         if (userD == null)
         {
-            mensajeRetorno = "No hay perfiles de usuarios con ese nombre";
+            mensajeRetorno = "No hay perfiles de usuarios con ese email";
 
         }
         else
         {
             fileName = userD.PhotoName;
-            mensajeRetorno = userD.UserEmail + "\n" + userD.Description + "\n" + userD.Skills + "\n";       
+            mensajeRetorno = userD.UserEmail + "\n" + userD.Description + "\n" + userD.Skills + "\n";
         }
         byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensajeRetorno);
 
@@ -224,7 +224,7 @@ class Program
 
     static void CrearPerfilLaboral(NetworkHelper networkHelper, Header encabezado, Singleton system, User user)
     {
-        if(user == null)
+        if (user == null)
         {
             throw new Exception("User not found");
         }
@@ -257,21 +257,35 @@ class Program
 
     static void SubirFoto(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, Socket cliente)
     {
+        string mensaje = "Es necesario tener un perfil de usuario para asociarle una foto";
         if (user == null)
         {
             throw new Exception("User not found");
         }
-        
+        bool tienePerfil = system.UserProfileExists(user);
         // recibe un mensaje
-        var fileCommonHandler = new FileCommsHandler(cliente);
-        var fileName = fileCommonHandler.ReceiveFile();
-        system.SetUserFotoName(user, fileName);
+        
+        byte[] FileExistsEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        string fileExistsCodificado = Encoding.UTF8.GetString(FileExistsEnBytes);
 
-        //logica
-        Console.WriteLine($"Foto subida");
+        if (fileExistsCodificado.Equals("Si"))
+        {
+            var fileCommonHandler = new FileCommsHandler(cliente);
+            var fileName = fileCommonHandler.ReceiveFile();
+            Console.WriteLine("llegue");
+            if (tienePerfil)
+            {
+                system.SetUserFotoName(user, fileName);
 
-        string mensaje = "Foto subida exitosamente";
+                //logica
+                Console.WriteLine($"Foto subida");
 
+                mensaje = "Foto subida exitosamente";
+            }
+        }
+        else {
+            mensaje = "Esa imagen no existe";
+        }
         // enviar el header
         byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensaje);
         Header encabezadoEnvio = new Header(Common.Protocol.Request,
@@ -282,6 +296,7 @@ class Program
         networkHelper.Send(encabezadoEnvioEnBytes);
 
         networkHelper.Send(mensajeEnByte);
+
     }
 
     static void LeerChat(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser) {

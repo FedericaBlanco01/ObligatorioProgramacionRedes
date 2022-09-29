@@ -22,9 +22,15 @@ namespace Communication
             _socketHelper = new SocketHelper(socket);
         }
 
+        public bool ValidatePath(string path) {
+
+            return (_fileHandler.FileExists(path));
+
+        }
+
         public void SendFile(string path)
         {
-            if (_fileHandler.FileExists(path))
+            if (ValidatePath(path))
             {
                 var fileName = _fileHandler.GetFileName(path);
                 // ---> Enviar el largo del nombre del archivo
@@ -39,10 +45,11 @@ namespace Communication
                 _socketHelper.Send(convertedFileSize);
                 // ---> Enviar el archivo (pero con file stream)
                 SendFileWithStream(fileSize, path);
+                
             }
             else
             {
-                throw new Exception("File does not exist");
+                throw new Exception("File Does Not Exist");
             }
         }
 
