@@ -16,6 +16,7 @@ namespace Server.Clases
 			this.UserEmail = UserEmail;
 			this.Description = Description;
 			this.Skills = Skills;
+			this.PhotoName = "";
 		}
 	}
 }

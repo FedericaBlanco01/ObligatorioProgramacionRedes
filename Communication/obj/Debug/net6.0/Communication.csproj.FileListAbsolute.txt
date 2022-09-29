@@ -22,3 +22,15 @@ C:/Users/Andres/source/repos/SocketExample/Communication/obj/Debug/net6.0/ref/Co
 /Users/federicablanco/Desktop/obligatorio_redes/Proyecto_2022/Communication/obj/Debug/net6.0/refint/Communication.dll
 /Users/federicablanco/Desktop/obligatorio_redes/Proyecto_2022/Communication/obj/Debug/net6.0/Communication.pdb
 /Users/federicablanco/Desktop/obligatorio_redes/Proyecto_2022/Communication/obj/Debug/net6.0/ref/Communication.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\bin\Debug\net6.0\Communication.deps.json
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\bin\Debug\net6.0\Communication.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\bin\Debug\net6.0\Communication.pdb
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\obj\Debug\net6.0\Communication.csproj.AssemblyReference.cache
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\obj\Debug\net6.0\Communication.GeneratedMSBuildEditorConfig.editorconfig
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\obj\Debug\net6.0\Communication.AssemblyInfoInputs.cache
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\obj\Debug\net6.0\Communication.AssemblyInfo.cs
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\obj\Debug\net6.0\Communication.csproj.CoreCompileInputs.cache
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\obj\Debug\net6.0\Communication.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\obj\Debug\net6.0\refint\Communication.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\obj\Debug\net6.0\Communication.pdb
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\obj\Debug\net6.0\ref\Communication.dll

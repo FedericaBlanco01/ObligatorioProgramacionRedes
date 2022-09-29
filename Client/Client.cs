@@ -342,14 +342,25 @@ class Program
         networkHelper.Send(headerEnBytes);
 
         networkHelper.Send(dataEnBytes);
-
-        //recibo de img
-        var fileCommonHandler = new FileCommsHandler(cliente);
-        var fileName = fileCommonHandler.ReceiveFile();
-
-        //recibo
         try
         {
+            //recibo si va a haber foto
+            Header encabezadoAvisoFoto = new Header();
+
+            byte[] encabezadoFotoRecibidoEnBytes =
+                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+            encabezadoAvisoFoto.DecodeHeader(encabezadoFotoRecibidoEnBytes);
+
+            byte[] registerFotoEnBytes = networkHelper.Receive(encabezadoAvisoFoto.largoDeDatos);
+            string responseFotoCodificado = Encoding.UTF8.GetString(registerFotoEnBytes);
+            if (responseFotoCodificado.Equals("Si"))
+            {
+                //recibo de img
+                var fileCommonHandler = new FileCommsHandler(cliente);
+                var fileName = fileCommonHandler.ReceiveFile();
+            }
+            //recibo
+       
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =

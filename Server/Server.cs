@@ -164,7 +164,7 @@ class Program
     {
 
         // recibe un mensaje
-
+        string avisoSiHayFoto = "No";
         byte[] mensajeBytes = networkHelper.Receive(encabezado.largoDeDatos);
         string mensajeCodificado = Encoding.UTF8.GetString(mensajeBytes);
         UserDetail userD = system.SpecificUserProfile(mensajeCodificado);
@@ -172,15 +172,13 @@ class Program
         string fileName = "";
         if (userD == null)
         {
-            mensajeRetorno = "No hay usuarios con ese nombre";
+            mensajeRetorno = "No hay perfiles de usuarios con ese nombre";
 
         }
         else
         {
             fileName = userD.PhotoName;
-            mensajeRetorno = userD.UserEmail + "\n" + userD.Description + "\n" + userD.Skills + "\n";
-
-            
+            mensajeRetorno = userD.UserEmail + "\n" + userD.Description + "\n" + userD.Skills + "\n";       
         }
         byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensajeRetorno);
 
@@ -189,13 +187,33 @@ class Program
             mensajeEnByte.Length);
 
         byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
+        //aviso si hay foto en el perfil de usuario
         //envio file a server
-        if(fileName != "")
+        if (!fileName.Equals(""))
         {
+            avisoSiHayFoto = "Si";
+            byte[] avisoFotoByte = Encoding.UTF8.GetBytes(avisoSiHayFoto);
+
+            Header encabezadoAvisoFoto = new Header(Common.Protocol.Request,
+                Commands.ListUsers,
+                avisoFotoByte.Length);
+
+            networkHelper.Send(encabezadoAvisoFoto.GetBytesFromHeader());
+            networkHelper.Send(avisoFotoByte);
             var fileCommonHandler = new FileCommsHandler(cliente);
             fileCommonHandler.SendFile(Path.GetFullPath(fileName));
         }
+        else
+        {
+            byte[] avisoFotoByte = Encoding.UTF8.GetBytes(avisoSiHayFoto);
 
+            Header encabezadoAvisoFoto = new Header(Common.Protocol.Request,
+                Commands.ListUsers,
+                avisoFotoByte.Length);
+
+            networkHelper.Send(encabezadoAvisoFoto.GetBytesFromHeader());
+            networkHelper.Send(avisoFotoByte);
+        }
         networkHelper.Send(encabezadoEnvioEnBytes);
 
         // enviar lista de usuarios
