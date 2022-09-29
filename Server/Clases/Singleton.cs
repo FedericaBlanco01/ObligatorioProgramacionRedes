@@ -24,7 +24,7 @@ namespace Server.Clases
 			this.Chats = new List<Log>();
 		}
 
-		public bool CheckForUserDetail(string UserEmail){
+		public bool CheckForUserDetail(string UserEmail) {
 			lock (LockUsersDetails)
 			{
 				foreach (UserDetail userDetail in UserDetails)
@@ -38,47 +38,47 @@ namespace Server.Clases
 			}
 		}
 
-        public string LeerChat(string user1, string user2)
-        {
-            string ret = "";
-            lock (LockChats)
-            {
-                foreach (Log log in Chats)
-                {
-                    if ((user1.Equals(log.User1) && user2.Equals(log.User2)) || (user2.Equals(log.User1) && user1.Equals(log.User2))) 
-                    {
-                        foreach (Message message in log.Message)
-                        {
+		public string LeerChat(string user1, string user2)
+		{
+			string ret = "";
+			lock (LockChats)
+			{
+				foreach (Log log in Chats)
+				{
+					if ((user1.Equals(log.User1) && user2.Equals(log.User2)) || (user2.Equals(log.User1) && user1.Equals(log.User2)))
+					{
+						foreach (Message message in log.Message)
+						{
 
-                            ret += message.FromUser + " : " + message.Line + "\n";
+							ret += message.FromUser + " : " + message.Line + "\n";
 
-                        }
-                    }
-                }
-                return ret;
-            }
-        }
+						}
+					}
+				}
+				return ret;
+			}
+		}
 
-        public void EnviarChat(string userFrom, string userTo, string chatLine)
-        {
-			
-            lock (LockChats)
-            {
-                foreach (Log log in Chats)
-                {
+		public void EnviarChat(string userFrom, string userTo, string chatLine)
+		{
+
+			lock (LockChats)
+			{
+				foreach (Log log in Chats)
+				{
 					if ((userFrom.Equals(log.User1) && userTo.Equals(log.User2)) || (userTo.Equals(log.User1) && userFrom.Equals(log.User2)))
 					{
-						log.Message.Add(new Message(userFrom,userTo,chatLine));
-                        return;
-                    }
-					
-                }
+						log.Message.Add(new Message(userFrom, userTo, chatLine));
+						return;
+					}
+
+				}
 
 				Log newLog = new Log(userFrom, userTo);
 				newLog.Message.Add(new Message(userFrom, userTo, chatLine));
 				Chats.Add(newLog);
-            }	
-        }
+			}
+		}
 
 		public void SetUserFotoName(User user, string fotoName)
 		{
@@ -95,7 +95,7 @@ namespace Server.Clases
 			}
 		}
 
-        public bool ValidateData(string email)
+		public bool ValidateData(string email)
 		{
 			lock (LockUsers)
 			{
@@ -129,7 +129,22 @@ namespace Server.Clases
 			}
 		}
 
-		public User LoginBack(string email, string password)  
+		public bool UserProfileExists(User user) {
+			lock (LockUsersDetails)
+			{
+				foreach (UserDetail userD in UserDetails)
+				{
+					if (user.Email.Equals(userD.UserEmail))
+					{
+
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
+		public User LoginBack(string email, string password)
 		{
 			lock (LockUsers)
 			{
@@ -144,33 +159,27 @@ namespace Server.Clases
 			}
 		}
 
-		public UserDetail SpecificUserProfile(string usuarioABuscar)
-        {
+		public UserDetail SpecificUserProfile(string userEmail)
+		{
 
 			UserDetail ret = null;
 
-			lock (LockUsers)
+
+			lock (LockUsersDetails)
 			{
-				foreach (User user in Users)
+				foreach (UserDetail userD in UserDetails)
 				{
-					if (user.Name.Equals(usuarioABuscar))
+					if (userEmail.Equals(userD.UserEmail))
 					{
-						lock (LockUsersDetails)
-						{
-							foreach (UserDetail userD in UserDetails)
-							{
-								if (user.Email.Equals(userD.UserEmail))
-								{
-									ret = userD;
-								}
-							}
-						}
+						ret = userD;
 					}
 				}
-                return ret;
-            }
-            
-        }
+			}
+
+			return ret;
+		}
+
+	
 
         public List<UserDetail> UsersWithCoincidences(string palabraABuscar) {
 
