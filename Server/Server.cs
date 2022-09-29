@@ -257,7 +257,7 @@ class Program
 
     static void SubirFoto(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, Socket cliente)
     {
-        string mensaje = "Es necesario tener un perfil de usuario para asociarle una foto";
+        string mensaje = "Es necesario tener un perfil laboral para asociarle una foto";
         if (user == null)
         {
             throw new Exception("User not found");
@@ -271,7 +271,6 @@ class Program
         {
             var fileCommonHandler = new FileCommsHandler(cliente);
             var fileName = fileCommonHandler.ReceiveFile();
-            Console.WriteLine("llegue");
             if (tienePerfil)
             {
                 system.SetUserFotoName(user, fileName);
