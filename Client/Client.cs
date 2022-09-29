@@ -287,12 +287,12 @@ class Program
         //
         if (fileExists)
         {
-           Header header = new Header(Common.Protocol.Request,
+           /*Header header = new Header(Common.Protocol.Request,
             Commands.ProfilePic,
             dataEnBytes.Length);
 
         byte[] headerEnBytes = header.GetBytesFromHeader();
-        networkHelper.Send(headerEnBytes);
+        networkHelper.Send(headerEnBytes);*/
             fileCommonHandler.SendFile(abspath);
         }
 

@@ -267,7 +267,6 @@ class Program
         
         byte[] FileExistsEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
         string fileExistsCodificado = Encoding.UTF8.GetString(FileExistsEnBytes);
-
         if (fileExistsCodificado.Equals("Si"))
         {
             var fileCommonHandler = new FileCommsHandler(cliente);
