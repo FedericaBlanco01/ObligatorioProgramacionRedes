@@ -3,50 +3,56 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 using Communication;
 using System.Configuration;
 
 class Program
 {
-    static void Main(string[] args)
+    
+
+    static async Task Main(string[] args)
     {
         Console.WriteLine("Arrancando cliente...");
 
         try
         {
-            while (true)
+            Common.SettingsManager.SetupConfiguration(ConfigurationManager.AppSettings);
+            var clientIpEndPoint = new IPEndPoint(
+            IPAddress.Parse(SettingsManager.IpClient),
+            int.Parse(SettingsManager.PortClient));
+            var tcpClient = new TcpClient(clientIpEndPoint);
+            Console.WriteLine("Trying to connect to server");
+            var keepConnection = true;
+          
+            
+            while (keepConnection)
             {
-
-                Socket socketCliente = new Socket(
-                            AddressFamily.InterNetwork,
-                            SocketType.Stream,
-                            ProtocolType.Tcp);
-
-                Common.SettingsManager.SetupConfiguration(ConfigurationManager.AppSettings);
-
-                var localEndpoint = new IPEndPoint(IPAddress.Parse(Common.SettingsManager.IpClient), Int32.Parse(Common.SettingsManager.PortClient));
-
-                socketCliente.Bind(localEndpoint);
-
-                var remoteEndpoint = new IPEndPoint(IPAddress.Parse(Common.SettingsManager.IpServer), Int32.Parse(Common.SettingsManager.PortServer));
-                NetworkHelper networkHelper = new NetworkHelper(socketCliente);
-
-                Console.WriteLine("Bienvenido al sistema");
-                Console.WriteLine("SI- conectarse al servidor");
-                Console.WriteLine("NO- conectarse al servidor");
-
-                string inicio = Console.ReadLine();
-
-                switch (inicio)
+                var word = string.Empty;
+                while (string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word))
+                {
+                    Console.WriteLine("Bienvenido al sistema");
+                    Console.WriteLine("SI- conectarse al servidor");
+                    Console.WriteLine("NO- conectarse al servidor");
+                    word = Console.ReadLine();
+                }
+                switch (word)
                 {
                     case "SI":
-                        socketCliente.Connect(remoteEndpoint);
+                        await tcpClient.ConnectAsync(
+                        IPAddress.Parse(SettingsManager.IpServer),
+                        int.Parse(SettingsManager.PortServer)).ConfigureAwait(false);
                         Console.WriteLine("Conección con servidor exitosa");
-
-                        HandleConnectionMenu(networkHelper, socketCliente);
+                        await using (var networkStream = tcpClient.GetStream())
+                        {
+                            NetworkHelper networkHelper = new NetworkHelper(networkStream);
+                            HandleConnectionMenu(networkHelper);
+                            tcpClient.Close();
+                        }
                         break;
                     case "NO":
                         Console.WriteLine("Chau... :(");
+                        keepConnection = false;
                         break;
                     default:
                         Console.WriteLine("Comando inexistente");
@@ -67,16 +73,16 @@ class Program
         Console.ReadLine();
     }
 
-    public static void Register(NetworkHelper networkHelper, Socket socketCliente)
+    public static async Task Register(NetworkHelper networkHelper)
     {
         Console.WriteLine("Ingrese su nombre: ");
-        string newName = Console.ReadLine();
+        var newName = Console.ReadLine();
 
         Console.WriteLine("Ingrese su mail: ");
-        string newEmail = Console.ReadLine();
+        var newEmail = Console.ReadLine();
 
         Console.WriteLine("Ingrese su constrasena: ");
-        string newPassword = Console.ReadLine();
+        var newPassword = Console.ReadLine();
 
         string mensaje = newName + "/" + newEmail + "/" + newPassword;
 
@@ -98,15 +104,15 @@ class Program
         try
         {
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
+            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
             if (responseCodificado.Equals("Usuario registrado exitosamente"))
             {
-                HandleLoggedMenu(networkHelper, socketCliente);
+                HandleLoggedMenu(networkHelper);
             }
         }
         catch (Exception e)
@@ -115,9 +121,9 @@ class Program
         }
     }
 
-    public static void Login(NetworkHelper networkHelper, Socket socketCliente)
+    public static async Task Login(NetworkHelper networkHelper)
     {
-        
+
         Console.WriteLine("Ingrese su mail: ");
         string email = Console.ReadLine();
 
@@ -146,15 +152,15 @@ class Program
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
+            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
             if (responseCodificado.Equals("Se inició sesion correctamente"))
-            {       
-                HandleLoggedMenu(networkHelper, socketCliente);
+            {
+                HandleLoggedMenu(networkHelper);
             }
         }
         catch (Exception e)
@@ -164,28 +170,27 @@ class Program
 
     }
 
-    public static void HandleConnectionMenu(NetworkHelper networkHelper, Socket socketCliente)
+    public static async Task HandleConnectionMenu(NetworkHelper networkHelper)
     {
-        bool conectado = true;
-        while (conectado)
+        try
         {
-            Console.WriteLine("Inicio");
-            Console.WriteLine("1- regístrese");
-            Console.WriteLine("2- iniciar sesión");
-            Console.WriteLine("EXIT - cerrar programa");
-
-            string opcion = Console.ReadLine();
-
-            try
+            bool conectado = true;
+            while (conectado)
             {
+                Console.WriteLine("Inicio");
+                Console.WriteLine("1- regístrese");
+                Console.WriteLine("2- iniciar sesión");
+                Console.WriteLine("EXIT - cerrar programa");
+
+                var opcion = Console.ReadLine();
                 switch (opcion)
                 {
                     case "1":
-                        Register(networkHelper, socketCliente);
+                        Register(networkHelper);
                         break;
 
                     case "2":
-                        Login(networkHelper, socketCliente);
+                        Login(networkHelper);
                         break;
 
                     case "EXIT":
@@ -197,17 +202,14 @@ class Program
                         break;
                 }
             }
-            catch (Exception e)
-            {
-                throw (e);
-            }
-
         }
-        socketCliente.Shutdown(SocketShutdown.Both);
-        socketCliente.Close();
+        catch (Exception e)
+        {
+            throw (e);
+        }
     }
 
-    public static void CrearPerfilLaboral(NetworkHelper networkHelper, Socket socketCliente)
+    public static async Task CrearPerfilLaboral(NetworkHelper networkHelper)
     {
         Console.WriteLine("Ingrese sus habilidades: ");
         string habilidades = Console.ReadLine();
@@ -236,10 +238,10 @@ class Program
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
+            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
         }
@@ -250,7 +252,7 @@ class Program
 
     }
 
-    public static void FotoPerfil(NetworkHelper networkHelper, Socket socketCliente)
+    public static async Task FotoPerfil(NetworkHelper networkHelper)
     {
         Console.WriteLine("Ingrese la ruta completa al archivo: ");
         String abspath = Console.ReadLine();
@@ -259,9 +261,9 @@ class Program
 
         // envio header and length
 
-        
+
         //envio file a server
-        var fileCommonHandler = new FileCommsHandler(socketCliente);
+        var fileCommonHandler = new FileCommsHandler(networkHelper);
         bool fileExists = fileCommonHandler.ValidatePath(abspath);
 
         ////
@@ -272,7 +274,7 @@ class Program
         {
             mensajeFile = "Si";
         }
-            byte[] mensajeFileEnByte = Encoding.UTF8.GetBytes(mensajeFile);
+        byte[] mensajeFileEnByte = Encoding.UTF8.GetBytes(mensajeFile);
 
         // enviar el header
         Header encabezado = new Header(Common.Protocol.Request,
@@ -295,10 +297,10 @@ class Program
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
+            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
         }
@@ -308,7 +310,8 @@ class Program
         }
     }
 
-    public static void BuscadorDeUsuarios(NetworkHelper networkHelper) {
+    public static async Task BuscadorDeUsuarios(NetworkHelper networkHelper)
+    {
 
         Console.WriteLine("Ingrese las habilidades o palabras a buscar: ");
         string data = Console.ReadLine();
@@ -331,10 +334,10 @@ class Program
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
+            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
         }
@@ -345,7 +348,7 @@ class Program
 
     }
 
-    public static void BuscadorUsuarioEspecífico(NetworkHelper networkHelper, Socket cliente)
+    public static async Task BuscadorUsuarioEspecífico(NetworkHelper networkHelper)
     {
 
         Console.WriteLine("Ingrese el Email del usuario a buscar: ");
@@ -368,26 +371,26 @@ class Program
             Header encabezadoAvisoFoto = new Header();
 
             byte[] encabezadoFotoRecibidoEnBytes =
-                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
             encabezadoAvisoFoto.DecodeHeader(encabezadoFotoRecibidoEnBytes);
 
-            byte[] registerFotoEnBytes = networkHelper.Receive(encabezadoAvisoFoto.largoDeDatos);
+            byte[] registerFotoEnBytes = networkHelper.ReceiveAsync(encabezadoAvisoFoto.largoDeDatos).Result;
             string responseFotoCodificado = Encoding.UTF8.GetString(registerFotoEnBytes);
             if (responseFotoCodificado.Equals("Si"))
             {
                 //recibo de img
-                var fileCommonHandler = new FileCommsHandler(cliente);
+                var fileCommonHandler = new FileCommsHandler(networkHelper);
                 var fileName = fileCommonHandler.ReceiveFile();
             }
             //recibo
-       
+
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
+            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
         }
@@ -398,7 +401,8 @@ class Program
 
     }
 
-    public static void LeerMensajesChat(NetworkHelper networkHelper) {
+    public static async Task LeerMensajesChat(NetworkHelper networkHelper)
+    {
 
         Console.WriteLine("Ingrese el mail del usuario con el que quiere leer chat");
         string otroUsuario = Console.ReadLine();
@@ -422,10 +426,10 @@ class Program
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.Receive(encabezadoRecibo.largoDeDatos);
+            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
 
@@ -437,7 +441,8 @@ class Program
 
     }
 
-    public static void EnviarMensajeChat(NetworkHelper networkHelper) {
+    public static async Task EnviarMensajeChat(NetworkHelper networkHelper)
+    {
 
         Console.WriteLine("Ingrese el mail del usuario al que le quiere enviar un mensaje");
         string otroUsuario = Console.ReadLine();
@@ -461,7 +466,8 @@ class Program
 
     }
 
-    public static void ChatMenu(NetworkHelper networkHelper) {
+    public static async Task ChatMenu(NetworkHelper networkHelper)
+    {
 
         bool conectado = true;
 
@@ -493,7 +499,7 @@ class Program
         }
     }
 
-    public static void HandleLoggedMenu(NetworkHelper networkHelper, Socket socketCliente)
+    public static async Task HandleLoggedMenu(NetworkHelper networkHelper)
     {
         bool conectado = true;
         while (conectado)
@@ -513,11 +519,11 @@ class Program
                 switch (opcion)
                 {
                     case "1":
-                        CrearPerfilLaboral(networkHelper, socketCliente);
+                        CrearPerfilLaboral(networkHelper);
                         break;
 
                     case "2":
-                        FotoPerfil(networkHelper, socketCliente);
+                        FotoPerfil(networkHelper);
                         break;
 
                     case "3":
@@ -529,9 +535,9 @@ class Program
                         break;
 
                     case "5":
-                        BuscadorUsuarioEspecífico(networkHelper, socketCliente);
+                        BuscadorUsuarioEspecífico(networkHelper);
                         break;
-                        
+
                     case "6":
                         conectado = false; //poder desconectar al cliente del servidor
                         break;
@@ -540,7 +546,8 @@ class Program
                         Console.WriteLine("Comando inexistente");
                         break;
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw (e);
             }

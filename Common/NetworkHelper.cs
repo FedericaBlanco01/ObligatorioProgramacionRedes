@@ -1,41 +1,46 @@
-﻿using System.Net.Sockets;
+﻿using System;
+using System.IO;
+using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace Common // Lo voy a poder usar tanto en el cliente como en el servidor
 {
     public class NetworkHelper
     {
-        private readonly Socket _socket; // solo se puede inicializar en el constructor
-        public NetworkHelper(Socket socket)
-        {
-            _socket = socket;
+        NetworkStream networkStream;
+        public NetworkHelper(NetworkStream aNetworkStream) { 
+            networkStream = aNetworkStream;
         }
-
-        public void Send(byte[] data)
+           
+        public async void Send(byte[] data)
+           
         {
-            int offset = 0;
-            int size = data.Length;
-            while (offset < size)
-            {
-                int sent = _socket.Send(data, offset, data.Length - offset, SocketFlags.None);
-                offset += sent;
-            }
+            Console.WriteLine(data.Length);
+             await networkStream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);    
         }
+        
 
-        public byte[] Receive(int dataLength)
+        public async Task<byte[]> ReceiveAsync(int dataLength)
         {
-            byte[] response = new byte[dataLength];
-            int offset = 0;
-            while (offset < dataLength)
+            Console.WriteLine(dataLength);
+            var totalReceived = 0;
+            byte[] dataLengthBuffer = new byte[dataLength];
+            while (totalReceived < dataLength)
             {
-                int received = _socket.Receive(response, offset, dataLength - offset, SocketFlags.None);
-                if (received == 0)
+                int recieved = await networkStream.ReadAsync(dataLengthBuffer, totalReceived,
+                                             dataLength - totalReceived).ConfigureAwait(false);
+
+                if (recieved == 0) // Se corto la conexion del lado del cliente
                 {
-                    throw new SocketException();// Tira una excpeción si se cierra la conexión
-                                                // No tiene porque ser SocketException pueden tirar una hecha por ustedes
+                   
+                    networkStream.Close();
+                    throw new SocketException(); // Tendrian que manejarlo de alguna manera
                 }
-                offset += received;
+
+                totalReceived += recieved;
             }
-            return response;
+           
+            return dataLengthBuffer;
         }
     }
 }

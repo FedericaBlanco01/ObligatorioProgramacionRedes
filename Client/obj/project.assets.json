@@ -176,6 +176,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "Common": "1.0.0",
           "System.Configuration.ConfigurationManager": "6.0.1"
         },
         "compile": {

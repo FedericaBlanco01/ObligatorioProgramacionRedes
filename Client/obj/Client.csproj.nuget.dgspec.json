@@ -156,7 +156,11 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Common\\Common.csproj": {
+                "projectPath": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Common\\Common.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -12,14 +13,14 @@ namespace Communication
         private readonly ConversionHandler _conversionHandler;
         private readonly FileHandler _fileHandler;
         private readonly FileStreamHandler _fileStreamHandler;
-        private readonly SocketHelper _socketHelper;
-
-        public FileCommsHandler(Socket socket)
+        private readonly NetworkHelper networkHelper;
+        private readonly NetworkStream networkStream;
+        public FileCommsHandler(NetworkHelper myNetworkHelper)
         {
             _conversionHandler = new ConversionHandler();
             _fileHandler = new FileHandler();
             _fileStreamHandler = new FileStreamHandler();
-            _socketHelper = new SocketHelper(socket);
+            networkHelper = myNetworkHelper;
         }
 
         public bool ValidatePath(string path) {
@@ -34,15 +35,15 @@ namespace Communication
             {
                 var fileName = _fileHandler.GetFileName(path);
                 // ---> Enviar el largo del nombre del archivo
-                _socketHelper.Send(_conversionHandler.ConvertIntToBytes(fileName.Length));
+                networkHelper.Send(_conversionHandler.ConvertIntToBytes(fileName.Length));
                 // ---> Enviar el nombre del archivo
-                _socketHelper.Send(_conversionHandler.ConvertStringToBytes(fileName));
+                networkHelper.Send(_conversionHandler.ConvertStringToBytes(fileName));
 
                 // ---> Obtener el tamaño del archivo
                 long fileSize = _fileHandler.GetFileSize(path);
                 // ---> Enviar el tamaño del archivo
                 var convertedFileSize = _conversionHandler.ConvertLongToBytes(fileSize);
-                _socketHelper.Send(convertedFileSize);
+                networkHelper.Send(convertedFileSize);
                 // ---> Enviar el archivo (pero con file stream)
                 SendFileWithStream(fileSize, path);
                 
@@ -57,12 +58,12 @@ namespace Communication
         {
             // ---> Recibir el largo del nombre del archivo
             int fileNameSize = _conversionHandler.ConvertBytesToInt(
-                _socketHelper.Receive(Protocol.FixedDataSize));
+                networkHelper.ReceiveAsync(Protocol.FixedDataSize).Result);
             // ---> Recibir el nombre del archivo
-            string fileName = _conversionHandler.ConvertBytesToString(_socketHelper.Receive(fileNameSize));
+            string fileName = _conversionHandler.ConvertBytesToString(networkHelper.ReceiveAsync(fileNameSize).Result);
             // ---> Recibir el largo del archivo
             long fileSize = _conversionHandler.ConvertBytesToLong(
-                _socketHelper.Receive(Protocol.FixedFileSize));
+                networkHelper.ReceiveAsync(Protocol.FixedFileSize).Result);
             // ---> Recibir el archivo
             ReceiveFileWithStreams(fileSize, fileName);
             
@@ -90,7 +91,7 @@ namespace Communication
                     offset += Protocol.MaxPacketSize;
                 }
 
-                _socketHelper.Send(data);
+                networkHelper.Send(data);
                 currentPart++;
             }
         }
@@ -107,12 +108,12 @@ namespace Communication
                 if (currentPart == fileParts)
                 {
                     var lastPartSize = (int)(fileSize - offset);
-                    data = _socketHelper.Receive(lastPartSize);
+                    data = networkHelper.ReceiveAsync(lastPartSize).Result;
                     offset += lastPartSize;
                 }
                 else
                 {
-                    data = _socketHelper.Receive(Protocol.MaxPacketSize);
+                    data = networkHelper.ReceiveAsync(Protocol.MaxPacketSize).Result;
                     offset += Protocol.MaxPacketSize;
                 }
                 _fileStreamHandler.Write(fileName, data);

@@ -9,42 +9,35 @@ using Communication;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Threading.Tasks;
 
 class Program
 {
 
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         Console.WriteLine("Creando Socket Server");
-
         Singleton singleton = new Singleton();
 
-        Socket server = new Socket(
-                            AddressFamily.InterNetwork,
-                            SocketType.Stream,
-                            ProtocolType.Tcp);
 
         Common.SettingsManager.SetupConfiguration(ConfigurationManager.AppSettings);
 
         var localEndpoint = new IPEndPoint(IPAddress.Parse(Common.SettingsManager.IpServer), Int32.Parse(Common.SettingsManager.PortServer));
+        var tcpListener = new TcpListener(localEndpoint);
 
-        server.Bind(localEndpoint);
-        int backlog = 3;
-        server.Listen(backlog);
+        tcpListener.Start(3);
 
         while (true)
         {
-            Socket cliente = server.Accept();
-            NetworkHelper networkHelper = new NetworkHelper(cliente);
-            Thread manejarCliente = new Thread(() => HandleClient(cliente, singleton, networkHelper));
-            manejarCliente.Start();
+            var tcpClientSocket = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
+            var task = Task.Run(async () => await HandleClient(tcpClientSocket, singleton).ConfigureAwait(false));
         }
 
     }
 
-    static User Login(NetworkHelper networkHelper, Header encabezado, Singleton system)
+    static User Login(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
     {
-        byte[] loginEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        byte[] loginEnBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
         string loginCodificado = Encoding.UTF8.GetString(loginEnBytes);
         string[] loginData = loginCodificado.Split("/");
 
@@ -79,11 +72,11 @@ class Program
 
     }
 
-    static User Register(NetworkHelper networkHelper, Header encabezado, Singleton system)
+    static User Register(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
     {
         // recibe un mensaje
-
-        byte[] registerEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        
+        byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
         string registerCodificado = Encoding.UTF8.GetString(registerEnBytes);
         string[] registerData = registerCodificado.Split("/");
 
@@ -123,11 +116,11 @@ class Program
         return newUser;
     }
 
-    static void ListarUsuariosConBusqueda(NetworkHelper networkHelper, Header encabezado, Singleton system) {
+    static void ListarUsuariosConBusqueda(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream) {
 
         // recibe un mensaje
 
-        byte[] mensajeBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        byte[] mensajeBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
         string mensajeCodificado = Encoding.UTF8.GetString(mensajeBytes);
         List<UserDetail> users = system.UsersWithCoincidences(mensajeCodificado);
         string mensajeRetorno;
@@ -160,12 +153,12 @@ class Program
 
     }
 
-    static void ListarUsuarioEspecifico(NetworkHelper networkHelper, Header encabezado, Singleton system, Socket cliente)
+    static void ListarUsuarioEspecifico(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
     {
 
         // recibe un mensaje
         string avisoSiHayFoto = "No";
-        byte[] mensajeBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        byte[] mensajeBytes = networkHelper.ReceiveAsync( encabezado.largoDeDatos).Result;
         string mensajeCodificado = Encoding.UTF8.GetString(mensajeBytes);
         UserDetail userD = system.SpecificUserProfile(mensajeCodificado);
         string mensajeRetorno = "";
@@ -200,7 +193,7 @@ class Program
 
             networkHelper.Send(encabezadoAvisoFoto.GetBytesFromHeader());
             networkHelper.Send(avisoFotoByte);
-            var fileCommonHandler = new FileCommsHandler(cliente);
+            var fileCommonHandler = new FileCommsHandler(networkHelper);
             fileCommonHandler.SendFile(Path.GetFullPath(fileName));
         }
         else
@@ -222,7 +215,7 @@ class Program
     }
 
 
-    static void CrearPerfilLaboral(NetworkHelper networkHelper, Header encabezado, Singleton system, User user)
+    static void CrearPerfilLaboral(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, NetworkStream networkStream)
     {
         if (user == null)
         {
@@ -230,7 +223,7 @@ class Program
         }
 
         // recibe un mensaje
-        byte[] mensajeEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        byte[] mensajeEnBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
         string mensajeCodificado = Encoding.UTF8.GetString(mensajeEnBytes);
         string[] data = mensajeCodificado.Split("/");
 
@@ -255,7 +248,7 @@ class Program
         networkHelper.Send(mensajeEnByte);
     }
 
-    static void SubirFoto(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, Socket cliente)
+    static void SubirFoto(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, NetworkStream networkStream)
     {
         string mensaje = "Es necesario tener un perfil laboral para asociarle una foto";
         if (user == null)
@@ -265,11 +258,11 @@ class Program
         bool tienePerfil = system.UserProfileExists(user);
         // recibe un mensaje
         
-        byte[] FileExistsEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        byte[] FileExistsEnBytes = networkHelper.ReceiveAsync( encabezado.largoDeDatos).Result;
         string fileExistsCodificado = Encoding.UTF8.GetString(FileExistsEnBytes);
         if (fileExistsCodificado.Equals("Si"))
         {
-            var fileCommonHandler = new FileCommsHandler(cliente);
+            var fileCommonHandler = new FileCommsHandler(networkHelper);
             var fileName = fileCommonHandler.ReceiveFile();
             if (tienePerfil)
             {
@@ -297,9 +290,9 @@ class Program
 
     }
 
-    static void LeerChat(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser) {
+    static void LeerChat(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser, NetworkStream networkStream) {
 
-        byte[] chatEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        byte[] chatEnBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
         string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
         string mensaje = system.LeerChat(loggedUser.Email,chatCodificado);
         
@@ -322,10 +315,10 @@ class Program
         networkHelper.Send(mensajeLogInEnByte);
 
     }
-    static void EnviarChat(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser)
+    static void EnviarChat(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser, NetworkStream networkStream)
     {
 
-        byte[] chatEnBytes = networkHelper.Receive(encabezado.largoDeDatos);
+        byte[] chatEnBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
         string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
         string[] chatData = chatCodificado.Split("/");
         system.EnviarChat(loggedUser.Email, chatData[0], chatData[1]);
@@ -333,65 +326,67 @@ class Program
     }
 
 
-    static void HandleClient(Socket cliente, Singleton system, NetworkHelper networkHelper)
+    static async Task HandleClient(TcpClient tcpClientSocket, Singleton system)
     {
         // Acepte un cliente y estoy conectado 
         Console.WriteLine("Un nuevo cliente establecio conexión");
         bool conectado = true;
         User user = null;
-        while (conectado)
+        using (var networkStream = tcpClientSocket.GetStream())
         {
-            try
+            while (conectado)
             {
-                Header encabezado = new Header();
-
-                byte[] encabezadoEnBytes =
-                    networkHelper.Receive(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
-                encabezado.DecodeHeader(encabezadoEnBytes);
-
-                switch (encabezado.comando)
+            
+                try
                 {
-                    case Commands.Register:
-                        user = Register(networkHelper, encabezado, system);
-                        break;
+                    NetworkHelper networkHelper = new NetworkHelper(networkStream);
+                    Header encabezado = new Header();
 
-                    case Commands.Login:
-                        user = Login(networkHelper, encabezado, system);
-                        break;
+                    byte[] encabezadoEnBytes = networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
+                    encabezado.DecodeHeader(encabezadoEnBytes);
 
-                    case Commands.JobProfile:
-                        CrearPerfilLaboral(networkHelper, encabezado, system, user);
-                        break;
-                    case Commands.ProfilePic:
-                        SubirFoto(networkHelper, encabezado, system, user, cliente);
-                        break;
+                    switch (encabezado.comando)
+                    {
+                        case Commands.Register:
+                            user = Register(networkHelper, encabezado, system, networkStream);
+                            break;
 
-                    case Commands.ListUsers:
-                        ListarUsuariosConBusqueda(networkHelper, encabezado, system);
-                        break;
+                        case Commands.Login:
+                            user = Login(networkHelper, encabezado, system, networkStream);
+                            break;
 
-                    case Commands.ReadChat:
-                        LeerChat(networkHelper, encabezado, system, user);
-                        break;
+                        case Commands.JobProfile:
+                            CrearPerfilLaboral(networkHelper, encabezado, system, user, networkStream);
+                            break;
+                        case Commands.ProfilePic:
+                            SubirFoto(networkHelper, encabezado, system, user, networkStream);
+                            break;
 
-                    case Commands.SendChat:
-                        EnviarChat(networkHelper, encabezado, system, user);
-                        break;
+                        case Commands.ListUsers:
+                            ListarUsuariosConBusqueda(networkHelper, encabezado, system, networkStream);
+                            break;
 
-                    case Commands.ListSpecificUser:
-                        ListarUsuarioEspecifico(networkHelper, encabezado, system, cliente);
-                        break;
+                        case Commands.ReadChat:
+                            LeerChat(networkHelper, encabezado, system, user, networkStream);
+                            break;
+
+                        case Commands.SendChat:
+                            EnviarChat(networkHelper, encabezado, system, user, networkStream);
+                            break;
+
+                        case Commands.ListSpecificUser:
+                            ListarUsuarioEspecifico(networkHelper, encabezado, system, networkStream);
+                            break;
+                    }
                 }
-            }
-            catch (SocketException)
-            {
-                Console.WriteLine("Se desconecto el cliente");
-                conectado = false;
+                catch (SocketException)
+                {
+                    Console.WriteLine("Se desconecto el cliente");
+                    conectado = false;
+                }
             }
         }
         Console.WriteLine("Cerrando conexión con cliente...");
-        cliente.Shutdown(SocketShutdown.Both);
-        cliente.Close();
     }
 
 }
