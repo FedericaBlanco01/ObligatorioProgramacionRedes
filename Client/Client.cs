@@ -104,10 +104,10 @@ class Program
         try
         {
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
+                await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
+            byte[] registerEnBytes = await networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos);
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
             if (responseCodificado.Equals("Usuario registrado exitosamente"))
@@ -152,10 +152,10 @@ class Program
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
+                await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
+            byte[] registerEnBytes = await networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos);
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
             if (responseCodificado.Equals("Se inició sesion correctamente"))
@@ -238,10 +238,10 @@ class Program
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
+                await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
+            byte[] registerEnBytes = await networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos);
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
         }
@@ -297,10 +297,10 @@ class Program
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
+               await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
+            byte[] registerEnBytes = await networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos);
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
         }
@@ -334,10 +334,10 @@ class Program
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
+                await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
+            byte[] registerEnBytes = await networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos);
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
         }
@@ -371,26 +371,26 @@ class Program
             Header encabezadoAvisoFoto = new Header();
 
             byte[] encabezadoFotoRecibidoEnBytes =
-                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
+                await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
             encabezadoAvisoFoto.DecodeHeader(encabezadoFotoRecibidoEnBytes);
 
-            byte[] registerFotoEnBytes = networkHelper.ReceiveAsync(encabezadoAvisoFoto.largoDeDatos).Result;
+            byte[] registerFotoEnBytes = await networkHelper.ReceiveAsync(encabezadoAvisoFoto.largoDeDatos);
             string responseFotoCodificado = Encoding.UTF8.GetString(registerFotoEnBytes);
             if (responseFotoCodificado.Equals("Si"))
             {
                 //recibo de img
                 var fileCommonHandler = new FileCommsHandler(networkHelper);
-                var fileName = fileCommonHandler.ReceiveFile();
+                var fileName = fileCommonHandler.ReceiveFileAsync();
             }
             //recibo
 
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
+                await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
+            byte[] registerEnBytes = await networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos);
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
         }
@@ -426,10 +426,10 @@ class Program
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
-                networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
+                await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
 
-            byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos).Result;
+            byte[] registerEnBytes = await networkHelper.ReceiveAsync(encabezadoRecibo.largoDeDatos);
             string responseCodificado = Encoding.UTF8.GetString(registerEnBytes);
             Console.WriteLine(responseCodificado);
 

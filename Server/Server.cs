@@ -35,9 +35,9 @@ class Program
 
     }
 
-    static User Login(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
+    static async Task<User> LoginAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
     {
-        byte[] loginEnBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
+        byte[] loginEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string loginCodificado = Encoding.UTF8.GetString(loginEnBytes);
         string[] loginData = loginCodificado.Split("/");
 
@@ -72,11 +72,11 @@ class Program
 
     }
 
-    static User Register(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
+    static async Task<User> RegisterAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
     {
         // recibe un mensaje
         
-        byte[] registerEnBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
+        byte[] registerEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string registerCodificado = Encoding.UTF8.GetString(registerEnBytes);
         string[] registerData = registerCodificado.Split("/");
 
@@ -116,11 +116,11 @@ class Program
         return newUser;
     }
 
-    static void ListarUsuariosConBusqueda(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream) {
+    static async Task ListarUsuariosConBusquedaAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream) {
 
         // recibe un mensaje
 
-        byte[] mensajeBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
+        byte[] mensajeBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string mensajeCodificado = Encoding.UTF8.GetString(mensajeBytes);
         List<UserDetail> users = system.UsersWithCoincidences(mensajeCodificado);
         string mensajeRetorno;
@@ -153,12 +153,12 @@ class Program
 
     }
 
-    static void ListarUsuarioEspecifico(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
+    static async Task ListarUsuarioEspecificoAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
     {
 
         // recibe un mensaje
         string avisoSiHayFoto = "No";
-        byte[] mensajeBytes = networkHelper.ReceiveAsync( encabezado.largoDeDatos).Result;
+        byte[] mensajeBytes = await networkHelper.ReceiveAsync( encabezado.largoDeDatos);
         string mensajeCodificado = Encoding.UTF8.GetString(mensajeBytes);
         UserDetail userD = system.SpecificUserProfile(mensajeCodificado);
         string mensajeRetorno = "";
@@ -215,7 +215,7 @@ class Program
     }
 
 
-    static void CrearPerfilLaboral(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, NetworkStream networkStream)
+    static async Task CrearPerfilLaboralAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, NetworkStream networkStream)
     {
         if (user == null)
         {
@@ -223,7 +223,7 @@ class Program
         }
 
         // recibe un mensaje
-        byte[] mensajeEnBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
+        byte[] mensajeEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string mensajeCodificado = Encoding.UTF8.GetString(mensajeEnBytes);
         string[] data = mensajeCodificado.Split("/");
 
@@ -248,7 +248,7 @@ class Program
         networkHelper.Send(mensajeEnByte);
     }
 
-    static void SubirFoto(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, NetworkStream networkStream)
+    static async Task SubirFotoAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, NetworkStream networkStream)
     {
         string mensaje = "Es necesario tener un perfil laboral para asociarle una foto";
         if (user == null)
@@ -258,12 +258,12 @@ class Program
         bool tienePerfil = system.UserProfileExists(user);
         // recibe un mensaje
         
-        byte[] FileExistsEnBytes = networkHelper.ReceiveAsync( encabezado.largoDeDatos).Result;
+        byte[] FileExistsEnBytes = await networkHelper.ReceiveAsync( encabezado.largoDeDatos);
         string fileExistsCodificado = Encoding.UTF8.GetString(FileExistsEnBytes);
         if (fileExistsCodificado.Equals("Si"))
         {
             var fileCommonHandler = new FileCommsHandler(networkHelper);
-            var fileName = fileCommonHandler.ReceiveFile();
+            var fileName = fileCommonHandler.ReceiveFileAsync();
             if (tienePerfil)
             {
                 system.SetUserFotoName(user, fileName);
@@ -290,9 +290,9 @@ class Program
 
     }
 
-    static void LeerChat(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser, NetworkStream networkStream) {
+    static async Task LeerChatAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser, NetworkStream networkStream) {
 
-        byte[] chatEnBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
+        byte[] chatEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
         string mensaje = system.LeerChat(loggedUser.Email,chatCodificado);
         
@@ -315,10 +315,10 @@ class Program
         networkHelper.Send(mensajeLogInEnByte);
 
     }
-    static void EnviarChat(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser, NetworkStream networkStream)
+    static async Task EnviarChatAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser, NetworkStream networkStream)
     {
 
-        byte[] chatEnBytes = networkHelper.ReceiveAsync(encabezado.largoDeDatos).Result;
+        byte[] chatEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
         string[] chatData = chatCodificado.Split("/");
         system.EnviarChat(loggedUser.Email, chatData[0], chatData[1]);
@@ -342,40 +342,40 @@ class Program
                     NetworkHelper networkHelper = new NetworkHelper(networkStream);
                     Header encabezado = new Header();
 
-                    byte[] encabezadoEnBytes = networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength).Result;
+                    byte[] encabezadoEnBytes = await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
                     encabezado.DecodeHeader(encabezadoEnBytes);
 
                     switch (encabezado.comando)
                     {
                         case Commands.Register:
-                            user = Register(networkHelper, encabezado, system, networkStream);
+                            user = await RegisterAsync(networkHelper, encabezado, system, networkStream);
                             break;
 
                         case Commands.Login:
-                            user = Login(networkHelper, encabezado, system, networkStream);
+                            user = await LoginAsync(networkHelper, encabezado, system, networkStream);
                             break;
 
                         case Commands.JobProfile:
-                            CrearPerfilLaboral(networkHelper, encabezado, system, user, networkStream);
+                            CrearPerfilLaboralAsync(networkHelper, encabezado, system, user, networkStream);
                             break;
                         case Commands.ProfilePic:
-                            SubirFoto(networkHelper, encabezado, system, user, networkStream);
+                            SubirFotoAsync(networkHelper, encabezado, system, user, networkStream);
                             break;
 
                         case Commands.ListUsers:
-                            ListarUsuariosConBusqueda(networkHelper, encabezado, system, networkStream);
+                            ListarUsuariosConBusquedaAsync(networkHelper, encabezado, system, networkStream);
                             break;
 
                         case Commands.ReadChat:
-                            LeerChat(networkHelper, encabezado, system, user, networkStream);
+                            LeerChatAsync(networkHelper, encabezado, system, user, networkStream);
                             break;
 
                         case Commands.SendChat:
-                            EnviarChat(networkHelper, encabezado, system, user, networkStream);
+                            EnviarChatAsync(networkHelper, encabezado, system, user, networkStream);
                             break;
 
                         case Commands.ListSpecificUser:
-                            ListarUsuarioEspecifico(networkHelper, encabezado, system, networkStream);
+                            ListarUsuarioEspecificoAsync(networkHelper, encabezado, system, networkStream);
                             break;
                     }
                 }

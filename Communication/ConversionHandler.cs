@@ -37,5 +37,6 @@ namespace Communication
         {
             return BitConverter.ToInt64(value);
         }
+
     }
 }
