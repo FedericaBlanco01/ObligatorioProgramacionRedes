@@ -30,10 +30,13 @@ class Program
         tcpListener.Start(3);
 
         Console.WriteLine("Escriba Exit cuando quiera cerrar el Server");
+
         while (working)
         {
+            var tcpClientSocket = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
+            clients.Add(tcpClientSocket);
             var closeTheServer = Task.Run(async () => await closeServer());           
-            var task = Task.Run(async () => await HandleClient(tcpListener, singleton).ConfigureAwait(false));
+            var task = Task.Run(async () => await HandleClient(tcpClientSocket, singleton).ConfigureAwait(false));
         }
         Console.WriteLine("Cerrando servidor");
     }
@@ -342,10 +345,9 @@ class Program
     }
 
 
-    static async Task HandleClient(TcpListener tcpListener, Singleton system)
+    static async Task HandleClient(TcpClient tcpClientSocket, Singleton system)
     {
-        var tcpClientSocket = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
-        clients.Add(tcpClientSocket);
+        
         // Acepte un cliente y estoy conectado 
         Console.WriteLine("Un nuevo cliente establecio conexión");
         bool conectado = true;

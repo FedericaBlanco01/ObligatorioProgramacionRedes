@@ -65,7 +65,7 @@ namespace Communication
             long fileSize =  _conversionHandler.ConvertBytesToLong(await
                 networkHelper.ReceiveAsync(Protocol.FixedFileSize));
             // ---> Recibir el archivo
-            ReceiveFileWithStreamsAsync(fileSize, fileName);
+             await ReceiveFileWithStreamsAsync(fileSize, fileName); 
             
             return fileName;
         }
