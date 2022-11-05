@@ -18,7 +18,7 @@ namespace Common // Lo voy a poder usar tanto en el cliente como en el servidor
             {
                 await networkStream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
             }
-            catch (IOException e) {
+            catch (IOException) {
                 Console.WriteLine("Error enviando mensaje");
             }
             
@@ -38,7 +38,7 @@ namespace Common // Lo voy a poder usar tanto en el cliente como en el servidor
                 {
                    
                     networkStream.Close();
-                    throw new SocketException(); // Tendrian que manejarlo de alguna manera
+                    throw new Exception(); // Tendrian que manejarlo de alguna manera
                 }
 
                 totalReceived += recieved;

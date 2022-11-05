@@ -64,10 +64,6 @@ class Program
         {
             Console.WriteLine("Error de conexion con el servidor");
         }
-        catch (SocketException e)
-        {
-            Console.WriteLine("Error de conexión con el servidor");
-        }
         catch (Exception e)
         {
             Console.WriteLine("error");
