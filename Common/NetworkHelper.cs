@@ -11,18 +11,22 @@ namespace Common // Lo voy a poder usar tanto en el cliente como en el servidor
         public NetworkHelper(NetworkStream aNetworkStream) { 
             networkStream = aNetworkStream;
         }
-           
+
         public async void Send(byte[] data)
-           
         {
-            Console.WriteLine(data.Length);
-             await networkStream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);    
+            try
+            {
+                await networkStream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
+            }
+            catch (IOException e) {
+                Console.WriteLine("Error enviando mensaje");
+            }
+            
         }
         
 
         public async Task<byte[]> ReceiveAsync(int dataLength)
         {
-            Console.WriteLine(dataLength);
             var totalReceived = 0;
             byte[] dataLengthBuffer = new byte[dataLength];
             while (totalReceived < dataLength)

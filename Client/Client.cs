@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Communication;
 using System.Configuration;
+using System.IO;
 
 class Program
 {
@@ -42,11 +43,11 @@ class Program
                         await tcpClient.ConnectAsync(
                         IPAddress.Parse(SettingsManager.IpServer),
                         int.Parse(SettingsManager.PortServer)).ConfigureAwait(false);
-                        Console.WriteLine("Conección con servidor exitosa");
+                        Console.WriteLine("Conexión con servidor exitosa");
                         await using (var networkStream = tcpClient.GetStream())
                         {
                             NetworkHelper networkHelper = new NetworkHelper(networkStream);
-                            HandleConnectionMenu(networkHelper);
+                            await HandleConnectionMenu(networkHelper);
                             tcpClient.Close();
                         }
                         break;
@@ -59,15 +60,19 @@ class Program
                         break;
                 }
             }
+        }catch (IOException)
+        {
+            Console.WriteLine("Error de conexion con el servidor");
         }
         catch (SocketException e)
         {
-            Console.WriteLine($"Excepcion: {e.Message}, Codigo: {e.ErrorCode}");
+            Console.WriteLine("Error de conexión con el servidor");
         }
         catch (Exception e)
         {
-            Console.WriteLine($"Excepcion: {e.Message}");
+            Console.WriteLine("error");
         }
+
 
         Console.WriteLine("Cerrando cliente...");
         Console.ReadLine();
@@ -75,7 +80,9 @@ class Program
 
     public static async Task Register(NetworkHelper networkHelper)
     {
-        Console.WriteLine("Ingrese su nombre: ");
+        try
+        {
+            Console.WriteLine("Ingrese su nombre: ");
         var newName = Console.ReadLine();
 
         Console.WriteLine("Ingrese su mail: ");
@@ -101,8 +108,7 @@ class Program
 
         //recibo
         Header encabezadoRecibo = new Header();
-        try
-        {
+   
             byte[] encabezadoRecibidoEnBytes =
                 await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
@@ -112,7 +118,7 @@ class Program
             Console.WriteLine(responseCodificado);
             if (responseCodificado.Equals("Usuario registrado exitosamente"))
             {
-                HandleLoggedMenu(networkHelper);
+                await HandleLoggedMenu(networkHelper);
             }
         }
         catch (Exception e)
@@ -123,8 +129,9 @@ class Program
 
     public static async Task Login(NetworkHelper networkHelper)
     {
-
-        Console.WriteLine("Ingrese su mail: ");
+        try
+        {
+            Console.WriteLine("Ingrese su mail: ");
         string email = Console.ReadLine();
 
 
@@ -147,8 +154,7 @@ class Program
         //end
 
         //recibo
-        try
-        {
+
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
@@ -160,7 +166,7 @@ class Program
             Console.WriteLine(responseCodificado);
             if (responseCodificado.Equals("Se inició sesion correctamente"))
             {
-                HandleLoggedMenu(networkHelper);
+                await HandleLoggedMenu(networkHelper);
             }
         }
         catch (Exception e)
@@ -186,11 +192,11 @@ class Program
                 switch (opcion)
                 {
                     case "1":
-                        Register(networkHelper);
+                        await Register(networkHelper);
                         break;
 
                     case "2":
-                        Login(networkHelper);
+                        await Login(networkHelper);
                         break;
 
                     case "EXIT":
@@ -205,13 +211,15 @@ class Program
         }
         catch (Exception e)
         {
-            throw (e);
+            throw(e);
         }
     }
 
     public static async Task CrearPerfilLaboral(NetworkHelper networkHelper)
     {
-        Console.WriteLine("Ingrese sus habilidades: ");
+        try
+        {
+            Console.WriteLine("Ingrese sus habilidades: ");
         string habilidades = Console.ReadLine();
 
         Console.WriteLine("Ingrese una descripcion: ");
@@ -233,8 +241,7 @@ class Program
         //end
 
         //recibo
-        try
-        {
+
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
@@ -254,7 +261,9 @@ class Program
 
     public static async Task FotoPerfil(NetworkHelper networkHelper)
     {
-        Console.WriteLine("Ingrese la ruta completa al archivo: ");
+        try
+        {
+            Console.WriteLine("Ingrese la ruta completa al archivo: ");
         String abspath = Console.ReadLine();
 
         byte[] dataEnBytes = Encoding.UTF8.GetBytes("Envio de foto");
@@ -292,8 +301,7 @@ class Program
         }
 
         //recibo
-        try
-        {
+
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
@@ -312,8 +320,9 @@ class Program
 
     public static async Task BuscadorDeUsuarios(NetworkHelper networkHelper)
     {
-
-        Console.WriteLine("Ingrese las habilidades o palabras a buscar: ");
+        try
+        {
+            Console.WriteLine("Ingrese las habilidades o palabras a buscar: ");
         string data = Console.ReadLine();
 
         byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
@@ -329,8 +338,7 @@ class Program
         networkHelper.Send(dataEnBytes);
 
         //recibo
-        try
-        {
+
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
@@ -350,8 +358,9 @@ class Program
 
     public static async Task BuscadorUsuarioEspecífico(NetworkHelper networkHelper)
     {
-
-        Console.WriteLine("Ingrese el Email del usuario a buscar: ");
+        try
+        {
+            Console.WriteLine("Ingrese el Email del usuario a buscar: ");
         string data = Console.ReadLine();
 
         byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
@@ -365,8 +374,7 @@ class Program
         networkHelper.Send(headerEnBytes);
 
         networkHelper.Send(dataEnBytes);
-        try
-        {
+
             //recibo si va a haber foto
             Header encabezadoAvisoFoto = new Header();
 
@@ -403,8 +411,9 @@ class Program
 
     public static async Task LeerMensajesChat(NetworkHelper networkHelper)
     {
-
-        Console.WriteLine("Ingrese el mail del usuario con el que quiere leer chat");
+        try
+        {
+            Console.WriteLine("Ingrese el mail del usuario con el que quiere leer chat");
         string otroUsuario = Console.ReadLine();
         string data = otroUsuario;
 
@@ -421,8 +430,7 @@ class Program
         networkHelper.Send(dataEnBytes);
 
         //recibo
-        try
-        {
+
             Header encabezadoRecibo = new Header();
 
             byte[] encabezadoRecibidoEnBytes =
@@ -443,59 +451,69 @@ class Program
 
     public static async Task EnviarMensajeChat(NetworkHelper networkHelper)
     {
+        try
+        {
+            Console.WriteLine("Ingrese el mail del usuario al que le quiere enviar un mensaje");
+            string otroUsuario = Console.ReadLine();
+            Console.WriteLine("Ingrese el  mensaje");
+            string mensaje = Console.ReadLine();
+            string data = otroUsuario + "/" + mensaje;
 
-        Console.WriteLine("Ingrese el mail del usuario al que le quiere enviar un mensaje");
-        string otroUsuario = Console.ReadLine();
-        Console.WriteLine("Ingrese el  mensaje");
-        string mensaje = Console.ReadLine();
-        string data = otroUsuario + "/" + mensaje;
+            byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
 
-        byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
+            // enviar 
+            Header header = new Header(Common.Protocol.Request,
+                Commands.SendChat,
+                dataEnBytes.Length);
 
-        // enviar 
-        Header header = new Header(Common.Protocol.Request,
-            Commands.SendChat,
-            dataEnBytes.Length);
+            byte[] headerEnBytes = header.GetBytesFromHeader();
+            networkHelper.Send(headerEnBytes);
 
-        byte[] headerEnBytes = header.GetBytesFromHeader();
-        networkHelper.Send(headerEnBytes);
+            networkHelper.Send(dataEnBytes);
 
-        networkHelper.Send(dataEnBytes);
-
-        Console.WriteLine("mensaje enviado correctamente");
+            Console.WriteLine("mensaje enviado correctamente");
+        }catch(Exception e)
+        {
+            throw (e);
+        }
 
     }
 
     public static async Task ChatMenu(NetworkHelper networkHelper)
     {
-
-        bool conectado = true;
-
-        while (conectado)
+        try
         {
-            Console.WriteLine("1- Leer mensajes recibidos");
-            Console.WriteLine("2- Enviar mensaje");
-            Console.WriteLine("3- Salir");
-            string opcion = Console.ReadLine();
+            bool conectado = true;
 
-            switch (opcion)
+            while (conectado)
             {
-                case "1":
-                    LeerMensajesChat(networkHelper);
-                    break;
+                Console.WriteLine("1- Leer mensajes recibidos");
+                Console.WriteLine("2- Enviar mensaje");
+                Console.WriteLine("3- Salir");
+                string opcion = Console.ReadLine();
 
-                case "2":
-                    EnviarMensajeChat(networkHelper);
-                    break;
+                switch (opcion)
+                {
+                    case "1":
+                        await LeerMensajesChat(networkHelper);
+                        break;
 
-                case "3":
-                    conectado = false;
-                    break;
+                    case "2":
+                        await EnviarMensajeChat(networkHelper);
+                        break;
 
-                default:
-                    Console.WriteLine("Comando inexistente");
-                    break;
+                    case "3":
+                        conectado = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Comando inexistente");
+                        break;
+                }
             }
+        }
+        catch (Exception e) {
+            throw (e);
         }
     }
 
@@ -519,23 +537,23 @@ class Program
                 switch (opcion)
                 {
                     case "1":
-                        CrearPerfilLaboral(networkHelper);
+                        await CrearPerfilLaboral(networkHelper);
                         break;
 
                     case "2":
-                        FotoPerfil(networkHelper);
+                        await FotoPerfil(networkHelper);
                         break;
 
                     case "3":
-                        BuscadorDeUsuarios(networkHelper);
+                        await BuscadorDeUsuarios(networkHelper);
                         break;
 
                     case "4":
-                        ChatMenu(networkHelper);
+                        await ChatMenu(networkHelper);
                         break;
 
                     case "5":
-                        BuscadorUsuarioEspecífico(networkHelper);
+                        await BuscadorUsuarioEspecífico(networkHelper);
                         break;
 
                     case "6":
@@ -549,7 +567,7 @@ class Program
             }
             catch (Exception e)
             {
-                throw (e);
+                throw(e);
             }
 
         }

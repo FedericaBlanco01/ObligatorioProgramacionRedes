@@ -3,7 +3,6 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 using Server.Clases;
 using Communication;
 using System.Collections.Generic;
@@ -11,9 +10,12 @@ using System.Configuration;
 using System.IO;
 using System.Threading.Tasks;
 
+
 class Program
 {
 
+    private static bool working = true;
+    private static List<TcpClient> clients = new List<TcpClient>();
     static async Task Main(string[] args)
     {
         Console.WriteLine("Creando Socket Server");
@@ -27,12 +29,26 @@ class Program
 
         tcpListener.Start(3);
 
-        while (true)
+        Console.WriteLine("Escriba Exit cuando quiera cerrar el Server");
+        while (working)
         {
-            var tcpClientSocket = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
-            var task = Task.Run(async () => await HandleClient(tcpClientSocket, singleton).ConfigureAwait(false));
+            var closeTheServer = Task.Run(async () => await closeServer());           
+            var task = Task.Run(async () => await HandleClient(tcpListener, singleton).ConfigureAwait(false));
         }
+        Console.WriteLine("Cerrando servidor");
+    }
 
+    static async Task closeServer() {
+        string message = Console.ReadLine();
+        if (message.Equals("Exit")) {
+
+            foreach (TcpClient client in clients) {
+                client.GetStream().Close();
+                client.Close();
+            }
+            working = false;
+        
+        }
     }
 
     static async Task<User> LoginAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
@@ -263,7 +279,7 @@ class Program
         if (fileExistsCodificado.Equals("Si"))
         {
             var fileCommonHandler = new FileCommsHandler(networkHelper);
-            var fileName = fileCommonHandler.ReceiveFileAsync();
+            var fileName = await fileCommonHandler.ReceiveFileAsync();
             if (tienePerfil)
             {
                 system.SetUserFotoName(user, fileName);
@@ -326,8 +342,10 @@ class Program
     }
 
 
-    static async Task HandleClient(TcpClient tcpClientSocket, Singleton system)
+    static async Task HandleClient(TcpListener tcpListener, Singleton system)
     {
+        var tcpClientSocket = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
+        clients.Add(tcpClientSocket);
         // Acepte un cliente y estoy conectado 
         Console.WriteLine("Un nuevo cliente establecio conexión");
         bool conectado = true;
@@ -356,26 +374,26 @@ class Program
                             break;
 
                         case Commands.JobProfile:
-                            CrearPerfilLaboralAsync(networkHelper, encabezado, system, user, networkStream);
+                            await CrearPerfilLaboralAsync(networkHelper, encabezado, system, user, networkStream);
                             break;
                         case Commands.ProfilePic:
-                            SubirFotoAsync(networkHelper, encabezado, system, user, networkStream);
+                            await SubirFotoAsync(networkHelper, encabezado, system, user, networkStream);
                             break;
 
                         case Commands.ListUsers:
-                            ListarUsuariosConBusquedaAsync(networkHelper, encabezado, system, networkStream);
+                            await ListarUsuariosConBusquedaAsync(networkHelper, encabezado, system, networkStream);
                             break;
 
                         case Commands.ReadChat:
-                            LeerChatAsync(networkHelper, encabezado, system, user, networkStream);
+                            await LeerChatAsync(networkHelper, encabezado, system, user, networkStream);
                             break;
 
                         case Commands.SendChat:
-                            EnviarChatAsync(networkHelper, encabezado, system, user, networkStream);
+                            await EnviarChatAsync(networkHelper, encabezado, system, user, networkStream);
                             break;
 
                         case Commands.ListSpecificUser:
-                            ListarUsuarioEspecificoAsync(networkHelper, encabezado, system, networkStream);
+                            await ListarUsuarioEspecificoAsync(networkHelper, encabezado, system, networkStream);
                             break;
                     }
                 }
@@ -385,6 +403,10 @@ class Program
                     conectado = false;
                 }
             }
+            Console.WriteLine("Cerrando conexión con cliente...");
+            networkStream.Close();
+            tcpClientSocket.Close();
+
         }
         Console.WriteLine("Cerrando conexión con cliente...");
     }

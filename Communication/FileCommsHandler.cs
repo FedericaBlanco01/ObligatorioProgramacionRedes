@@ -57,12 +57,12 @@ namespace Communication
         public async Task<string> ReceiveFileAsync()
         {
             // ---> Recibir el largo del nombre del archivo
-            int fileNameSize = _conversionHandler.ConvertBytesToInt(await 
-                networkHelper.ReceiveAsync( Protocol.FixedDataSize));
+            int fileNameSize =  _conversionHandler.ConvertBytesToInt(await
+                networkHelper.ReceiveAsync(Protocol.FixedDataSize));
             // ---> Recibir el nombre del archivo
-            string fileName =  _conversionHandler.ConvertBytesToString(await networkHelper.ReceiveAsync(fileNameSize));
+            string fileName = _conversionHandler.ConvertBytesToString(await networkHelper.ReceiveAsync(fileNameSize));
             // ---> Recibir el largo del archivo
-            long fileSize = _conversionHandler.ConvertBytesToLong(await
+            long fileSize =  _conversionHandler.ConvertBytesToLong(await
                 networkHelper.ReceiveAsync(Protocol.FixedFileSize));
             // ---> Recibir el archivo
             ReceiveFileWithStreamsAsync(fileSize, fileName);
