@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 class Program
 {
 
-    private static bool working = true;
+   public static bool working = true;
     private static List<TcpClient> clients = new List<TcpClient>();
     static async Task Main(string[] args)
     {
@@ -30,16 +30,18 @@ class Program
         tcpListener.Start(3);
 
         Console.WriteLine("Escriba Exit cuando quiera cerrar el Server");
-
+      
         while (working)
         {
-            var tcpClientSocket = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
-            clients.Add(tcpClientSocket);
-            var closeTheServer = Task.Run(async () => await closeServer());           
-            var task = Task.Run(async () => await HandleClient(tcpClientSocket, singleton).ConfigureAwait(false));
+            var closeTheServer = Task.Run(async () => await closeServer());
+
+            var task = Task.Run(async () => await HandleClient(tcpListener, singleton).ConfigureAwait(false));
+            
         }
         Console.WriteLine("Cerrando servidor");
     }
+
+   
 
     static async Task closeServer() {
         string message = Console.ReadLine();
@@ -345,9 +347,10 @@ class Program
     }
 
 
-    static async Task HandleClient(TcpClient tcpClientSocket, Singleton system)
+    static async Task HandleClient(TcpListener tcpListener, Singleton system)
     {
-        
+        var tcpClientSocket =  await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
+        clients.Add(tcpClientSocket);
         // Acepte un cliente y estoy conectado 
         Console.WriteLine("Un nuevo cliente establecio conexión");
         bool conectado = true;
@@ -357,14 +360,14 @@ class Program
             while (conectado)
             {
             
-                try
-                {
+                
                     NetworkHelper networkHelper = new NetworkHelper(networkStream);
                     Header encabezado = new Header();
 
                     byte[] encabezadoEnBytes = await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
                     encabezado.DecodeHeader(encabezadoEnBytes);
-
+                try
+                {
                     switch (encabezado.comando)
                     {
                         case Commands.Register:
@@ -399,7 +402,7 @@ class Program
                             break;
                     }
                 }
-                catch (SocketException)
+                catch (IOException)
                 {
                     Console.WriteLine("Se desconecto el cliente");
                     conectado = false;
