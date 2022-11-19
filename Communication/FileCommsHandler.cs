@@ -23,13 +23,14 @@ namespace Communication
             networkHelper = myNetworkHelper;
         }
 
-        public bool ValidatePath(string path) {
+        public bool ValidatePath(string path)
+        {
 
             return (_fileHandler.FileExists(path));
 
         }
 
-        public void SendFile(string path)
+        public async Task SendFile(string path)
         {
             if (ValidatePath(path))
             {
@@ -46,7 +47,7 @@ namespace Communication
                 networkHelper.Send(convertedFileSize);
                 // ---> Enviar el archivo (pero con file stream)
                 SendFileWithStream(fileSize, path);
-                
+
             }
             else
             {
@@ -57,25 +58,25 @@ namespace Communication
         public async Task<string> ReceiveFileAsync()
         {
             // ---> Recibir el largo del nombre del archivo
-            int fileNameSize =  _conversionHandler.ConvertBytesToInt(await
+            int fileNameSize = _conversionHandler.ConvertBytesToInt(await
                 networkHelper.ReceiveAsync(Protocol.FixedDataSize));
             // ---> Recibir el nombre del archivo
             string fileName = _conversionHandler.ConvertBytesToString(await networkHelper.ReceiveAsync(fileNameSize));
             // ---> Recibir el largo del archivo
-            long fileSize =  _conversionHandler.ConvertBytesToLong(await
+            long fileSize = _conversionHandler.ConvertBytesToLong(await
                 networkHelper.ReceiveAsync(Protocol.FixedFileSize));
             // ---> Recibir el archivo
-             await ReceiveFileWithStreamsAsync(fileSize, fileName); 
-            
+            await ReceiveFileWithStreamsAsync(fileSize, fileName);
+
             return fileName;
         }
 
-        private void SendFileWithStream(long fileSize, string path)
+        private async Task SendFileWithStream(long fileSize, string path)
         {
             long fileParts = Protocol.CalculateFileParts(fileSize);
             long offset = 0;
             long currentPart = 1;
-            
+
             while (fileSize > offset)
             {
                 byte[] data;

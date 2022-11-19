@@ -10,7 +10,7 @@ using System.IO;
 
 class Program
 {
-    
+
 
     static async Task Main(string[] args)
     {
@@ -23,10 +23,9 @@ class Program
             IPAddress.Parse(SettingsManager.IpClient),
             int.Parse(SettingsManager.PortClient));
             var tcpClient = new TcpClient(clientIpEndPoint);
-            Console.WriteLine("Trying to connect to server");
             var keepConnection = true;
-          
-            
+
+
             while (keepConnection)
             {
                 var word = string.Empty;
@@ -60,7 +59,8 @@ class Program
                         break;
                 }
             }
-        }catch (IOException)
+        }
+        catch (IOException)
         {
             Console.WriteLine("Error de conexion con el servidor");
         }
@@ -79,32 +79,32 @@ class Program
         try
         {
             Console.WriteLine("Ingrese su nombre: ");
-        var newName = Console.ReadLine();
+            var newName = Console.ReadLine();
 
-        Console.WriteLine("Ingrese su mail: ");
-        var newEmail = Console.ReadLine();
+            Console.WriteLine("Ingrese su mail: ");
+            var newEmail = Console.ReadLine();
 
-        Console.WriteLine("Ingrese su constrasena: ");
-        var newPassword = Console.ReadLine();
+            Console.WriteLine("Ingrese su constrasena: ");
+            var newPassword = Console.ReadLine();
 
-        string mensaje = newName + "/" + newEmail + "/" + newPassword;
+            string mensaje = newName + "/" + newEmail + "/" + newPassword;
 
-        byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensaje);
+            byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensaje);
 
-        // enviar el header
-        Header encabezado = new Header(Common.Protocol.Request,
-            Commands.Register,
-            mensajeEnByte.Length);
+            // enviar el header
+            Header encabezado = new Header(Common.Protocol.Request,
+                Commands.Register,
+                mensajeEnByte.Length);
 
-        byte[] encabezadoEnBytes = encabezado.GetBytesFromHeader();
-        networkHelper.Send(encabezadoEnBytes);
+            byte[] encabezadoEnBytes = encabezado.GetBytesFromHeader();
+            networkHelper.Send(encabezadoEnBytes);
 
-        networkHelper.Send(mensajeEnByte);
-        //end
+            networkHelper.Send(mensajeEnByte);
+            //end
 
-        //recibo
-        Header encabezadoRecibo = new Header();
-   
+            //recibo
+            Header encabezadoRecibo = new Header();
+
             byte[] encabezadoRecibidoEnBytes =
                 await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
             encabezadoRecibo.DecodeHeader(encabezadoRecibidoEnBytes);
@@ -128,28 +128,28 @@ class Program
         try
         {
             Console.WriteLine("Ingrese su mail: ");
-        string email = Console.ReadLine();
+            string email = Console.ReadLine();
 
 
-        Console.WriteLine("Ingrese su constraseña: ");
-        string password = Console.ReadLine();
+            Console.WriteLine("Ingrese su constraseña: ");
+            string password = Console.ReadLine();
 
-        string data = email + "/" + password;
+            string data = email + "/" + password;
 
-        byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
+            byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
 
-        // enviar 
-        Header header = new Header(Common.Protocol.Request,
-            Commands.Login,
-            dataEnBytes.Length);
+            // enviar 
+            Header header = new Header(Common.Protocol.Request,
+                Commands.Login,
+                dataEnBytes.Length);
 
-        byte[] headerEnBytes = header.GetBytesFromHeader();
-        networkHelper.Send(headerEnBytes);
+            byte[] headerEnBytes = header.GetBytesFromHeader();
+            networkHelper.Send(headerEnBytes);
 
-        networkHelper.Send(dataEnBytes);
-        //end
+            networkHelper.Send(dataEnBytes);
+            //end
 
-        //recibo
+            //recibo
 
             Header encabezadoRecibo = new Header();
 
@@ -207,7 +207,7 @@ class Program
         }
         catch (Exception e)
         {
-            throw(e);
+            throw (e);
         }
     }
 
@@ -216,27 +216,27 @@ class Program
         try
         {
             Console.WriteLine("Ingrese sus habilidades: ");
-        string habilidades = Console.ReadLine();
+            string habilidades = Console.ReadLine();
 
-        Console.WriteLine("Ingrese una descripcion: ");
-        string desc = Console.ReadLine();
+            Console.WriteLine("Ingrese una descripcion: ");
+            string desc = Console.ReadLine();
 
-        string data = habilidades + "/" + desc;
+            string data = habilidades + "/" + desc;
 
-        byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
+            byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
 
-        // enviar 
-        Header header = new Header(Common.Protocol.Request,
-            Commands.JobProfile,
-            dataEnBytes.Length);
+            // enviar 
+            Header header = new Header(Common.Protocol.Request,
+                Commands.JobProfile,
+                dataEnBytes.Length);
 
-        byte[] headerEnBytes = header.GetBytesFromHeader();
-        networkHelper.Send(headerEnBytes);
+            byte[] headerEnBytes = header.GetBytesFromHeader();
+            networkHelper.Send(headerEnBytes);
 
-        networkHelper.Send(dataEnBytes);
-        //end
+            networkHelper.Send(dataEnBytes);
+            //end
 
-        //recibo
+            //recibo
 
             Header encabezadoRecibo = new Header();
 
@@ -260,43 +260,43 @@ class Program
         try
         {
             Console.WriteLine("Ingrese la ruta completa al archivo: ");
-        String abspath = Console.ReadLine();
+            String abspath = Console.ReadLine();
 
-        byte[] dataEnBytes = Encoding.UTF8.GetBytes("Envio de foto");
+            byte[] dataEnBytes = Encoding.UTF8.GetBytes("Envio de foto");
 
-        // envio header and length
+            // envio header and length
 
 
-        //envio file a server
-        var fileCommonHandler = new FileCommsHandler(networkHelper);
-        bool fileExists = fileCommonHandler.ValidatePath(abspath);
+            //envio file a server
+            var fileCommonHandler = new FileCommsHandler(networkHelper);
+            bool fileExists = fileCommonHandler.ValidatePath(abspath);
 
-        ////
+            ////
 
-        string mensajeFile = "No";
+            string mensajeFile = "No";
 
-        if (fileExists)
-        {
-            mensajeFile = "Si";
-        }
-        byte[] mensajeFileEnByte = Encoding.UTF8.GetBytes(mensajeFile);
+            if (fileExists)
+            {
+                mensajeFile = "Si";
+            }
+            byte[] mensajeFileEnByte = Encoding.UTF8.GetBytes(mensajeFile);
 
-        // enviar el header
-        Header encabezado = new Header(Common.Protocol.Request,
-            Commands.ProfilePic,
-            mensajeFileEnByte.Length);
+            // enviar el header
+            Header encabezado = new Header(Common.Protocol.Request,
+                Commands.ProfilePic,
+                mensajeFileEnByte.Length);
 
-        byte[] encabezadoEnBytes = encabezado.GetBytesFromHeader();
-        networkHelper.Send(encabezadoEnBytes);
+            byte[] encabezadoEnBytes = encabezado.GetBytesFromHeader();
+            networkHelper.Send(encabezadoEnBytes);
 
-        networkHelper.Send(mensajeFileEnByte);
+            networkHelper.Send(mensajeFileEnByte);
 
-        if (fileExists)
-        {
-            fileCommonHandler.SendFile(abspath);
-        }
+            if (fileExists)
+            {
+                fileCommonHandler.SendFile(abspath);
+            }
 
-        //recibo
+            //recibo
 
             Header encabezadoRecibo = new Header();
 
@@ -319,21 +319,21 @@ class Program
         try
         {
             Console.WriteLine("Ingrese las habilidades o palabras a buscar: ");
-        string data = Console.ReadLine();
+            string data = Console.ReadLine();
 
-        byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
+            byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
 
-        // enviar 
-        Header header = new Header(Common.Protocol.Request,
-            Commands.ListUsers,
-            dataEnBytes.Length);
+            // enviar 
+            Header header = new Header(Common.Protocol.Request,
+                Commands.ListUsers,
+                dataEnBytes.Length);
 
-        byte[] headerEnBytes = header.GetBytesFromHeader();
-        networkHelper.Send(headerEnBytes);
+            byte[] headerEnBytes = header.GetBytesFromHeader();
+            networkHelper.Send(headerEnBytes);
 
-        networkHelper.Send(dataEnBytes);
+            networkHelper.Send(dataEnBytes);
 
-        //recibo
+            //recibo
 
             Header encabezadoRecibo = new Header();
 
@@ -357,19 +357,19 @@ class Program
         try
         {
             Console.WriteLine("Ingrese el Email del usuario a buscar: ");
-        string data = Console.ReadLine();
+            string data = Console.ReadLine();
 
-        byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
+            byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
 
-        // enviar 
-        Header header = new Header(Common.Protocol.Request,
-            Commands.ListSpecificUser,
-            dataEnBytes.Length);
+            // enviar 
+            Header header = new Header(Common.Protocol.Request,
+                Commands.ListSpecificUser,
+                dataEnBytes.Length);
 
-        byte[] headerEnBytes = header.GetBytesFromHeader();
-        networkHelper.Send(headerEnBytes);
+            byte[] headerEnBytes = header.GetBytesFromHeader();
+            networkHelper.Send(headerEnBytes);
 
-        networkHelper.Send(dataEnBytes);
+            networkHelper.Send(dataEnBytes);
 
             //recibo si va a haber foto
             Header encabezadoAvisoFoto = new Header();
@@ -410,22 +410,22 @@ class Program
         try
         {
             Console.WriteLine("Ingrese el mail del usuario con el que quiere leer chat");
-        string otroUsuario = Console.ReadLine();
-        string data = otroUsuario;
+            string otroUsuario = Console.ReadLine();
+            string data = otroUsuario;
 
-        byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
+            byte[] dataEnBytes = Encoding.UTF8.GetBytes(data);
 
-        // enviar 
-        Header header = new Header(Common.Protocol.Request,
-            Commands.ReadChat,
-            dataEnBytes.Length);
+            // enviar 
+            Header header = new Header(Common.Protocol.Request,
+                Commands.ReadChat,
+                dataEnBytes.Length);
 
-        byte[] headerEnBytes = header.GetBytesFromHeader();
-        networkHelper.Send(headerEnBytes);
+            byte[] headerEnBytes = header.GetBytesFromHeader();
+            networkHelper.Send(headerEnBytes);
 
-        networkHelper.Send(dataEnBytes);
+            networkHelper.Send(dataEnBytes);
 
-        //recibo
+            //recibo
 
             Header encabezadoRecibo = new Header();
 
@@ -468,7 +468,8 @@ class Program
             networkHelper.Send(dataEnBytes);
 
             Console.WriteLine("mensaje enviado correctamente");
-        }catch(Exception e)
+        }
+        catch (Exception e)
         {
             throw (e);
         }
@@ -508,7 +509,8 @@ class Program
                 }
             }
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             throw (e);
         }
     }
@@ -563,7 +565,7 @@ class Program
             }
             catch (Exception e)
             {
-                throw(e);
+                throw (e);
             }
 
         }

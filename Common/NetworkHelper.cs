@@ -8,22 +8,24 @@ namespace Common // Lo voy a poder usar tanto en el cliente como en el servidor
     public class NetworkHelper
     {
         NetworkStream networkStream;
-        public NetworkHelper(NetworkStream aNetworkStream) { 
+        public NetworkHelper(NetworkStream aNetworkStream)
+        {
             networkStream = aNetworkStream;
         }
 
-        public async void Send(byte[] data)
+        public async Task Send(byte[] data)
         {
             try
             {
                 await networkStream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
             }
-            catch (IOException) {
+            catch (IOException)
+            {
                 Console.WriteLine("Error enviando mensaje");
             }
-            
+
         }
-        
+
 
         public async Task<byte[]> ReceiveAsync(int dataLength)
         {
@@ -36,14 +38,14 @@ namespace Common // Lo voy a poder usar tanto en el cliente como en el servidor
 
                 if (recieved == 0) // Se corto la conexion del lado del cliente
                 {
-                   
+
                     networkStream.Close();
                     throw new Exception(); // Tendrian que manejarlo de alguna manera
                 }
 
                 totalReceived += recieved;
             }
-           
+
             return dataLengthBuffer;
         }
     }
