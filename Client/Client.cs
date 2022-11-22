@@ -42,7 +42,7 @@ class Program
                         await tcpClient.ConnectAsync(
                         IPAddress.Parse(SettingsManager.IpServer),
                         int.Parse(SettingsManager.PortServer)).ConfigureAwait(false);
-                        Console.WriteLine("Conexión con servidor exitosa");
+                        Console.WriteLine("Conexión con servidor exitosa" + SettingsManager.IpServer + SettingsManager.PortServer);
                         await using (var networkStream = tcpClient.GetStream())
                         {
                             NetworkHelper networkHelper = new NetworkHelper(networkStream);

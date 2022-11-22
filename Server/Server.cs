@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 class Program
 {
 
-   public static bool working = true;
+    public static bool working = true;
     private static List<TcpClient> clients = new List<TcpClient>();
     static async Task Main(string[] args)
     {
@@ -26,33 +26,37 @@ class Program
 
         var localEndpoint = new IPEndPoint(IPAddress.Parse(Common.SettingsManager.IpServer), Int32.Parse(Common.SettingsManager.PortServer));
         var tcpListener = new TcpListener(localEndpoint);
+        Console.WriteLine(Common.SettingsManager.IpServer + " " + Common.SettingsManager.PortServer);
 
         tcpListener.Start(3);
 
         Console.WriteLine("Escriba Exit cuando quiera cerrar el Server");
-      
+
         while (working)
         {
             var closeTheServer = Task.Run(async () => await closeServer());
 
             var task = Task.Run(async () => await HandleClient(tcpListener, singleton).ConfigureAwait(false));
-            
+
         }
         Console.WriteLine("Cerrando servidor");
     }
 
-   
 
-    static async Task closeServer() {
+
+    static async Task closeServer()
+    {
         string message = Console.ReadLine();
-        if (message.Equals("Exit")) {
+        if (message.Equals("Exit"))
+        {
 
-            foreach (TcpClient client in clients) {
+            foreach (TcpClient client in clients)
+            {
                 client.GetStream().Close();
                 client.Close();
             }
             working = false;
-        
+
         }
     }
 
@@ -96,7 +100,7 @@ class Program
     static async Task<User> RegisterAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
     {
         // recibe un mensaje
-        
+
         byte[] registerEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string registerCodificado = Encoding.UTF8.GetString(registerEnBytes);
         string[] registerData = registerCodificado.Split("/");
@@ -137,7 +141,8 @@ class Program
         return newUser;
     }
 
-    static async Task ListarUsuariosConBusquedaAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream) {
+    static async Task ListarUsuariosConBusquedaAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
+    {
 
         // recibe un mensaje
 
@@ -179,7 +184,7 @@ class Program
 
         // recibe un mensaje
         string avisoSiHayFoto = "No";
-        byte[] mensajeBytes = await networkHelper.ReceiveAsync( encabezado.largoDeDatos);
+        byte[] mensajeBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string mensajeCodificado = Encoding.UTF8.GetString(mensajeBytes);
         UserDetail userD = system.SpecificUserProfile(mensajeCodificado);
         string mensajeRetorno = "";
@@ -278,8 +283,8 @@ class Program
         }
         bool tienePerfil = system.UserProfileExists(user);
         // recibe un mensaje
-        
-        byte[] FileExistsEnBytes = await networkHelper.ReceiveAsync( encabezado.largoDeDatos);
+
+        byte[] FileExistsEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string fileExistsCodificado = Encoding.UTF8.GetString(FileExistsEnBytes);
         if (fileExistsCodificado.Equals("Si"))
         {
@@ -295,7 +300,8 @@ class Program
                 mensaje = "Foto subida exitosamente";
             }
         }
-        else {
+        else
+        {
             mensaje = "Esa imagen no existe";
         }
         // enviar el header
@@ -311,12 +317,13 @@ class Program
 
     }
 
-    static async Task LeerChatAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser, NetworkStream networkStream) {
+    static async Task LeerChatAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser, NetworkStream networkStream)
+    {
 
         byte[] chatEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
-        string mensaje = system.LeerChat(loggedUser.Email,chatCodificado);
-        
+        string mensaje = system.LeerChat(loggedUser.Email, chatCodificado);
+
         if (mensaje.Equals(""))
         {
             mensaje = "No se han recibido mensajes de este usuario";
@@ -349,23 +356,23 @@ class Program
 
     static async Task HandleClient(TcpListener tcpListener, Singleton system)
     {
-        var tcpClientSocket =  await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
+        var tcpClientSocket = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
+        Console.WriteLine("Un nuevo cliente establecio conexión");
         clients.Add(tcpClientSocket);
         // Acepte un cliente y estoy conectado 
-        Console.WriteLine("Un nuevo cliente establecio conexión");
         bool conectado = true;
         User user = null;
         using (var networkStream = tcpClientSocket.GetStream())
         {
             while (conectado)
             {
-            
-                
-                    NetworkHelper networkHelper = new NetworkHelper(networkStream);
-                    Header encabezado = new Header();
 
-                    byte[] encabezadoEnBytes = await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
-                    encabezado.DecodeHeader(encabezadoEnBytes);
+
+                NetworkHelper networkHelper = new NetworkHelper(networkStream);
+                Header encabezado = new Header();
+
+                byte[] encabezadoEnBytes = await networkHelper.ReceiveAsync(Common.Protocol.Request.Length + Common.Protocol.CommandLength + Common.Protocol.DataLengthLength);
+                encabezado.DecodeHeader(encabezadoEnBytes);
                 try
                 {
                     switch (encabezado.comando)
