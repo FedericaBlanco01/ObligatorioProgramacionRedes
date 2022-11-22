@@ -119,6 +119,37 @@ namespace NuevorServidor.Clases
             }
         }
 
+        public void DeleteDetail(string userEmail)
+        {
+            lock (LockUsersDetails)
+            {
+                foreach (UserDetail userDetail in UserDetails)
+                {
+                    if (userDetail.UserEmail.Equals(userEmail))
+                    {
+                        UserDetails.Remove(userDetail);
+                        return;
+                    }
+                }
+            }
+        }
+
+        public void EditDetail(string email, string descripcion, string habilidades)
+        {
+            lock (LockUsersDetails)
+            {
+                foreach (UserDetail userDetail in UserDetails)
+                {
+                    if (userDetail.UserEmail.Equals(email))
+                    {
+                        userDetail.Description = descripcion;
+                        userDetail.Skills = habilidades;
+                        return;
+                    }
+                }
+            }
+        }
+
         public void AddDetail(UserDetail detail)
         {
             lock (LockUsers)

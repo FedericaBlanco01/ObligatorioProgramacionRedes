@@ -14,21 +14,32 @@ using System.Threading.Tasks;
 
 namespace NuevorServidor.Services;
 
-public class GreeterService : Greeter.GreeterBase
+public class GreeterService : Perfil.PerfilBase
 {
     private readonly ILogger<GreeterService> _logger;
+    public static Singleton _singleton = new Singleton();
     public GreeterService(ILogger<GreeterService> logger)
     {
         _logger = logger;
     }
 
-    public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+    public override Task<Response> CrearPerfil(PerfilData request, ServerCallContext context)
     {
-        
-        return Task.FromResult(new HelloReply
-        {
-            Message = "Hello " + request.Name
-        });
+        UserDetail newDetails = new UserDetail(request.Email, request.Descripcion, request.Habilidades);
+        _singleton.AddDetail(newDetails);
+        return Task.FromResult(new Response { Message = "Perfil creado" });
+    }
+
+    public override Task<Response> EliminarPerfil(PerfilIdentifier request, ServerCallContext context)
+    {
+        _singleton.DeleteDetail(request.Email);
+        return Task.FromResult(new Response { Message = "Perfil eliminado" });
+    }
+
+    public override Task<Response> EditarPerfil(PerfilData request, ServerCallContext context)
+    {
+        _singleton.EditDetail(request.Email, request.Descripcion, request.Habilidades);
+        return Task.FromResult(new Response { Message = "Perfil editado" });
     }
 
     public static bool working = true;
@@ -36,7 +47,6 @@ public class GreeterService : Greeter.GreeterBase
     public static async Task Main()
     {
         Console.WriteLine("Creando Socket Server");
-        Singleton singleton = new Singleton();
 
 
         Common.SettingsManager.SetupConfiguration(System.Configuration.ConfigurationManager.AppSettings);
@@ -53,7 +63,7 @@ public class GreeterService : Greeter.GreeterBase
         {
             var closeTheServer = Task.Run(async () => await closeServer());
 
-            var task = Task.Run(async () => await HandleClient(tcpListener, singleton).ConfigureAwait(false));
+            var task = Task.Run(async () => await HandleClient(tcpListener).ConfigureAwait(false));
 
         }
         Console.WriteLine("Cerrando servidor");
@@ -77,13 +87,13 @@ public class GreeterService : Greeter.GreeterBase
         }
     }
 
-    static async Task<User> LoginAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
+    static async Task<User> LoginAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
     {
         byte[] loginEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string loginCodificado = Encoding.UTF8.GetString(loginEnBytes);
         string[] loginData = loginCodificado.Split("/");
 
-        User loggedUser = system.LoginBack(loginData[0], loginData[1]);
+        User loggedUser = _singleton.LoginBack(loginData[0], loginData[1]);
         string loggedMessage = "";
 
         if (loggedUser != null)
@@ -114,7 +124,7 @@ public class GreeterService : Greeter.GreeterBase
 
     }
 
-    static async Task<User> RegisterAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
+    static async Task<User> RegisterAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
     {
         // recibe un mensaje
 
@@ -126,10 +136,10 @@ public class GreeterService : Greeter.GreeterBase
 
         User newUser = null;
 
-        if (system.ValidateData(registerData[1]))
+        if (_singleton.ValidateData(registerData[1]))
         {
             newUser = new User(registerData[0], registerData[1], registerData[2]);
-            system.AddUser(newUser);
+            _singleton.AddUser(newUser);
 
             Console.WriteLine($"Usuario creado");
             Console.WriteLine($"nombre: {registerData[0]}");
@@ -158,14 +168,14 @@ public class GreeterService : Greeter.GreeterBase
         return newUser;
     }
 
-    static async Task ListarUsuariosConBusquedaAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
+    static async Task ListarUsuariosConBusquedaAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
     {
 
         // recibe un mensaje
 
         byte[] mensajeBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string mensajeCodificado = Encoding.UTF8.GetString(mensajeBytes);
-        List<UserDetail> users = system.UsersWithCoincidences(mensajeCodificado);
+        List<UserDetail> users = _singleton.UsersWithCoincidences(mensajeCodificado);
         string mensajeRetorno;
         if (users.Count == 0)
         {
@@ -196,14 +206,14 @@ public class GreeterService : Greeter.GreeterBase
 
     }
 
-    static async Task ListarUsuarioEspecificoAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, NetworkStream networkStream)
+    static async Task ListarUsuarioEspecificoAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
     {
 
         // recibe un mensaje
         string avisoSiHayFoto = "No";
         byte[] mensajeBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string mensajeCodificado = Encoding.UTF8.GetString(mensajeBytes);
-        UserDetail userD = system.SpecificUserProfile(mensajeCodificado);
+        UserDetail userD = _singleton.SpecificUserProfile(mensajeCodificado);
         string mensajeRetorno = "";
         string fileName = "";
         if (userD == null)
@@ -258,7 +268,7 @@ public class GreeterService : Greeter.GreeterBase
     }
 
 
-    static async Task CrearPerfilLaboralAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, NetworkStream networkStream)
+    static async Task CrearPerfilLaboralAsync(NetworkHelper networkHelper, Header encabezado, User user, NetworkStream networkStream)
     {
         if (user == null)
         {
@@ -272,7 +282,7 @@ public class GreeterService : Greeter.GreeterBase
 
         //logica
         UserDetail newDetails = new UserDetail(user.Email, data[1], data[0]);
-        system.AddDetail(newDetails);
+        _singleton.AddDetail(newDetails);
 
         Console.WriteLine($"Perfil creado");
         Console.WriteLine($"habilidades: {data[0]}");
@@ -291,14 +301,14 @@ public class GreeterService : Greeter.GreeterBase
         networkHelper.Send(mensajeEnByte);
     }
 
-    static async Task SubirFotoAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, User user, NetworkStream networkStream)
+    static async Task SubirFotoAsync(NetworkHelper networkHelper, Header encabezado, User user, NetworkStream networkStream)
     {
         string mensaje = "Es necesario tener un perfil laboral para asociarle una foto";
         if (user == null)
         {
             throw new Exception("User not found");
         }
-        bool tienePerfil = system.UserProfileExists(user);
+        bool tienePerfil = _singleton.UserProfileExists(user);
         // recibe un mensaje
 
         byte[] FileExistsEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
@@ -309,7 +319,7 @@ public class GreeterService : Greeter.GreeterBase
             var fileName = await fileCommonHandler.ReceiveFileAsync();
             if (tienePerfil)
             {
-                system.SetUserFotoName(user, fileName);
+                _singleton.SetUserFotoName(user, fileName);
 
                 //logica
                 Console.WriteLine($"Foto subida");
@@ -334,12 +344,12 @@ public class GreeterService : Greeter.GreeterBase
 
     }
 
-    static async Task LeerChatAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser, NetworkStream networkStream)
+    static async Task LeerChatAsync(NetworkHelper networkHelper, Header encabezado, User loggedUser, NetworkStream networkStream)
     {
 
         byte[] chatEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
-        string mensaje = system.LeerChat(loggedUser.Email, chatCodificado);
+        string mensaje = _singleton.LeerChat(loggedUser.Email, chatCodificado);
 
         if (mensaje.Equals(""))
         {
@@ -360,18 +370,18 @@ public class GreeterService : Greeter.GreeterBase
         networkHelper.Send(mensajeLogInEnByte);
 
     }
-    static async Task EnviarChatAsync(NetworkHelper networkHelper, Header encabezado, Singleton system, User loggedUser, NetworkStream networkStream)
+    static async Task EnviarChatAsync(NetworkHelper networkHelper, Header encabezado, User loggedUser, NetworkStream networkStream)
     {
 
         byte[] chatEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
         string[] chatData = chatCodificado.Split("/");
-        system.EnviarChat(loggedUser.Email, chatData[0], chatData[1]);
+        _singleton.EnviarChat(loggedUser.Email, chatData[0], chatData[1]);
 
     }
 
 
-    static async Task HandleClient(TcpListener tcpListener, Singleton system)
+    static async Task HandleClient(TcpListener tcpListener)
     {
         var tcpClientSocket = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
         Console.WriteLine("Un nuevo cliente establecio conexión");
@@ -395,34 +405,34 @@ public class GreeterService : Greeter.GreeterBase
                     switch (encabezado.comando)
                     {
                         case Commands.Register:
-                            user = await RegisterAsync(networkHelper, encabezado, system, networkStream);
+                            user = await RegisterAsync(networkHelper, encabezado, networkStream);
                             break;
 
                         case Commands.Login:
-                            user = await LoginAsync(networkHelper, encabezado, system, networkStream);
+                            user = await LoginAsync(networkHelper, encabezado, networkStream);
                             break;
 
                         case Commands.JobProfile:
-                            await CrearPerfilLaboralAsync(networkHelper, encabezado, system, user, networkStream);
+                            await CrearPerfilLaboralAsync(networkHelper, encabezado, user, networkStream);
                             break;
                         case Commands.ProfilePic:
-                            await SubirFotoAsync(networkHelper, encabezado, system, user, networkStream);
+                            await SubirFotoAsync(networkHelper, encabezado, user, networkStream);
                             break;
 
                         case Commands.ListUsers:
-                            await ListarUsuariosConBusquedaAsync(networkHelper, encabezado, system, networkStream);
+                            await ListarUsuariosConBusquedaAsync(networkHelper, encabezado, networkStream);
                             break;
 
                         case Commands.ReadChat:
-                            await LeerChatAsync(networkHelper, encabezado, system, user, networkStream);
+                            await LeerChatAsync(networkHelper, encabezado, user, networkStream);
                             break;
 
                         case Commands.SendChat:
-                            await EnviarChatAsync(networkHelper, encabezado, system, user, networkStream);
+                            await EnviarChatAsync(networkHelper, encabezado, user, networkStream);
                             break;
 
                         case Commands.ListSpecificUser:
-                            await ListarUsuarioEspecificoAsync(networkHelper, encabezado, system, networkStream);
+                            await ListarUsuarioEspecificoAsync(networkHelper, encabezado, networkStream);
                             break;
                     }
                 }
