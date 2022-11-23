@@ -1,17 +1,31 @@
 using NuevorServidor;
 using NuevorServidor.Clases;
+using Grpc.Core;
+using NuevorServidor;
+using Common;
+using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using NuevorServidor.Clases;
+using Communication;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Threading.Tasks;
 
-public class UserService : NuevorServidor.User.UserBase 
+namespace NuevorServidor.Services;
+
+public class UserService : NuevorServidor.User.UserBase
 {
 
-    public static Singleton session = new Singleton();
 
-    static Task<MessageReply> PostUser(UserDTO userToAdd)
+    public override Task<MessageReply> PostUser(UserDTO userToAdd, ServerCallContext context)
     {
         string message = "";
-        if (session.ValidateData(userToAdd.Email))
+        if (GreeterService._singleton.ValidateData(userToAdd.Email))
         {
-            session.AddUser(new NuevorServidor.Clases.User(userToAdd.Name, userToAdd.Email, userToAdd.Password ));
+            GreeterService._singleton.AddUser(new NuevorServidor.Clases.User(userToAdd.Name, userToAdd.Email, userToAdd.Password));
             message = "Usuario creado correctamente";
         }
         else
@@ -21,11 +35,10 @@ public class UserService : NuevorServidor.User.UserBase
         return Task.FromResult(new MessageReply { Message = message });
     }
 
-    /*
-    static async Task<MessageReply> DeleteUser(Id userToDelete)
-    {
-        bool couldPost = session.DeleteUser(userToDelete.id);
-        string message = couldPost ? "Usuario creado correctamente" : "No se pudo crear usuario";
-        return Task.FromResult(new MessageReply { Message = message });
-    }*/
+    // static async Task<MessageReply> DeleteUser(Id userToDelete)
+    // {
+    //     bool couldPost = session.DeleteUser(userToDelete.id);
+    //     string message = couldPost ? "Usuario creado correctamente" : "No se pudo crear usuario";
+    //     return Task.FromResult(new MessageReply { Message = message });
+    // }
 }

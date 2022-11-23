@@ -1,5 +1,6 @@
 ﻿using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc;
+using NuevorServidor.Models;
 namespace ServerAdmin.Controllers
 {
     [Route("User")]
@@ -13,34 +14,39 @@ namespace ServerAdmin.Controllers
         {
             AppContext.SetSwitch(
                   "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-           _logger = logger;
+            _logger = logger;
         }
 
         [HttpPost]
-        public async Task<string> PostUser([FromBody] UserDTO user)
+        public async Task<string> PostUser([FromBody] UserModel user)
         {
             using var channel = GrpcChannel.ForAddress(grpcURL);
             client = new User.UserClient(channel);
-            var reply = await client.PostUserAsync(user);
+            var reply = await client.PostUserAsync(new UserDTO
+            {
+                Email = user.Email,
+                Name = user.Name,
+                Password = user.Password
+            });
             return (reply.Message);
         }
-/*
-        [HttpPut]
-        public async Task<IActionResult> EditUserAsync([FromBody] UserDTO user)
-        {
-            using var channel = GrpcChannel.ForAddress(grpcURL);
-            client = new(channel);
-            var reply = await client.EditUserAsync(user);
-            return Ok(reply.Message);
-        }
+        /*
+                [HttpPut]
+                public async Task<IActionResult> EditUserAsync([FromBody] UserDTO user)
+                {
+                    using var channel = GrpcChannel.ForAddress(grpcURL);
+                    client = new(channel);
+                    var reply = await client.EditUserAsync(user);
+                    return Ok(reply.Message);
+                }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteUserAsync([FromQuery] Id id)
-        {
-            using var channel = GrpcChannel.ForAddress(grpcURL);
-            client = new(channel);
-            var reply = await client.DeleteUserAsync(id);
-            return Ok(reply.Message);
-        }*/
+                [HttpDelete]
+                public async Task<IActionResult> DeleteUserAsync([FromQuery] Id id)
+                {
+                    using var channel = GrpcChannel.ForAddress(grpcURL);
+                    client = new(channel);
+                    var reply = await client.DeleteUserAsync(id);
+                    return Ok(reply.Message);
+                }*/
     }
 }

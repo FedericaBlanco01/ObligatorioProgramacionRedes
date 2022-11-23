@@ -87,13 +87,13 @@ public class GreeterService : Perfil.PerfilBase
         }
     }
 
-    static async Task<User> LoginAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
+    static async Task<NuevorServidor.Clases.User> LoginAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
     {
         byte[] loginEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string loginCodificado = Encoding.UTF8.GetString(loginEnBytes);
         string[] loginData = loginCodificado.Split("/");
 
-        User loggedUser = _singleton.LoginBack(loginData[0], loginData[1]);
+        NuevorServidor.Clases.User loggedUser = _singleton.LoginBack(loginData[0], loginData[1]);
         string loggedMessage = "";
 
         if (loggedUser != null)
@@ -124,7 +124,7 @@ public class GreeterService : Perfil.PerfilBase
 
     }
 
-    static async Task<User> RegisterAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
+    static async Task<NuevorServidor.Clases.User> RegisterAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
     {
         // recibe un mensaje
 
@@ -134,11 +134,11 @@ public class GreeterService : Perfil.PerfilBase
 
         string mensaje = "";
 
-        User newUser = null;
+        NuevorServidor.Clases.User newUser = null;
 
         if (_singleton.ValidateData(registerData[1]))
         {
-            newUser = new User(registerData[0], registerData[1], registerData[2]);
+            newUser = new NuevorServidor.Clases.User(registerData[0], registerData[1], registerData[2]);
             _singleton.AddUser(newUser);
 
             Console.WriteLine($"Usuario creado");
@@ -268,7 +268,7 @@ public class GreeterService : Perfil.PerfilBase
     }
 
 
-    static async Task CrearPerfilLaboralAsync(NetworkHelper networkHelper, Header encabezado, User user, NetworkStream networkStream)
+    static async Task CrearPerfilLaboralAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User user, NetworkStream networkStream)
     {
         if (user == null)
         {
@@ -301,7 +301,7 @@ public class GreeterService : Perfil.PerfilBase
         networkHelper.Send(mensajeEnByte);
     }
 
-    static async Task SubirFotoAsync(NetworkHelper networkHelper, Header encabezado, User user, NetworkStream networkStream)
+    static async Task SubirFotoAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User user, NetworkStream networkStream)
     {
         string mensaje = "Es necesario tener un perfil laboral para asociarle una foto";
         if (user == null)
@@ -344,7 +344,7 @@ public class GreeterService : Perfil.PerfilBase
 
     }
 
-    static async Task LeerChatAsync(NetworkHelper networkHelper, Header encabezado, User loggedUser, NetworkStream networkStream)
+    static async Task LeerChatAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User loggedUser, NetworkStream networkStream)
     {
 
         byte[] chatEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
@@ -370,7 +370,7 @@ public class GreeterService : Perfil.PerfilBase
         networkHelper.Send(mensajeLogInEnByte);
 
     }
-    static async Task EnviarChatAsync(NetworkHelper networkHelper, Header encabezado, User loggedUser, NetworkStream networkStream)
+    static async Task EnviarChatAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User loggedUser, NetworkStream networkStream)
     {
 
         byte[] chatEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
@@ -388,7 +388,7 @@ public class GreeterService : Perfil.PerfilBase
         clients.Add(tcpClientSocket);
         // Acepte un cliente y estoy conectado 
         bool conectado = true;
-        User user = null;
+        NuevorServidor.Clases.User user = null;
         using (var networkStream = tcpClientSocket.GetStream())
         {
             while (conectado)
@@ -448,5 +448,5 @@ public class GreeterService : Perfil.PerfilBase
 
         }
         Console.WriteLine("Cerrando conexión con cliente...");
-    }*/
+    }
 }

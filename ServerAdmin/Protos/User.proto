@@ -15,8 +15,9 @@ service User {
 }
 
 message UserDTO{
-	int32 id = 1;
-	string name = 2;
+	string Email = 1;
+	string Name = 2;
+  string Password = 3;
 }
 
 message Id {

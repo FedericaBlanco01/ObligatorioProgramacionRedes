@@ -19,7 +19,7 @@
   <ItemGroup>
     <Protobuf Include="Protos\profile.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\photo.proto" GrpcServices="Client" />
-    <Protobuf Include="Protos\User.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\user.proto" GrpcServices="Client" />
   </ItemGroup>
 
   <ItemGroup>
