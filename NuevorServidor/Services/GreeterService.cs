@@ -11,6 +11,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Connections;
+using RabbitMQ.Client;
+using System.Threading.Channels;
 
 namespace NuevorServidor.Services;
 
@@ -46,27 +49,49 @@ public class GreeterService : Perfil.PerfilBase
     private static List<TcpClient> clients = new List<TcpClient>();
     public static async Task Main()
     {
-        Console.WriteLine("Creando Socket Server");
 
-
-        Common.SettingsManager.SetupConfiguration(System.Configuration.ConfigurationManager.AppSettings);
-
-        var localEndpoint = new IPEndPoint(IPAddress.Parse(Common.SettingsManager.IpServer), Int32.Parse(Common.SettingsManager.PortServer));
-        var tcpListener = new TcpListener(localEndpoint);
-        Console.WriteLine(Common.SettingsManager.IpServer + " " + Common.SettingsManager.PortServer);
-
-        tcpListener.Start(3);
-
-        Console.WriteLine("Escriba Exit cuando quiera cerrar el Server");
-
-        while (working)
+        var factory = new ConnectionFactory() { HostName = "localhost" };
+        using (var connection = factory.CreateConnection())
+        using (var channel = connection.CreateModel())
         {
-            var closeTheServer = Task.Run(async () => await closeServer());
+            //4 - Declaramos la cola de mensajes
+            channel.QueueDeclare(queue: "log",
+                durable: false,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
 
-            var task = Task.Run(async () => await HandleClient(tcpListener).ConfigureAwait(false));
+            /*  var message = "";
+              while (!message.Equals("exit"))
+              {
+                  message = Message(channel);
+                  Console.WriteLine(" [x] Sent {0}", message);
+              }*/
 
+
+
+            Console.WriteLine("Creando Socket Server");
+
+
+            Common.SettingsManager.SetupConfiguration(System.Configuration.ConfigurationManager.AppSettings);
+
+            var localEndpoint = new IPEndPoint(IPAddress.Parse(Common.SettingsManager.IpServer), Int32.Parse(Common.SettingsManager.PortServer));
+            var tcpListener = new TcpListener(localEndpoint);
+            Console.WriteLine(Common.SettingsManager.IpServer + " " + Common.SettingsManager.PortServer);
+
+            tcpListener.Start(3);
+
+            Console.WriteLine("Escriba Exit cuando quiera cerrar el Server");
+
+            while (working)
+            {
+                var closeTheServer = Task.Run(async () => await closeServer());
+
+                var task = Task.Run(async () => await HandleClient(tcpListener, channel).ConfigureAwait(false));
+
+            }
+            Console.WriteLine("Cerrando servidor");
         }
-        Console.WriteLine("Cerrando servidor");
     }
 
 
@@ -83,11 +108,10 @@ public class GreeterService : Perfil.PerfilBase
                 client.Close();
             }
             working = false;
-
         }
     }
 
-    static async Task<NuevorServidor.Clases.User> LoginAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
+    static async Task<NuevorServidor.Clases.User> LoginAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream, IModel chanel)
     {
         byte[] loginEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string loginCodificado = Encoding.UTF8.GetString(loginEnBytes);
@@ -101,6 +125,7 @@ public class GreeterService : Perfil.PerfilBase
             loggedMessage = "Se inició sesion correctamente";
             Console.WriteLine($"User email: {loginData[0]}");
             Console.WriteLine($"User password: {loginData[1]}");
+            LogPublisher.Message(chanel, loggedUser.Email, "Login");
         }
         else
         {
@@ -124,7 +149,7 @@ public class GreeterService : Perfil.PerfilBase
 
     }
 
-    static async Task<NuevorServidor.Clases.User> RegisterAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
+    static async Task<NuevorServidor.Clases.User> RegisterAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream, IModel chanel)
     {
         // recibe un mensaje
 
@@ -146,6 +171,8 @@ public class GreeterService : Perfil.PerfilBase
             Console.WriteLine($"email: {registerData[1]}");
             Console.WriteLine($"contraseña: {registerData[2]}");
             mensaje = "Usuario registrado exitosamente";
+
+            LogPublisher.Message(chanel, newUser.Email, "Register");
         }
         else
         {
@@ -168,7 +195,7 @@ public class GreeterService : Perfil.PerfilBase
         return newUser;
     }
 
-    static async Task ListarUsuariosConBusquedaAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
+    static async Task ListarUsuariosConBusquedaAsync(NetworkHelper networkHelper, Clases.User user, Header encabezado, NetworkStream networkStream, IModel chanel)
     {
 
         // recibe un mensaje
@@ -191,6 +218,7 @@ public class GreeterService : Perfil.PerfilBase
                 mensajeRetorno += userD.UserEmail + "\n" + userD.Description + "\n" + userD.Skills + "\n" + "\n";
 
             }
+            LogPublisher.Message(chanel, user.Email, "ListarUsuarios");
         }
         byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensajeRetorno);
 
@@ -206,7 +234,7 @@ public class GreeterService : Perfil.PerfilBase
 
     }
 
-    static async Task ListarUsuarioEspecificoAsync(NetworkHelper networkHelper, Header encabezado, NetworkStream networkStream)
+    static async Task ListarUsuarioEspecificoAsync(NetworkHelper networkHelper, Clases.User user, Header encabezado, NetworkStream networkStream, IModel chanel)
     {
 
         // recibe un mensaje
@@ -226,6 +254,8 @@ public class GreeterService : Perfil.PerfilBase
             fileName = userD.PhotoName;
             mensajeRetorno = userD.UserEmail + "\n" + userD.Description + "\n" + userD.Skills + "\n";
         }
+
+        LogPublisher.Message(chanel, user.Email, "ListarUsuarioEspecifico");
         byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensajeRetorno);
 
         Header encabezadoEnvio = new Header(Common.Protocol.Request,
@@ -268,7 +298,7 @@ public class GreeterService : Perfil.PerfilBase
     }
 
 
-    static async Task CrearPerfilLaboralAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User user, NetworkStream networkStream)
+    static async Task CrearPerfilLaboralAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User user, NetworkStream networkStream, IModel chanel)
     {
         if (user == null)
         {
@@ -289,6 +319,8 @@ public class GreeterService : Perfil.PerfilBase
         Console.WriteLine($"descripcion: {data[1]}");
         string mensaje = "Detalles ingresados exitosamente";
 
+        LogPublisher.Message(chanel, user.Email, "CrearPerfilLaboral");
+
         // enviar el header
         byte[] mensajeEnByte = Encoding.UTF8.GetBytes(mensaje);
         Header encabezadoEnvio = new Header(Common.Protocol.Request,
@@ -301,7 +333,7 @@ public class GreeterService : Perfil.PerfilBase
         networkHelper.Send(mensajeEnByte);
     }
 
-    static async Task SubirFotoAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User user, NetworkStream networkStream)
+    static async Task SubirFotoAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User user, NetworkStream networkStream, IModel chanel)
     {
         string mensaje = "Es necesario tener un perfil laboral para asociarle una foto";
         if (user == null)
@@ -325,6 +357,7 @@ public class GreeterService : Perfil.PerfilBase
                 Console.WriteLine($"Foto subida");
 
                 mensaje = "Foto subida exitosamente";
+                LogPublisher.Message(chanel, user.Email, "SubirFoto");
             }
         }
         else
@@ -344,7 +377,7 @@ public class GreeterService : Perfil.PerfilBase
 
     }
 
-    static async Task LeerChatAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User loggedUser, NetworkStream networkStream)
+    static async Task LeerChatAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User loggedUser, NetworkStream networkStream, IModel chanel)
     {
 
         byte[] chatEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
@@ -355,6 +388,8 @@ public class GreeterService : Perfil.PerfilBase
         {
             mensaje = "No se han recibido mensajes de este usuario";
         }
+
+        LogPublisher.Message(chanel, loggedUser.Email, "LeerChat");
 
         //envio
         byte[] mensajeLogInEnByte = Encoding.UTF8.GetBytes(mensaje);
@@ -370,18 +405,18 @@ public class GreeterService : Perfil.PerfilBase
         networkHelper.Send(mensajeLogInEnByte);
 
     }
-    static async Task EnviarChatAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User loggedUser, NetworkStream networkStream)
+    static async Task EnviarChatAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User loggedUser, NetworkStream networkStream, IModel chanel)
     {
 
         byte[] chatEnBytes = await networkHelper.ReceiveAsync(encabezado.largoDeDatos);
         string chatCodificado = Encoding.UTF8.GetString(chatEnBytes);
         string[] chatData = chatCodificado.Split("/");
         _singleton.EnviarChat(loggedUser.Email, chatData[0], chatData[1]);
-
+        LogPublisher.Message(chanel, loggedUser.Email, "EnviarChat");
     }
 
 
-    static async Task HandleClient(TcpListener tcpListener)
+    static async Task HandleClient(TcpListener tcpListener, IModel channel)
     {
         var tcpClientSocket = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
         Console.WriteLine("Un nuevo cliente establecio conexión");
@@ -405,34 +440,35 @@ public class GreeterService : Perfil.PerfilBase
                     switch (encabezado.comando)
                     {
                         case Commands.Register:
-                            user = await RegisterAsync(networkHelper, encabezado, networkStream);
+                            user = await RegisterAsync(networkHelper, encabezado, networkStream, channel);
+
                             break;
 
                         case Commands.Login:
-                            user = await LoginAsync(networkHelper, encabezado, networkStream);
+                            user = await LoginAsync(networkHelper, encabezado, networkStream, channel);
                             break;
 
                         case Commands.JobProfile:
-                            await CrearPerfilLaboralAsync(networkHelper, encabezado, user, networkStream);
+                            await CrearPerfilLaboralAsync(networkHelper, encabezado, user, networkStream, channel);
                             break;
                         case Commands.ProfilePic:
-                            await SubirFotoAsync(networkHelper, encabezado, user, networkStream);
+                            await SubirFotoAsync(networkHelper, encabezado, user, networkStream, channel);
                             break;
 
                         case Commands.ListUsers:
-                            await ListarUsuariosConBusquedaAsync(networkHelper, encabezado, networkStream);
+                            await ListarUsuariosConBusquedaAsync(networkHelper,user,  encabezado, networkStream, channel);
                             break;
 
                         case Commands.ReadChat:
-                            await LeerChatAsync(networkHelper, encabezado, user, networkStream);
+                            await LeerChatAsync(networkHelper, encabezado, user, networkStream, channel);
                             break;
 
                         case Commands.SendChat:
-                            await EnviarChatAsync(networkHelper, encabezado, user, networkStream);
+                            await EnviarChatAsync(networkHelper, encabezado, user, networkStream, channel);
                             break;
 
                         case Commands.ListSpecificUser:
-                            await ListarUsuarioEspecificoAsync(networkHelper, encabezado, networkStream);
+                            await ListarUsuarioEspecificoAsync(networkHelper,user, encabezado, networkStream, channel);
                             break;
                     }
                 }
