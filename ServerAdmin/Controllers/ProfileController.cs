@@ -16,11 +16,11 @@ public class ProfileController : ControllerBase
     }
 
     [HttpPost]
-    public string CrearPerfil([FromBody] PerfilModelo perfil)
+    public async Task<string> CrearPerfil([FromBody] PerfilModelo perfil)
     {
         using var channel = GrpcChannel.ForAddress("http://localhost:5024");
         var client = new Perfil.PerfilClient(channel);
-        var reply = client.CrearPerfil(new PerfilData
+        var reply = await client.CrearPerfilAsync(new PerfilData
         {
             Email = perfil.email,
             Descripcion = perfil.descripcion,
@@ -30,11 +30,11 @@ public class ProfileController : ControllerBase
     }
 
     [HttpDelete]
-    public string EliminarPerfil([FromBody] UserEmailModelo userEmail)
+    public async Task<string> EliminarPerfil([FromBody] UserEmailModelo userEmail)
     {
         using var channel = GrpcChannel.ForAddress("http://localhost:5024");
         var client = new Perfil.PerfilClient(channel);
-        var reply = client.EliminarPerfil(new PerfilIdentifier
+        var reply = await client.EliminarPerfilAsync(new PerfilIdentifier
         {
             Email = userEmail.email,
         });
@@ -42,11 +42,11 @@ public class ProfileController : ControllerBase
     }
 
     [HttpPut]
-    public string EditarPerfil([FromBody] PerfilModelo perfil)
+    public async Task<string> EditarPerfil([FromBody] PerfilModelo perfil)
     {
         using var channel = GrpcChannel.ForAddress("http://localhost:5024");
         var client = new Perfil.PerfilClient(channel);
-        var reply = client.EditarPerfil(new PerfilData
+        var reply = await client.EditarPerfilAsync(new PerfilData
         {
             Email = perfil.email,
             Descripcion = perfil.descripcion,

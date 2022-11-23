@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Protobuf Include="Protos\profile.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\photo.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\user.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
