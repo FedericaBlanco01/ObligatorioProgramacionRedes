@@ -21,7 +21,7 @@ message UserDTO{
 }
 
 message Id {
-	int32 id = 1;
+	string Email = 1;
 }
 
 

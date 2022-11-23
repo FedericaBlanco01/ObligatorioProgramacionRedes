@@ -1,36 +1,38 @@
 {
   "format": 1,
   "restore": {
-    "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Client/Client.csproj": {}
+    "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Client\\Client.csproj": {}
   },
   "projects": {
-    "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Client/Client.csproj": {
+    "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Client\\Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Client/Client.csproj",
+        "projectUniqueName": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Client\\Client.csproj",
         "projectName": "Client",
-        "projectPath": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Client/Client.csproj",
-        "packagesPath": "/Users/federicablanco/.nuget/packages/",
-        "outputPath": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Client/obj/",
+        "projectPath": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Client\\Client.csproj",
+        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+        "outputPath": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/federicablanco/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "netcoreapp6.0",
             "projectReferences": {
-              "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Common/Common.csproj": {
-                "projectPath": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Common/Common.csproj"
+              "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Common\\Common.csproj": {
+                "projectPath": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Common\\Common.csproj"
               },
-              "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Communication/Communication.csproj": {
-                "projectPath": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Communication/Communication.csproj"
+              "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Communication\\Communication.csproj": {
+                "projectPath": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Communication\\Communication.csproj"
               }
             }
           }
@@ -56,7 +58,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -65,26 +68,28 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.202/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Common/Common.csproj": {
+    "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Common\\Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Common/Common.csproj",
+        "projectUniqueName": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Common\\Common.csproj",
         "projectName": "Common",
-        "projectPath": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Common/Common.csproj",
-        "packagesPath": "/Users/federicablanco/.nuget/packages/",
-        "outputPath": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Common/obj/",
+        "projectPath": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Common\\Common.csproj",
+        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+        "outputPath": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Common\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/federicablanco/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -114,53 +119,46 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[3.1.10, 3.1.10]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[3.1.0, 3.1.0]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.202/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Communication/Communication.csproj": {
+    "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Communication\\Communication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Communication/Communication.csproj",
+        "projectUniqueName": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Communication\\Communication.csproj",
         "projectName": "Communication",
-        "projectPath": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Communication/Communication.csproj",
-        "packagesPath": "/Users/federicablanco/.nuget/packages/",
-        "outputPath": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Communication/obj/",
+        "projectPath": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Communication\\Communication.csproj",
+        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+        "outputPath": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Communication\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/federicablanco/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Common/Common.csproj": {
-                "projectPath": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Common/Common.csproj"
+              "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Common\\Common.csproj": {
+                "projectPath": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Common\\Common.csproj"
               }
             }
           }
@@ -186,7 +184,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -195,7 +194,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.202/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

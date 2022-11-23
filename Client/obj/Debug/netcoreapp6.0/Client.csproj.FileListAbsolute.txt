@@ -30,38 +30,6 @@
 /Users/federicablanco/Desktop/obligatorio_redes/Proyecto_2022/Client/obj/Debug/netcoreapp6.0/Client.genruntimeconfig.cache
 /Users/federicablanco/Desktop/obligatorio_redes/Proyecto_2022/Client/obj/Debug/netcoreapp6.0/ref/Client.dll
 /Users/federicablanco/Desktop/obligatorio_redes/Proyecto_2022/Client/bin/Debug/netcoreapp6.0/Client.dll.config
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/Client.exe
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/Client.dll.config
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/Client.deps.json
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/Client.runtimeconfig.json
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/Client.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/Client.pdb
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/Microsoft.Win32.SystemEvents.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/System.Configuration.ConfigurationManager.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/System.Drawing.Common.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/System.Security.Cryptography.ProtectedData.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/System.Security.Permissions.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/System.Windows.Extensions.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/runtimes/unix/lib/net6.0/System.Drawing.Common.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/runtimes/win/lib/net6.0/System.Drawing.Common.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/Common.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/Communication.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/Common.pdb
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/bin/Debug/netcoreapp6.0/Communication.pdb
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug/netcoreapp6.0/Client.csproj.AssemblyReference.cache
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug/netcoreapp6.0/Client.GeneratedMSBuildEditorConfig.editorconfig
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug/netcoreapp6.0/Client.AssemblyInfoInputs.cache
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug/netcoreapp6.0/Client.AssemblyInfo.cs
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug/netcoreapp6.0/Client.csproj.CoreCompileInputs.cache
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug/netcoreapp6.0/Client.csproj.CopyComplete
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug/netcoreapp6.0/Client.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug/netcoreapp6.0/refint/Client.dll
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug/netcoreapp6.0/Client.pdb
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug/netcoreapp6.0/Client.genruntimeconfig.cache
-D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug/netcoreapp6.0/ref/Client.dll
 /Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Client/bin/Debug/netcoreapp6.0/Client
 /Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Client/bin/Debug/netcoreapp6.0/Client.dll.config
 /Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Client/bin/Debug/netcoreapp6.0/Client.deps.json
@@ -94,3 +62,35 @@ D:/Alfred/ORT/Sexto Semestre/Programación de Redes/Obligatorio/Client/obj/Debug
 /Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Client/obj/Debug/netcoreapp6.0/Client.pdb
 /Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Client/obj/Debug/netcoreapp6.0/Client.genruntimeconfig.cache
 /Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Client/obj/Debug/netcoreapp6.0/ref/Client.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\Client.exe
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\Client.dll.config
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\Client.deps.json
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\Client.runtimeconfig.json
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\Client.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\Client.pdb
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\Microsoft.Win32.SystemEvents.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\System.Configuration.ConfigurationManager.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\System.Drawing.Common.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\System.Security.Permissions.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\System.Windows.Extensions.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\Common.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\Communication.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\Common.pdb
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\bin\Debug\netcoreapp6.0\Communication.pdb
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\obj\Debug\netcoreapp6.0\Client.csproj.AssemblyReference.cache
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\obj\Debug\netcoreapp6.0\Client.GeneratedMSBuildEditorConfig.editorconfig
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\obj\Debug\netcoreapp6.0\Client.AssemblyInfoInputs.cache
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\obj\Debug\netcoreapp6.0\Client.AssemblyInfo.cs
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\obj\Debug\netcoreapp6.0\Client.csproj.CoreCompileInputs.cache
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\obj\Debug\netcoreapp6.0\Client.csproj.CopyComplete
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\obj\Debug\netcoreapp6.0\Client.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\obj\Debug\netcoreapp6.0\refint\Client.dll
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\obj\Debug\netcoreapp6.0\Client.pdb
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\obj\Debug\netcoreapp6.0\Client.genruntimeconfig.cache
+D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Client\obj\Debug\netcoreapp6.0\ref\Client.dll

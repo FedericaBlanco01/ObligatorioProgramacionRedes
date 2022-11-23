@@ -30,23 +30,23 @@ namespace ServerAdmin.Controllers
             });
             return (reply.Message);
         }
-        /*
-                [HttpPut]
-                public async Task<IActionResult> EditUserAsync([FromBody] UserDTO user)
-                {
-                    using var channel = GrpcChannel.ForAddress(grpcURL);
-                    client = new(channel);
-                    var reply = await client.EditUserAsync(user);
-                    return Ok(reply.Message);
-                }
 
-                [HttpDelete]
-                public async Task<IActionResult> DeleteUserAsync([FromQuery] Id id)
-                {
-                    using var channel = GrpcChannel.ForAddress(grpcURL);
-                    client = new(channel);
-                    var reply = await client.DeleteUserAsync(id);
-                    return Ok(reply.Message);
-                }*/
+        [HttpPut]
+        public async Task<string> EditUserAsync([FromBody] UserDTO user)
+        {
+            using var channel = GrpcChannel.ForAddress(grpcURL);
+            client = new(channel);
+            var reply = await client.EditUserAsync(user);
+            return (reply.Message);
+        }
+
+        [HttpDelete]
+        public async Task<string> DeleteUserAsync([FromBody] Id id)
+        {
+            using var channel = GrpcChannel.ForAddress(grpcURL);
+            client = new(channel);
+            var reply = await client.DeleteUserAsync(id);
+            return (reply.Message);
+        }
     }
 }
