@@ -35,10 +35,17 @@ public class UserService : NuevorServidor.User.UserBase
         return Task.FromResult(new MessageReply { Message = message });
     }
 
-    // static async Task<MessageReply> DeleteUser(Id userToDelete)
-    // {
-    //     bool couldPost = session.DeleteUser(userToDelete.id);
-    //     string message = couldPost ? "Usuario creado correctamente" : "No se pudo crear usuario";
-    //     return Task.FromResult(new MessageReply { Message = message });
-    // }
+    public override Task<MessageReply> DeleteUser(NuevorServidor.Id userToDelete, ServerCallContext context)
+    {
+        bool couldPost = GreeterService._singleton.DeleteUser(userToDelete.Email);
+        string message = couldPost ? "Usuario eliminado correctamente" : "No se pudo eliminar usuario";
+        return Task.FromResult(new MessageReply { Message = message });
+    }
+
+    public override Task<MessageReply> EditUser(UserDTO userToEdit, ServerCallContext context)
+    {
+        bool couldPost =  GreeterService._singleton.EditUser(userToEdit.Name, userToEdit.Email, userToEdit.Password);
+        string message = couldPost ? "Usuario editado correctamente" : "No se pudo editar usuario";
+        return Task.FromResult(new MessageReply { Message = message });
+    }
 }

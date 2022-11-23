@@ -31,7 +31,8 @@ namespace NuevorServidor.Clases
         {
             lock (singletonlock)
             {
-                if (instance == null){
+                if (instance == null)
+                {
                     instance = new Singleton();
                 }
             }
@@ -148,6 +149,40 @@ namespace NuevorServidor.Clases
                 }
             }
         }
+
+        public Boolean DeleteUser(string userEmail)
+        {
+            lock (LockUsers)
+            {
+                foreach (User user in Users)
+                {
+                    if (user.Email.Equals(userEmail))
+                    {
+                        Users.Remove(user);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        public Boolean EditUser(string name, string userEmail,string password)
+        {
+            lock (LockUsers)
+            {
+                foreach (User user in Users)
+                {
+                    if (user.Email.Equals(userEmail))
+                    {
+                        user.Name = name;
+                        user.Password = password;
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
 
         public void EditDetail(string email, string descripcion, string habilidades)
         {
