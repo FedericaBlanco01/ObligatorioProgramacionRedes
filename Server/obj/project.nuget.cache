@@ -1,16 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "7MskHTHOTIuwC5S/nEAmyiobZCsN0UvzRFLjhsKuQsmewxv9CgcB8dwCRrl3xetrnF6MV39MawRUcpZTrjK2OA==",
+  "dgSpecHash": "lNLhi5xiTvPFD4MJDrS6VPPSvGRCk8Tfz3PcDrMZ2BenZuZT6X//BC20z3WHw1JMcd9zLwvayHTHAor7CUbKWQ==",
   "success": true,
-  "projectFilePath": "/Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Server/Server.csproj",
+  "projectFilePath": "D:\\Alfred\\ORT\\Sexto Semestre\\Programación de Redes\\Obligatorio\\Server\\Server.csproj",
   "expectedPackageFiles": [
-    "/Users/federicablanco/.nuget/packages/microsoft.win32.systemevents/6.0.0/microsoft.win32.systemevents.6.0.0.nupkg.sha512",
-    "/Users/federicablanco/.nuget/packages/system.configuration.configurationmanager/6.0.1/system.configuration.configurationmanager.6.0.1.nupkg.sha512",
-    "/Users/federicablanco/.nuget/packages/system.drawing.common/6.0.0/system.drawing.common.6.0.0.nupkg.sha512",
-    "/Users/federicablanco/.nuget/packages/system.security.accesscontrol/6.0.0/system.security.accesscontrol.6.0.0.nupkg.sha512",
-    "/Users/federicablanco/.nuget/packages/system.security.cryptography.protecteddata/6.0.0/system.security.cryptography.protecteddata.6.0.0.nupkg.sha512",
-    "/Users/federicablanco/.nuget/packages/system.security.permissions/6.0.0/system.security.permissions.6.0.0.nupkg.sha512",
-    "/Users/federicablanco/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512"
+    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.1\\system.configuration.configurationmanager.6.0.1.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\system.security.accesscontrol\\6.0.0\\system.security.accesscontrol.6.0.0.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\system.security.cryptography.protecteddata\\6.0.0\\system.security.cryptography.protecteddata.6.0.0.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\system.security.permissions\\6.0.0\\system.security.permissions.6.0.0.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }

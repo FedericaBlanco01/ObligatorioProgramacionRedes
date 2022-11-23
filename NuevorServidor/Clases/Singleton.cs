@@ -15,7 +15,10 @@ namespace NuevorServidor.Clases
 
         private readonly object LockUsers = new object();
 
+        private static Singleton instance;
         private readonly object LockUsersDetails = new object();
+
+        private readonly static object singletonlock = new object();
 
         public Singleton()
         {
@@ -23,6 +26,18 @@ namespace NuevorServidor.Clases
             this.UserDetails = new List<UserDetail>();
             this.Chats = new List<Log>();
         }
+
+        public static Singleton GetInstance()
+        {
+            lock (singletonlock)
+            {
+                if (instance == null){
+                    instance = new Singleton();
+                }
+            }
+            return instance;
+        }
+
 
         public bool CheckForUserDetail(string UserEmail)
         {
