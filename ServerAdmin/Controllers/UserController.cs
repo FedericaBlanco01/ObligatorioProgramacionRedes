@@ -1,10 +1,11 @@
 ﻿using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc;
-
+using Common;
 namespace ServerAdmin.Controllers
 {
     public class UserController : Controller
     {
+        private SettingsManager settingsManager = new SettingsManager();
         private User.UserClient client;
         private string grpcURL;
 
@@ -12,7 +13,7 @@ namespace ServerAdmin.Controllers
         {
             AppContext.SetSwitch(
                   "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-            //grpcURL = SettingsMgr.ReadSetting(ServerConfig.GrpcURL);
+            grpcURL = settingsManager.ReadSetting(ServerConfig.GrpcURL);
         }
 
         [HttpPost]

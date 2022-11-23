@@ -4,7 +4,7 @@ using NuevorServidor.Clases;
 public class UserService 
 {
 
-    public static Singleton session = Singleton.GetInstance();
+    public static Singleton session = new Singleton();
 
     static Task<MessageReply> PostUser(UserDTO userToAdd)
     {
