@@ -150,6 +150,21 @@ namespace NuevorServidor.Clases
             }
         }
 
+        public void DeletePhoto(string userEmail)
+        {
+            lock (LockUsersDetails)
+            {
+                foreach (UserDetail userDetail in UserDetails)
+                {
+                    if (userDetail.UserEmail.Equals(userEmail))
+                    {
+                        userDetail.PhotoName = "";
+                        return;
+                    }
+                }
+            }
+        }
+
         public void AddDetail(UserDetail detail)
         {
             lock (LockUsers)
