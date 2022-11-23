@@ -1,7 +1,7 @@
 using NuevorServidor;
 using NuevorServidor.Clases;
 
-public class UserService 
+public class UserService : NuevorServidor.User.UserBase 
 {
 
     public static Singleton session = new Singleton();
