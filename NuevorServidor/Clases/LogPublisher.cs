@@ -8,6 +8,7 @@ namespace NuevorServidor.Clases
     {
         public static void Message(IModel channel, string userEmail, string eventDone)
         { 
+            Console.WriteLine("entro");
             var log = new LogModel
             {
                 Date = DateTime.Now,
@@ -18,7 +19,7 @@ namespace NuevorServidor.Clases
             string messsage = JsonSerializer.Serialize(log);
             var body = Encoding.UTF8.GetBytes(messsage);
             channel.BasicPublish(exchange: "",
-                routingKey: "weather",
+                routingKey: "log",
                 basicProperties: null,
                 body: body);
         }
