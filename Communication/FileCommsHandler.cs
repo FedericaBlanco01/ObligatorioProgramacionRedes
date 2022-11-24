@@ -36,17 +36,17 @@ namespace Communication
             {
                 var fileName = _fileHandler.GetFileName(path);
                 // ---> Enviar el largo del nombre del archivo
-                networkHelper.Send(_conversionHandler.ConvertIntToBytes(fileName.Length));
+                await networkHelper.Send(_conversionHandler.ConvertIntToBytes(fileName.Length));
                 // ---> Enviar el nombre del archivo
-                networkHelper.Send(_conversionHandler.ConvertStringToBytes(fileName));
+                await networkHelper.Send(_conversionHandler.ConvertStringToBytes(fileName));
 
                 // ---> Obtener el tamaño del archivo
                 long fileSize = _fileHandler.GetFileSize(path);
                 // ---> Enviar el tamaño del archivo
                 var convertedFileSize = _conversionHandler.ConvertLongToBytes(fileSize);
-                networkHelper.Send(convertedFileSize);
+                await networkHelper.Send(convertedFileSize);
                 // ---> Enviar el archivo (pero con file stream)
-                SendFileWithStream(fileSize, path);
+                await SendFileWithStream(fileSize, path);
 
             }
             else
@@ -92,7 +92,7 @@ namespace Communication
                     offset += Protocol.MaxPacketSize;
                 }
 
-                networkHelper.Send(data);
+                await networkHelper.Send(data);
                 currentPart++;
             }
         }

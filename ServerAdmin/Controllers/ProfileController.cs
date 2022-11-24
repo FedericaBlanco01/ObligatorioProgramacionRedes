@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Grpc.Net.Client;
 using NuevorServidor.Models;
-
+using Common;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 namespace ServerAdmin.Controllers;
 
 [ApiController]
@@ -12,13 +13,14 @@ public class ProfileController : ControllerBase
 
     public ProfileController(ILogger<ProfileController> logger)
     {
+        SettingsManager.SetupGrpcConfiguration(ConfigurationManager.AppSettings);
         _logger = logger;
     }
 
     [HttpPost]
     public async Task<string> CrearPerfil([FromBody] PerfilModelo perfil)
     {
-        using var channel = GrpcChannel.ForAddress("http://localhost:5024");
+        using var channel = GrpcChannel.ForAddress(SettingsManager.GrpcAddress);
         var client = new Perfil.PerfilClient(channel);
         var reply = await client.CrearPerfilAsync(new PerfilData
         {
@@ -32,7 +34,7 @@ public class ProfileController : ControllerBase
     [HttpDelete]
     public async Task<string> EliminarPerfil([FromBody] UserEmailModelo userEmail)
     {
-        using var channel = GrpcChannel.ForAddress("http://localhost:5024");
+        using var channel = GrpcChannel.ForAddress(SettingsManager.GrpcAddress);
         var client = new Perfil.PerfilClient(channel);
         var reply = await client.EliminarPerfilAsync(new PerfilIdentifier
         {
@@ -44,7 +46,7 @@ public class ProfileController : ControllerBase
     [HttpPut]
     public async Task<string> EditarPerfil([FromBody] PerfilModelo perfil)
     {
-        using var channel = GrpcChannel.ForAddress("http://localhost:5024");
+        using var channel = GrpcChannel.ForAddress(SettingsManager.GrpcAddress);
         var client = new Perfil.PerfilClient(channel);
         var reply = await client.EditarPerfilAsync(new PerfilData
         {

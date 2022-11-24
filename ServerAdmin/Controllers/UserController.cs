@@ -1,6 +1,8 @@
-﻿using Grpc.Net.Client;
+﻿using Common;
+using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc;
 using NuevorServidor.Models;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 namespace ServerAdmin.Controllers
 {
     [Route("User")]
@@ -8,10 +10,10 @@ namespace ServerAdmin.Controllers
     public class UserController : Controller
     {
         private User.UserClient client;
-        private string grpcURL = "http://localhost:5024";
         private readonly ILogger<UserController> _logger;
         public UserController(ILogger<UserController> logger)
         {
+            SettingsManager.SetupGrpcConfiguration(ConfigurationManager.AppSettings);
             AppContext.SetSwitch(
                   "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             _logger = logger;
@@ -20,7 +22,8 @@ namespace ServerAdmin.Controllers
         [HttpPost]
         public async Task<string> PostUser([FromBody] UserModel user)
         {
-            using var channel = GrpcChannel.ForAddress(grpcURL);
+            Console.WriteLine(SettingsManager.GrpcAddress);
+            using var channel = GrpcChannel.ForAddress(SettingsManager.GrpcAddress);
             client = new User.UserClient(channel);
             var reply = await client.PostUserAsync(new UserDTO
             {
@@ -34,7 +37,7 @@ namespace ServerAdmin.Controllers
         [HttpPut]
         public async Task<string> EditUserAsync([FromBody] UserDTO user)
         {
-            using var channel = GrpcChannel.ForAddress(grpcURL);
+            using var channel = GrpcChannel.ForAddress(SettingsManager.GrpcAddress);
             client = new(channel);
             var reply = await client.EditUserAsync(user);
             return (reply.Message);
@@ -43,7 +46,7 @@ namespace ServerAdmin.Controllers
         [HttpDelete]
         public async Task<string> DeleteUserAsync([FromBody] Id id)
         {
-            using var channel = GrpcChannel.ForAddress(grpcURL);
+            using var channel = GrpcChannel.ForAddress(SettingsManager.GrpcAddress);
             client = new(channel);
             var reply = await client.DeleteUserAsync(id);
             return (reply.Message);

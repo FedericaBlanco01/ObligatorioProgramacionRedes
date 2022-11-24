@@ -5,7 +5,6 @@ using ServerLog.Service;
 var builder = WebApplication.CreateBuilder(args);
 
 var mq = new MQService();
-// Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,7 +25,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
 
 app.Run();
 

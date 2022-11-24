@@ -140,9 +140,9 @@ public class GreeterService : Perfil.PerfilBase
             mensajeLogInEnByte.Length);
 
         byte[] encabezadoLogInEnvioEnBytes = encabezadoLogInEnvio.GetBytesFromHeader();
-        networkHelper.Send(encabezadoLogInEnvioEnBytes);
+        await networkHelper.Send(encabezadoLogInEnvioEnBytes);
 
-        networkHelper.Send(mensajeLogInEnByte);
+        await networkHelper.Send(mensajeLogInEnByte);
         //end
 
         return loggedUser;
@@ -187,10 +187,10 @@ public class GreeterService : Perfil.PerfilBase
             mensajeEnByte.Length);
 
         byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
-        networkHelper.Send(encabezadoEnvioEnBytes);
+        await networkHelper.Send(encabezadoEnvioEnBytes);
 
         // enviar register info
-        networkHelper.Send(mensajeEnByte);
+        await networkHelper.Send(mensajeEnByte);
 
         return newUser;
     }
@@ -227,10 +227,10 @@ public class GreeterService : Perfil.PerfilBase
             mensajeEnByte.Length);
 
         byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
-        networkHelper.Send(encabezadoEnvioEnBytes);
+        await networkHelper.Send(encabezadoEnvioEnBytes);
 
         // enviar lista de usuarios
-        networkHelper.Send(mensajeEnByte);
+        await networkHelper.Send(mensajeEnByte);
 
     }
 
@@ -274,10 +274,10 @@ public class GreeterService : Perfil.PerfilBase
                 Commands.ListUsers,
                 avisoFotoByte.Length);
 
-            networkHelper.Send(encabezadoAvisoFoto.GetBytesFromHeader());
-            networkHelper.Send(avisoFotoByte);
+            await networkHelper.Send(encabezadoAvisoFoto.GetBytesFromHeader());
+            await networkHelper.Send(avisoFotoByte);
             var fileCommonHandler = new FileCommsHandler(networkHelper);
-            fileCommonHandler.SendFile(Path.GetFullPath(fileName));
+            await fileCommonHandler.SendFile(Path.GetFullPath(fileName));
         }
         else
         {
@@ -287,13 +287,13 @@ public class GreeterService : Perfil.PerfilBase
                 Commands.ListUsers,
                 avisoFotoByte.Length);
 
-            networkHelper.Send(encabezadoAvisoFoto.GetBytesFromHeader());
-            networkHelper.Send(avisoFotoByte);
+            await networkHelper.Send(encabezadoAvisoFoto.GetBytesFromHeader());
+            await networkHelper.Send(avisoFotoByte);
         }
-        networkHelper.Send(encabezadoEnvioEnBytes);
+        await networkHelper.Send(encabezadoEnvioEnBytes);
 
         // enviar lista de usuarios
-        networkHelper.Send(mensajeEnByte);
+        await networkHelper.Send(mensajeEnByte);
 
     }
 
@@ -328,9 +328,9 @@ public class GreeterService : Perfil.PerfilBase
             mensajeEnByte.Length);
 
         byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
-        networkHelper.Send(encabezadoEnvioEnBytes);
+        await networkHelper.Send(encabezadoEnvioEnBytes);
 
-        networkHelper.Send(mensajeEnByte);
+        await networkHelper.Send(mensajeEnByte);
     }
 
     static async Task SubirFotoAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User user, NetworkStream networkStream, IModel chanel)
@@ -371,9 +371,9 @@ public class GreeterService : Perfil.PerfilBase
             mensajeEnByte.Length);
 
         byte[] encabezadoEnvioEnBytes = encabezadoEnvio.GetBytesFromHeader();
-        networkHelper.Send(encabezadoEnvioEnBytes);
+        await networkHelper.Send(encabezadoEnvioEnBytes);
 
-        networkHelper.Send(mensajeEnByte);
+        await networkHelper.Send(mensajeEnByte);
 
     }
 
@@ -400,9 +400,9 @@ public class GreeterService : Perfil.PerfilBase
 
 
         byte[] encabezadoLogInEnvioEnBytes = encabezadoLogInEnvio.GetBytesFromHeader();
-        networkHelper.Send(encabezadoLogInEnvioEnBytes);
+        await networkHelper.Send(encabezadoLogInEnvioEnBytes);
 
-        networkHelper.Send(mensajeLogInEnByte);
+        await networkHelper.Send(mensajeLogInEnByte);
 
     }
     static async Task EnviarChatAsync(NetworkHelper networkHelper, Header encabezado, NuevorServidor.Clases.User loggedUser, NetworkStream networkStream, IModel chanel)
