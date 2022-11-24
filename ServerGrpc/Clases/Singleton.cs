@@ -135,7 +135,7 @@ namespace ServerGrpc.Clases
             }
         }
 
-        public void DeleteDetail(string userEmail)
+        public bool DeleteDetail(string userEmail)
         {
             lock (LockUsersDetails)
             {
@@ -144,9 +144,10 @@ namespace ServerGrpc.Clases
                     if (userDetail.UserEmail.Equals(userEmail))
                     {
                         UserDetails.Remove(userDetail);
-                        return;
+                        return true;
                     }
                 }
+                return false;
             }
         }
 
@@ -184,7 +185,7 @@ namespace ServerGrpc.Clases
         }
 
 
-        public void EditDetail(string email, string descripcion, string habilidades)
+        public bool EditDetail(string email, string descripcion, string habilidades)
         {
             lock (LockUsersDetails)
             {
@@ -194,9 +195,10 @@ namespace ServerGrpc.Clases
                     {
                         userDetail.Description = descripcion;
                         userDetail.Skills = habilidades;
-                        return;
+                        return true;
                     }
                 }
+                return false;
             }
         }
 
@@ -228,6 +230,21 @@ namespace ServerGrpc.Clases
                 {
                     UserDetails.Add(detail);
                 }
+            }
+        }
+
+        public bool UserExists(string email)
+        {
+            lock (LockUsers)
+            {
+                foreach (User user in Users)
+                {
+                    if (user.Email.Equals(email))
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
 

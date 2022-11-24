@@ -7,8 +7,4 @@ build_property.InvariantGlobalization =
 build_property.PlatformNeutralAssembly = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Communication
-<<<<<<< HEAD
 build_property.ProjectDir = /Users/federicablanco/Desktop/ObligatorioProgramacionRedes/Communication/
-=======
-build_property.ProjectDir = D:\Alfred\ORT\Sexto Semestre\Programación de Redes\Obligatorio\Communication\
->>>>>>> ramarabbit
