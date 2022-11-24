@@ -1,3 +1,4 @@
+using ServerGrpc;
 using ServerGrpc.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,5 +17,5 @@ app.MapGrpcService<UserService>();
 app.MapGrpcService<PhotoService>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
-Task.Run(async () => await ProfileService.Main());
+Task.Run(async () => await Server.Main());
 app.Run();

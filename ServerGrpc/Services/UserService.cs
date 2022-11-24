@@ -22,9 +22,9 @@ public class UserService : ServerGrpc.User.UserBase
     public override Task<MessageReply> PostUser(UserDTO userToAdd, ServerCallContext context)
     {
         string message = "";
-        if (ProfileService._singleton.ValidateData(userToAdd.Email))
+        if (Server._singleton.ValidateData(userToAdd.Email))
         {
-            ProfileService._singleton.AddUser(new ServerGrpc.Clases.User(userToAdd.Name, userToAdd.Email, userToAdd.Password));
+            Server._singleton.AddUser(new ServerGrpc.Clases.User(userToAdd.Name, userToAdd.Email, userToAdd.Password));
             message = "Usuario creado correctamente";
         }
         else
@@ -36,14 +36,14 @@ public class UserService : ServerGrpc.User.UserBase
 
     public override Task<MessageReply> DeleteUser(ServerGrpc.Id userToDelete, ServerCallContext context)
     {
-        bool couldPost = ProfileService._singleton.DeleteUser(userToDelete.Email);
+        bool couldPost = Server._singleton.DeleteUser(userToDelete.Email);
         string message = couldPost ? "Usuario eliminado correctamente" : "No se pudo eliminar usuario";
         return Task.FromResult(new MessageReply { Message = message });
     }
 
     public override Task<MessageReply> EditUser(UserDTO userToEdit, ServerCallContext context)
     {
-        bool couldPost =  ProfileService._singleton.EditUser(userToEdit.Name, userToEdit.Email, userToEdit.Password);
+        bool couldPost = Server._singleton.EditUser(userToEdit.Name, userToEdit.Email, userToEdit.Password);
         string message = couldPost ? "Usuario editado correctamente" : "No se pudo editar usuario";
         return Task.FromResult(new MessageReply { Message = message });
     }
