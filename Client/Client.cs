@@ -66,7 +66,7 @@ class Program
         }
         catch (Exception e)
         {
-            Console.WriteLine("error");
+            Console.WriteLine(e.Message);
         }
 
 

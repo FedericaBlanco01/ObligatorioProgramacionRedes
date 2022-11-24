@@ -82,33 +82,38 @@ public class GreeterService : Perfil.PerfilBase
             tcpListener.Start(3);
 
             Console.WriteLine("Escriba Exit cuando quiera cerrar el Server");
-            int i = 0;
-            while (working)
+            try
             {
-                var closeTheServer = Task.Run(async () => await closeServer());
+                while (working)
+                {
 
-                var task = Task.Run(async () => await HandleClient(tcpListener, channel).ConfigureAwait(false));
-                Console.WriteLine($"{i}");
-                i++;
-
+                    var closeTheServer = Task.Run(async () => await closeServer(tcpListener));
+                    var tcpClientSocket = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
+                    Console.WriteLine("Un nuevo cliente establecio conexión");
+                    clients.Add(tcpClientSocket);
+                    var task = Task.Run(async () => await HandleClient(tcpClientSocket, channel).ConfigureAwait(false));
+                }
             }
-            Console.WriteLine("Cerrando servidor");
+            catch (Exception)
+            {
+                Console.WriteLine("Cerrando servidor");
+            }
+            
         }
     }
 
 
-
-    static async Task closeServer()
+    static async Task closeServer(TcpListener tcpListener)
     {
         string message = Console.ReadLine();
         if (message.Equals("Exit"))
         {
-
             foreach (TcpClient client in clients)
             {
                 client.GetStream().Close();
                 client.Close();
             }
+            tcpListener.Stop();
             working = false;
         }
     }
@@ -418,20 +423,16 @@ public class GreeterService : Perfil.PerfilBase
     }
 
 
-    static async Task HandleClient(TcpListener tcpListener, IModel channel)
+    static async Task HandleClient(TcpClient tcpClientSocket, IModel channel)
     {
-        var tcpClientSocket = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
-        Console.WriteLine("Un nuevo cliente establecio conexión");
-        clients.Add(tcpClientSocket);
+
         // Acepte un cliente y estoy conectado 
         bool conectado = true;
         NuevorServidor.Clases.User user = null;
         using (var networkStream = tcpClientSocket.GetStream())
         {
-            while (conectado)
+            while (conectado && working)
             {
-
-
                 NetworkHelper networkHelper = new NetworkHelper(networkStream);
                 Header encabezado = new Header();
 
