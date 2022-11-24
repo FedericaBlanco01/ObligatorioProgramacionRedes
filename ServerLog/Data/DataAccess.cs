@@ -31,7 +31,7 @@ namespace ServerLog.Data
                 {
                     if (log.UserEmail.Contains(email) && log.Event.Contains(eventDone))
                     {
-                        if (date == null)
+                        if(date == null)
                         {
                             ret.Add(log);
                         }
