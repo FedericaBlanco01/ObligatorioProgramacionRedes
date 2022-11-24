@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "ee67e229-71b3-4583-b4b6-cf815dd0a76e",
+		"name": "Obligatorio_Prog_Redes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19521940"
+	},
+	"item": [
+		{
+			"name": "CreateUser",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Email\":\"exampleEmail\",\n    \"Name\":\"exampleName\",\n    \"Password\":\"examplePassword\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5290/User",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5290",
+					"path": [
+						"User"
+					],
+					"query": [
+						{
+							"key": "User",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditUser",
+			"request": {
+				"method": "PUT",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUser",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Email\":\"exampleEmail\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5290/User",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5290",
+					"path": [
+						"User"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateProfile",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"exampleEmail\",\n    \"habilidades\":\"exampleHabilidades\",\n    \"descripcion\":\"exampleDescripcion\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5290/User",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5290",
+					"path": [
+						"User"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditProfile",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"exampleEmail\",\n    \"habilidades\":\"exampleAnotherHabilidades\",\n    \"descripcion\":\"exampleAnotherDescripcion\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5290/Profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5290",
+					"path": [
+						"Profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteProfile",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"exampleEmail\",\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5290/Profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5290",
+					"path": [
+						"Profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeletePhoto",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"exampleEmail\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5290/Photo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5290",
+					"path": [
+						"Photo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FiltradoLogs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5154/serverLogs?email=exampleEmail&date=11/24/2022&eventDone=Register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5154",
+					"path": [
+						"serverLogs"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "exampleEmail"
+						},
+						{
+							"key": "date",
+							"value": "11/24/2022"
+						},
+						{
+							"key": "eventDone",
+							"value": "Register"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
