@@ -66,7 +66,7 @@ class Program
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            Console.WriteLine("Error en el servidor");
         }
 
 
