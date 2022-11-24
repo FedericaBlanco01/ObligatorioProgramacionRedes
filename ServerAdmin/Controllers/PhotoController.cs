@@ -22,12 +22,12 @@ public class PhotoController : ControllerBase
 
 
     [HttpDelete]
-    public string EliminarFoto([FromBody] UserEmailModelo userEmail)
+    public async Task<string> EliminarFoto([FromBody] UserEmailModelo userEmail)
     {
         
         using var channel = GrpcChannel.ForAddress(SettingsManager.GrpcAddress);
         var client = new Photo.PhotoClient(channel);
-        var reply = client.EliminarFoto(new PhotoPerfilIdentifier
+        var reply = await client.EliminarFotoAsync(new PhotoPerfilIdentifier
         {
             Email = userEmail.email,
         });
