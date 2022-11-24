@@ -82,12 +82,14 @@ public class GreeterService : Perfil.PerfilBase
             tcpListener.Start(3);
 
             Console.WriteLine("Escriba Exit cuando quiera cerrar el Server");
-
+            int i = 0;
             while (working)
             {
                 var closeTheServer = Task.Run(async () => await closeServer());
 
                 var task = Task.Run(async () => await HandleClient(tcpListener, channel).ConfigureAwait(false));
+                Console.WriteLine($"{i}");
+                i++;
 
             }
             Console.WriteLine("Cerrando servidor");
@@ -456,7 +458,7 @@ public class GreeterService : Perfil.PerfilBase
                             break;
 
                         case Commands.ListUsers:
-                            await ListarUsuariosConBusquedaAsync(networkHelper,user,  encabezado, networkStream, channel);
+                            await ListarUsuariosConBusquedaAsync(networkHelper, user, encabezado, networkStream, channel);
                             break;
 
                         case Commands.ReadChat:
@@ -468,7 +470,7 @@ public class GreeterService : Perfil.PerfilBase
                             break;
 
                         case Commands.ListSpecificUser:
-                            await ListarUsuarioEspecificoAsync(networkHelper,user, encabezado, networkStream, channel);
+                            await ListarUsuarioEspecificoAsync(networkHelper, user, encabezado, networkStream, channel);
                             break;
                     }
                 }
