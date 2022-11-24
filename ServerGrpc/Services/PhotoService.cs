@@ -24,7 +24,8 @@ public class PhotoService : Photo.PhotoBase
 
     public override Task<PhotoResponse> EliminarFoto(PhotoPerfilIdentifier request, ServerCallContext context)
     {
-        Server._singleton.DeletePhoto(request.Email);
-        return Task.FromResult(new PhotoResponse { Message = "Foto eliminada" });
+        Boolean could = Server._singleton.DeletePhoto(request.Email);
+        string message = could ? "foto eliminada correctamente" : "No se pudo eliminar foto";
+        return Task.FromResult(new PhotoResponse { Message = message });
     }
 }

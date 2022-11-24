@@ -166,7 +166,7 @@ namespace ServerGrpc.Clases
             }
         }
 
-        public Boolean EditUser(string name, string userEmail,string password)
+        public Boolean EditUser(string name, string userEmail, string password)
         {
             lock (LockUsers)
             {
@@ -200,7 +200,7 @@ namespace ServerGrpc.Clases
             }
         }
 
-        public void DeletePhoto(string userEmail)
+        public Boolean DeletePhoto(string userEmail)
         {
             lock (LockUsersDetails)
             {
@@ -208,10 +208,15 @@ namespace ServerGrpc.Clases
                 {
                     if (userDetail.UserEmail.Equals(userEmail))
                     {
-                        userDetail.PhotoName = "";
-                        return;
+                        if (File.Exists(userDetail.PhotoName))
+                        {
+                            File.Delete(userDetail.PhotoName);
+                            userDetail.PhotoName = "";
+                            return true;
+                        }
                     }
                 }
+                return false;
             }
         }
 
