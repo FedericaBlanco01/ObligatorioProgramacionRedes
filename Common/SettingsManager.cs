@@ -12,6 +12,16 @@ namespace Common
         public static string IpClient { get; set; }
         public static string PortServer { get; set; }
         public static string PortClient { get; set; }
+        
+        public static string GrpcAddress { get; set; }
+
+        public static void SetupGrpcConfiguration(NameValueCollection appSettings){
+
+            string claveGrpc = "grpc";
+            GrpcAddress = appSettings[claveGrpc] ?? string.Empty;
+
+        }
+
         public static void SetupConfiguration(NameValueCollection appSettings)
         {         
 

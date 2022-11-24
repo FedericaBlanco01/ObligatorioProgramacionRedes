@@ -66,7 +66,7 @@ class Program
         }
         catch (Exception e)
         {
-            Console.WriteLine("error");
+            Console.WriteLine(e.Message);
         }
 
 
@@ -97,9 +97,9 @@ class Program
                 mensajeEnByte.Length);
 
             byte[] encabezadoEnBytes = encabezado.GetBytesFromHeader();
-            networkHelper.Send(encabezadoEnBytes);
+            await networkHelper.Send(encabezadoEnBytes);
 
-            networkHelper.Send(mensajeEnByte);
+            await networkHelper.Send(mensajeEnByte);
             //end
 
             //recibo
@@ -144,9 +144,9 @@ class Program
                 dataEnBytes.Length);
 
             byte[] headerEnBytes = header.GetBytesFromHeader();
-            networkHelper.Send(headerEnBytes);
+            await networkHelper.Send(headerEnBytes);
 
-            networkHelper.Send(dataEnBytes);
+            await networkHelper.Send(dataEnBytes);
             //end
 
             //recibo
@@ -231,9 +231,9 @@ class Program
                 dataEnBytes.Length);
 
             byte[] headerEnBytes = header.GetBytesFromHeader();
-            networkHelper.Send(headerEnBytes);
+            await networkHelper.Send(headerEnBytes);
 
-            networkHelper.Send(dataEnBytes);
+            await networkHelper.Send(dataEnBytes);
             //end
 
             //recibo
@@ -287,13 +287,13 @@ class Program
                 mensajeFileEnByte.Length);
 
             byte[] encabezadoEnBytes = encabezado.GetBytesFromHeader();
-            networkHelper.Send(encabezadoEnBytes);
+            await networkHelper.Send(encabezadoEnBytes);
 
-            networkHelper.Send(mensajeFileEnByte);
+            await networkHelper.Send(mensajeFileEnByte);
 
             if (fileExists)
             {
-                fileCommonHandler.SendFile(abspath);
+                await fileCommonHandler.SendFile(abspath);
             }
 
             //recibo
@@ -329,9 +329,9 @@ class Program
                 dataEnBytes.Length);
 
             byte[] headerEnBytes = header.GetBytesFromHeader();
-            networkHelper.Send(headerEnBytes);
+            await networkHelper.Send(headerEnBytes);
 
-            networkHelper.Send(dataEnBytes);
+            await networkHelper.Send(dataEnBytes);
 
             //recibo
 
@@ -367,9 +367,9 @@ class Program
                 dataEnBytes.Length);
 
             byte[] headerEnBytes = header.GetBytesFromHeader();
-            networkHelper.Send(headerEnBytes);
+            await networkHelper.Send(headerEnBytes);
 
-            networkHelper.Send(dataEnBytes);
+            await networkHelper.Send(dataEnBytes);
 
             //recibo si va a haber foto
             Header encabezadoAvisoFoto = new Header();
@@ -384,7 +384,8 @@ class Program
             {
                 //recibo de img
                 var fileCommonHandler = new FileCommsHandler(networkHelper);
-                var fileName = fileCommonHandler.ReceiveFileAsync();
+                var fileName = await fileCommonHandler.ReceiveFileAsync();
+                Console.WriteLine(Path.GetFullPath(fileName));
             }
             //recibo
 
@@ -421,9 +422,9 @@ class Program
                 dataEnBytes.Length);
 
             byte[] headerEnBytes = header.GetBytesFromHeader();
-            networkHelper.Send(headerEnBytes);
+            await networkHelper.Send(headerEnBytes);
 
-            networkHelper.Send(dataEnBytes);
+            await networkHelper.Send(dataEnBytes);
 
             //recibo
 
@@ -463,9 +464,9 @@ class Program
                 dataEnBytes.Length);
 
             byte[] headerEnBytes = header.GetBytesFromHeader();
-            networkHelper.Send(headerEnBytes);
+            await networkHelper.Send(headerEnBytes);
 
-            networkHelper.Send(dataEnBytes);
+            await networkHelper.Send(dataEnBytes);
 
             Console.WriteLine("mensaje enviado correctamente");
         }
