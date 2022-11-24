@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "ServerGrpc";
+
+package photo;
+
+service Photo {
+  rpc EliminarFoto (PhotoPerfilIdentifier) returns (PhotoResponse);
+}
+
+message PhotoPerfilIdentifier {
+  string email = 1;
+}
+
+message PhotoResponse {
+  string message = 1;
+}

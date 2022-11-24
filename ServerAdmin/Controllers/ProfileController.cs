@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Grpc.Net.Client;
-using NuevorServidor.Models;
+using ServerGrpc.Models;
 using Common;
 using ConfigurationManager = System.Configuration.ConfigurationManager;
 namespace ServerAdmin.Controllers;
