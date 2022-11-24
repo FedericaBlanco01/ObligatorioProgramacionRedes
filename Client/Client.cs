@@ -384,7 +384,8 @@ class Program
             {
                 //recibo de img
                 var fileCommonHandler = new FileCommsHandler(networkHelper);
-                var fileName = fileCommonHandler.ReceiveFileAsync();
+                var fileName = await fileCommonHandler.ReceiveFileAsync();
+                Console.WriteLine(Path.GetFullPath(fileName));
             }
             //recibo
 

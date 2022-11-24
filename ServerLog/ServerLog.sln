@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerLog", "ServerLog.cspr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerAdmin", "..\ServerAdmin\ServerAdmin.csproj", "{C60AAE19-190D-4F4B-934C-646B922A32EF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuevorServidor", "..\NuevorServidor\NuevorServidor.csproj", "{534316AF-0A96-4E80-B78C-A8CEA26F5041}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerGrpc", "..\ServerGrpc\ServerGrpc.csproj", "{534316AF-0A96-4E80-B78C-A8CEA26F5041}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "..\Common\Common.csproj", "{09978D3D-5A03-45F0-B8EA-FB82AD747188}"
 EndProject
