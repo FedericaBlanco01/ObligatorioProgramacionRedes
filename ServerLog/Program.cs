@@ -4,6 +4,7 @@ using ServerLog.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var mq = new MQService();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -26,7 +27,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var mq = new MQService();
 
 app.Run();
 

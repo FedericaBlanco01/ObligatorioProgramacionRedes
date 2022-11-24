@@ -21,7 +21,7 @@ public class PhotoController : ControllerBase
     {
         using var channel = GrpcChannel.ForAddress("http://localhost:5024");
         var client = new Photo.PhotoClient(channel);
-        var reply = client.EliminarFoto(new PhotoPerfilIdentifier
+        var reply = client.EliminarFotoAsync(new PhotoPerfilIdentifier
         {
             Email = userEmail.email,
         });
